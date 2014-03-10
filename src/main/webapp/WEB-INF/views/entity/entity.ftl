@@ -22,7 +22,7 @@
 <#--
  # Will include the current TabContent.
  # @example
- #  <#includeTabContent/>
+ #   <#includeTabContent/>
  #-->
 <#assign tabContent = view.entityTabContent>
 <#macro includeTabContent>

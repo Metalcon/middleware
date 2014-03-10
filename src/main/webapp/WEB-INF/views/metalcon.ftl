@@ -16,10 +16,10 @@
  # Convenience macro to create a <html> tag. Saves us from writing XHTML-
  # boilerplate code everytime.
  # 
- # Usage:
- # <@mtl.html>
- #   Stuff inside <html> tag.
- # </@mtl.html>
+ # @example
+ #   <@mtl.html>
+ #     Stuff inside <html> tag.
+ #   </@mtl.html>
  #-->
 <#macro html>
 <?xml version="1.0" encoding="UTF-8"?>
