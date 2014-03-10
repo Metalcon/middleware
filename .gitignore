@@ -5,7 +5,6 @@ target/
 .project
 # Eclipse directories
 .metadata/
-.settings/
 bin/
 
 # Java class files
