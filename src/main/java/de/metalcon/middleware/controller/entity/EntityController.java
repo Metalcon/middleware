@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
@@ -38,8 +39,6 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContentFactory;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreviewFactory;
-
-import de.iekadou.spring_pjaxr.Pjaxr;
 
 /**
  * basic controller for entity requests
@@ -78,17 +77,17 @@ public abstract class EntityController extends MetalconController {
      */
     private void fillEntityTabGenerators() {
         // @formatter:off
-        if (this instanceof AboutTabGenerating)           entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());
-        if (this instanceof BandsTabGenerating)           entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());
-        if (this instanceof EventsTabGenerating)          entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());
-        if (this instanceof NewsfeedTabGenerating)        entityTabsGenerators.put(EntityTabType.NEWSFEED,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());
-        if (this instanceof PhotosTabGenerating)          entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());
-        if (this instanceof RecommendationsTabGenerating) entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator());
-        if (this instanceof RecordsTabGenerating)         entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());
-        if (this instanceof ReviewsTabGenerating)         entityTabsGenerators.put(EntityTabType.REVIEWS,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());
-        if (this instanceof TracksTabGenerating)          entityTabsGenerators.put(EntityTabType.TRACKS,          ((TracksTabGenerating)          this).getTracksTabGenerator());
-        if (this instanceof UsersTabGenerating)           entityTabsGenerators.put(EntityTabType.USERS,           ((UsersTabGenerating)           this).getUsersTabGenerator());
-        if (this instanceof VenuesTabGenerating)          entityTabsGenerators.put(EntityTabType.VENUES,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());
+        if (this instanceof AboutTabGenerating)           { entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());           }
+        if (this instanceof BandsTabGenerating)           { entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());           }
+        if (this instanceof EventsTabGenerating)          { entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());          }
+        if (this instanceof NewsfeedTabGenerating)        { entityTabsGenerators.put(EntityTabType.NEWSFEED,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());        }
+        if (this instanceof PhotosTabGenerating)          { entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());          }
+        if (this instanceof RecommendationsTabGenerating) { entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator()); }
+        if (this instanceof RecordsTabGenerating)         { entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());         }
+        if (this instanceof ReviewsTabGenerating)         { entityTabsGenerators.put(EntityTabType.REVIEWS,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());         }
+        if (this instanceof TracksTabGenerating)          { entityTabsGenerators.put(EntityTabType.TRACKS,          ((TracksTabGenerating)          this).getTracksTabGenerator());          }
+        if (this instanceof UsersTabGenerating)           { entityTabsGenerators.put(EntityTabType.USERS,           ((UsersTabGenerating)           this).getUsersTabGenerator());           }
+        if (this instanceof VenuesTabGenerating)          { entityTabsGenerators.put(EntityTabType.VENUES,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());          }
         // @formatter:on
     }
 
@@ -127,15 +126,18 @@ public abstract class EntityController extends MetalconController {
         if (entityTabType == EntityTabType.EMPTY) {
             entityTabType = getDefaultTab();
         }
-        
-        String pjaxrNamespace = this.getMetalconNamespace() + "." + getEntityType().toString() + "." + "Metallica" + "." + entityTabType.toString().toLowerCase();
+
+        String pjaxrNamespace =
+                getMetalconNamespace() + "." + getEntityType().toString() + "."
+                        + "Metallica" + "."
+                        + entityTabType.toString().toLowerCase();
 
         Pjaxr pjaxrObj = new Pjaxr(request, pjaxrNamespace);
 
-		// create view object
+        // create view object
         EntityView entityView = entityViewFactory.createView(getEntityType());
 
-		// resolve MUID to entity (data model object)
+        // resolve MUID to entity (data model object)
         Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
         entityView.setMuid(muid);
 
@@ -151,28 +153,28 @@ public abstract class EntityController extends MetalconController {
         entityTabsGenerators.get(entityTabType).generateTabContent(
                 entityTabContent, entity);
         entityView.setEntityTabContent(entityTabContent);
-        
+
         if (pjaxrObj.getMatchingCount() < 2) {
-        	// create tab previews
-	        Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-	                new HashMap<EntityTabType, EntityTabPreview>();
-	        for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
-	                .entrySet()) {
-	            EntityTabType entityTabPreviewType = entry.getKey();
-	            EntityTabGenerator entityTabPreviewGenerator = entry.getValue();
-	
-				// create empty tab preview and fill it with data from entity
-	            EntityTabPreview entityTabPreview =
-	                    entityTabPreviewFactory
-	                            .createTabPreview(entityTabPreviewType);
-	            entityTabPreviewGenerator.generateTabPreview(entityTabPreview,
-	                    entity);
-	            entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
-	        }
-	        entityView.setEntityTabPreviews(entityTabPreviews);
+            // create tab previews
+            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+                    new HashMap<EntityTabType, EntityTabPreview>();
+            for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
+                    .entrySet()) {
+                EntityTabType entityTabPreviewType = entry.getKey();
+                EntityTabGenerator entityTabPreviewGenerator = entry.getValue();
+
+                // create empty tab preview and fill it with data from entity
+                EntityTabPreview entityTabPreview =
+                        entityTabPreviewFactory
+                                .createTabPreview(entityTabPreviewType);
+                entityTabPreviewGenerator.generateTabPreview(entityTabPreview,
+                        entity);
+                entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
+            }
+            entityView.setEntityTabPreviews(entityTabPreviews);
         }
-	    entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
-	    entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
+        entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
+        entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
 
         return entityView;
     }

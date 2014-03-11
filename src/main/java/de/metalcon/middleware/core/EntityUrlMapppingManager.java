@@ -139,8 +139,9 @@ public class EntityUrlMapppingManager {
 
     public String getMapping(Muid muid) {
         Set<String> mappings = muidToMapping.get(muid);
-        if (mappings == null || mappings.isEmpty())
+        if (mappings == null || mappings.isEmpty()) {
             return null;
+        }
         return mappings.iterator().next();
     }
 
@@ -170,8 +171,9 @@ public class EntityUrlMapppingManager {
             Set<String> mappings) {
         // get mappings of muid
         Set<String> muidMappings = muidToMapping.get(muid);
-        if (muidMappings == null)
+        if (muidMappings == null) {
             muidMappings = new LinkedHashSet<String>();
+        }
 
         // add first mapping including the muid
         // e.g. /Ensiferum-12
@@ -183,12 +185,13 @@ public class EntityUrlMapppingManager {
 
         // add further mappings without muid if not in use yet
         // e.g. /Ensiferum
-        for (String mapping : mappings)
+        for (String mapping : mappings) {
             if (!mappingToMuid.containsKey(mapping)) {
                 mappingToMuid.put(mapping, muid);
                 muidMappings.add(mapping);
                 logMapping(mapping, muid);
             }
+        }
     }
 
     /**
@@ -206,9 +209,10 @@ public class EntityUrlMapppingManager {
 
     private static String getPathVar(Map<String, String> pathVars, String var) {
         String val = pathVars.get(var);
-        if (val == null)
+        if (val == null) {
             throw new IllegalStateException("Missing path variable: " + var
                     + ".");
+        }
         return val;
     }
 
@@ -263,9 +267,9 @@ public class EntityUrlMapppingManager {
 
         Muid band = record.getBand();
         if (band != null) {
-            if (mappingToMuidRecord.containsKey(band))
+            if (mappingToMuidRecord.containsKey(band)) {
                 mappingToMuid = mappingToMuidRecord.get(band);
-            else {
+            } else {
                 mappingToMuid = new HashMap<String, Muid>();
                 mappingToMuidRecord.put(band, mappingToMuid);
             }
@@ -307,16 +311,16 @@ public class EntityUrlMapppingManager {
         Muid record = track.getRecord();
         Muid band = track.getBand();
         if (record != null) {
-            if (mappingToMuidTrack.containsKey(record))
+            if (mappingToMuidTrack.containsKey(record)) {
                 mappingToMuid = mappingToMuidTrack.get(record);
-            else {
+            } else {
                 mappingToMuid = new HashMap<String, Muid>();
                 mappingToMuidTrack.put(record, mappingToMuid);
             }
         } else if (band != null) {
-            if (mappingToMuidTrack.containsKey(band))
+            if (mappingToMuidTrack.containsKey(band)) {
                 mappingToMuid = mappingToMuidTrack.get(band);
-            else {
+            } else {
                 mappingToMuid = new HashMap<String, Muid>();
                 mappingToMuidTrack.put(band, mappingToMuid);
             }
@@ -365,8 +369,9 @@ public class EntityUrlMapppingManager {
     private Muid getMuidBand(Map<String, String> pathVars)
             throws RedirectException {
         String pathBand = getPathVar(pathVars, "pathBand");
-        if (pathBand.equals(EMPTY_ENTITY))
+        if (pathBand.equals(EMPTY_ENTITY)) {
             return Muid.EMPTY_MUID;
+        }
         return mappingToMuidBand.get(pathBand);
     }
 
@@ -397,11 +402,13 @@ public class EntityUrlMapppingManager {
     private Muid getMuidRecord(Map<String, String> pathVars)
             throws RedirectException {
         String pathRecord = getPathVar(pathVars, "pathRecord");
-        if (pathRecord.equals(EMPTY_ENTITY))
+        if (pathRecord.equals(EMPTY_ENTITY)) {
             return getMuidBand(pathVars);
+        }
         Map<String, Muid> band = mappingToMuidRecord.get(getMuidBand(pathVars));
-        if (band == null)
+        if (band == null) {
             return null;
+        }
         return band.get(pathRecord);
     }
 
@@ -416,8 +423,9 @@ public class EntityUrlMapppingManager {
         String pathTrack = getPathVar(pathVars, "pathTrack");
         Map<String, Muid> record =
                 mappingToMuidTrack.get(getMuidRecord(pathVars));
-        if (record == null)
+        if (record == null) {
             return null;
+        }
         return record.get(pathTrack);
     }
 
