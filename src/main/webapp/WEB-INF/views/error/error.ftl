@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/metalcon.ftl" as mtl>
+<#import "/__metalcon.ftl" as mtl>
 <@mtl.html>
   <#--
    # Be careful when editing this template. FreeMarker errors that occur while

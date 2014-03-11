@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/metalcon.ftl" as mtl>
+<#import "/__metalcon.ftl" as mtl>
 
 <#--
  # Will include the correct TabPreview template.
@@ -12,7 +12,7 @@
 <#macro includeTabPreview tabPreviewName>
   <#assign tab = tabPreviews[tabPreviewName]>
   <#if tab??>
-    <#include "tab/preview/tab_preview.ftl">
+    <#include "tab/preview/_tab_preview.ftl">
   <#else>
     <!-- Error: Failed to load tab -->
     <#-- TODO: raise some kind of error -->
@@ -27,7 +27,7 @@
 <#assign tabContent = view.entityTabContent>
 <#macro inner_content>
   <#assign tab = tabContent>
-  <#include "tab/content/tab_content.ftl">
+  <#include "tab/content/_tab_content.ftl">
 </#macro>
 
 <#--
@@ -36,7 +36,7 @@
  # These are expected to set the foloowing variables:
  # entity_tabPreviews - HTML string containing the rendered tabPreviews. 
  #-->
-<#include "impl/" + view.entityType?lower_case + ".ftl">
+<#include "impl/__" + view.entityType?lower_case + ".ftl">
 
 <#assign stylesheets = stylesheets + ["entity.css"]>
 <#assign view_title = entity_title>
@@ -53,7 +53,9 @@
     </div>
     <div id="tabs" class="col-xs-4">
       <ul>
-        ${entity_tabPreviews}
+        <#list entity_tabPreviews as entity_tabPreview>
+          <@includeTabPreview entity_tabPreview/>
+        </#list>
       </ul>
     </div>
   </div>

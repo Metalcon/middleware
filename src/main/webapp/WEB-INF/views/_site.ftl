@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/metalcon.ftl" as mtl>
+<#import "/__metalcon.ftl" as mtl>
 <@mtl.html>
   <#--
    # This is the default metalcon page template. Every "page" on metalcon uses
@@ -21,7 +21,7 @@
    # view_content - HTML string to contain body content.
    #-->
   <#if view.type == "entity">
-    <#include "entity/entity.ftl">
+    <#include "entity/_entity.ftl">
   </#if>
 
   <@mtl.head title="${view_title}">

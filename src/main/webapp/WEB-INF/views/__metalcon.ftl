@@ -1,12 +1,12 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 
 <#--
- # metalcon.ftl
+ # __metalcon.ftl
  #
  # Collections of macros to easy view development.
  #
  # Include in your view like this:
- # <#import "/metalcon.ftl" as mtl>
+ # <#import "/__metalcon.ftl" as mtl>
  #-->
  
 <#import "/spring.ftl" as spring>

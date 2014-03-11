@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/metalcon.ftl" as mtl>
+<#import "/__metalcon.ftl" as mtl>
 
 <div id="filters">
   <form class="inline_form">

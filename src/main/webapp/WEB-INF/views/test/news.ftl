@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true strip_whitespace=true>
-<#import "/metalcon.ftl" as mtl>
+<#import "/__metalcon.ftl" as mtl>
 <#import "/spring.ftl" as spring>
 <@mtl.html>
   <@mtl.head title="News ${userId} - Metalcon Middleware">
