@@ -165,7 +165,7 @@ public abstract class EntityController extends MetalconController {
 	            EntityTabPreview entityTabPreview =
 	                    entityTabPreviewFactory
 	                            .createTabPreview(entityTabPreviewType);
-	            entityTabPreviewGenerator.genereteTabPreview(entityTabPreview,
+	            entityTabPreviewGenerator.generateTabPreview(entityTabPreview,
 	                    entity);
 	            entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
 	        }
