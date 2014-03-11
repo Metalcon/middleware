@@ -1,13 +1,6 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/metalcon.ftl" as mtl>
 
-<#macro tabPreview name>
-  <div class="tabPreview">
-	<a href="tghzuj">${name}</a>
-	<#nested>
-  </div>
-</#macro>
-
 <li class="tabPreview">
   <#--
    # Will include the corrrect tabPreview subtemplate.
