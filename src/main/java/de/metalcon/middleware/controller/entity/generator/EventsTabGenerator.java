@@ -9,7 +9,7 @@ public abstract class EventsTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.EVENTS_TAB;
+        return EntityTabType.EVENTS;
     }
 
 }

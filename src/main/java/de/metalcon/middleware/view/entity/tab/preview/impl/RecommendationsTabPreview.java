@@ -7,7 +7,7 @@ public class RecommendationsTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.RECOMMENDATIONS_TAB;
+        return EntityTabType.RECOMMENDATIONS;
     }
 
 }

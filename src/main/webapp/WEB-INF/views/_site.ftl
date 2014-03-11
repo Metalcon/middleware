@@ -32,6 +32,7 @@
       <@mtl.lessStylesheet href=stylesheet/>
     </#list>
   	<script src="/resources/libs/jquery/2.1.0/jquery.js"></script>
+    <script src="/resources/libs/jquery-pjaxr/1.1.0/jquery-pjaxr.js"></script>
   	
   	<script src="/resources/libs/bootstrap/3.1.1/js/affix.js"></script>
   	<script src="/resources/libs/bootstrap/3.1.1/js/alert.js"></script>
@@ -44,7 +45,10 @@
   	<script src="/resources/libs/bootstrap/3.1.1/js/popover.js"></script>
   	<script src="/resources/libs/bootstrap/3.1.1/js/scrollspy.js"></script>
   	<script src="/resources/libs/bootstrap/3.1.1/js/tab.js"></script>
-  	<script src="/resources/libs/bootstrap/3.1.1/js/transition.js"></script>
+    <script src="/resources/libs/bootstrap/3.1.1/js/transition.js"></script>
+    
+    
+    <script src="/resources/js/main.js"></script>
   
   	<!--TODO only in develop and has to be last -->
     <script src="/resources/libs/less/1.7.0/less.min.js" type="text/javascript"></script>

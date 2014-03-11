@@ -7,7 +7,7 @@ public class TracksTabContent extends EntityTabContent {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.TRACKS_TAB;
+        return EntityTabType.TRACKS;
     }
 
 }

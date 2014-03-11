@@ -7,7 +7,7 @@ public class RecordsTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.RECORDS_TAB;
+        return EntityTabType.RECORDS;
     }
 
 }

@@ -7,7 +7,7 @@ public class EventsTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.EVENTS_TAB;
+        return EntityTabType.EVENTS;
     }
 
 }

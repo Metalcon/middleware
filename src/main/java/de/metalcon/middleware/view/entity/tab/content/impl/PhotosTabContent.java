@@ -7,7 +7,7 @@ public class PhotosTabContent extends EntityTabContent {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.PHOTOS_TAB;
+        return EntityTabType.PHOTOS;
     }
 
 }

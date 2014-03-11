@@ -24,17 +24,17 @@ public abstract class EntityTabPreviewFactory {
     public EntityTabPreview createTabPreview(EntityTabType entityTabType) {
         switch (entityTabType) {
         // @formatter:off
-            case ABOUT_TAB:           return createAboutTabPreview();
-            case BANDS_TAB:           return createBandsTabPreview();
-            case EVENTS_TAB:          return createEventsTabPreview();
-            case NEWSFEED_TAB:        return createNewsfeedTabPreview();
-            case PHOTOS_TAB:          return createPhotosTabPreview();
-            case RECOMMENDATIONS_TAB: return createRecomendationsTabPreview();
-            case RECORDS_TAB:         return createRecordsTabPreview();
-            case REVIEWS_TAB:         return createReviewsTabPreview();
-            case TRACKS_TAB:          return createTracksTabPreview();
-            case USERS_TAB:           return createUsersTabPreview();
-            case VENUES_TAB:          return createVenuesTabPreview();
+            case ABOUT:           return createAboutTabPreview();
+            case BANDS:           return createBandsTabPreview();
+            case EVENTS:          return createEventsTabPreview();
+            case NEWSFEED:        return createNewsfeedTabPreview();
+            case PHOTOS:          return createPhotosTabPreview();
+            case RECOMMENDATIONS: return createRecomendationsTabPreview();
+            case RECORDS:         return createRecordsTabPreview();
+            case REVIEWS:         return createReviewsTabPreview();
+            case TRACKS:          return createTracksTabPreview();
+            case USERS:           return createUsersTabPreview();
+            case VENUES:          return createVenuesTabPreview();
             // @formatter:on
 
             default:

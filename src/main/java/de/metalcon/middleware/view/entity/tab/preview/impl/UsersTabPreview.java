@@ -7,7 +7,7 @@ public class UsersTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.USERS_TAB;
+        return EntityTabType.USERS;
     }
 
 }

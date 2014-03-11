@@ -77,7 +77,7 @@
  #   </@mtl.body>
  #-->
 <#macro body>
-<body>
+<body<#if view?? && view.pjaxrNamespace??> data-pjaxr-namespace="${view.pjaxrNamespace}"</#if>>
   <#nested>
 </body>
 </#macro>
