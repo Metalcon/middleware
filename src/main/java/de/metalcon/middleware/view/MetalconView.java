@@ -18,6 +18,9 @@ public abstract class MetalconView implements View {
     private ViewResolver viewResolver;
 
     private View view;
+    
+    private String pjaxrNamespace  = "";
+    private int pjaxrMatching  = 0;
 
     public MetalconView() {
         view = null;
@@ -40,25 +43,27 @@ public abstract class MetalconView implements View {
             HttpServletResponse response) throws Exception {
         Map<String, Object> m = new HashMap<String, Object>(model);
         m.put("view", this);
-        this.getMatchingPjaxrNamespace(request);
-        m.put("pjaxr", this.getMatchingPjaxrNamespace(request));
         view.render(m, request, response);
     }
 
     public String getType() {
         return "site";
     }
-    
+
     public String getPjaxrNamespace() {
-    	return "metalcon";
+        return this.pjaxrNamespace;
+    }
+
+    public void setPjaxrNamespace(String pjaxrNamespace) {
+        this.pjaxrNamespace = pjaxrNamespace;
+    }
+
+    public int getPjaxrMatching() {
+        return this.pjaxrMatching;
     }
     
-    public String getMatchingPjaxrNamespace(HttpServletRequest request) {
-    	if (request.getHeader("X-PJAX") != null && request.getHeader("X-PJAX-NAMESPACE") != null) { 
-    		System.out.println("GOT PJAXR-REQUEST");
-    		return "yes";
-    	}
-    	return "no";
+    public void setPjaxrMatching(int pjaxrMatching) {
+        this.pjaxrMatching = pjaxrMatching;
     }
     
 }

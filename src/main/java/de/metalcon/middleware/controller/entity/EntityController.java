@@ -39,9 +39,12 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContentFactory;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreviewFactory;
 
+import de.iekadou.spring_pjaxr.Pjaxr;
+
 /**
  * basic controller for entity requests
  */
+
 public abstract class EntityController extends MetalconController {
 
     @Autowired
@@ -124,9 +127,17 @@ public abstract class EntityController extends MetalconController {
         if (entityTabType == EntityTabType.EMPTY) {
             entityTabType = getDefaultTab();
         }
+        
+        String pjaxrNamespace = this.getMetalconNamespace() + "." + getEntityType().toString() + "." + "Metallica" + "." + entityTabType.toString().toLowerCase();
 
-        // resolve MUID to entity (data model object)
+        Pjaxr pjaxrObj = new Pjaxr(request, pjaxrNamespace);
+
+		// create view object
+        EntityView entityView = entityViewFactory.createView(getEntityType());
+
+		// resolve MUID to entity (data model object)
         Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
+        entityView.setMuid(muid);
 
         if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
             throw new NoSuchRequestHandlingMethodException(request);
@@ -134,34 +145,34 @@ public abstract class EntityController extends MetalconController {
 
         Entity entity = entityManager.getEntity(muid);
 
-        // create tab previews
-        Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-                new HashMap<EntityTabType, EntityTabPreview>();
-        for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
-                .entrySet()) {
-            EntityTabType entityTabPreviewType = entry.getKey();
-            EntityTabGenerator entityTabPreviewGenerator = entry.getValue();
-
-            // create empty tab preview and fill it with data from entity
-            EntityTabPreview entityTabPreview =
-                    entityTabPreviewFactory
-                            .createTabPreview(entityTabPreviewType);
-            entityTabPreviewGenerator.generateTabPreview(entityTabPreview,
-                    entity);
-            entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
-        }
-
         // create empty tab content and fill it with data from entity
         EntityTabContent entityTabContent =
                 entityTabContentFactory.createTabContent(entityTabType);
         entityTabsGenerators.get(entityTabType).generateTabContent(
                 entityTabContent, entity);
-
-        // create and fill view object
-        EntityView entityView = entityViewFactory.createView(getEntityType());
-        entityView.setMuid(muid);
         entityView.setEntityTabContent(entityTabContent);
-        entityView.setEntityTabPreviews(entityTabPreviews);
+        
+        if (pjaxrObj.getMatchingCount() < 2) {
+        	// create tab previews
+	        Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+	                new HashMap<EntityTabType, EntityTabPreview>();
+	        for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
+	                .entrySet()) {
+	            EntityTabType entityTabPreviewType = entry.getKey();
+	            EntityTabGenerator entityTabPreviewGenerator = entry.getValue();
+	
+				// create empty tab preview and fill it with data from entity
+	            EntityTabPreview entityTabPreview =
+	                    entityTabPreviewFactory
+	                            .createTabPreview(entityTabPreviewType);
+	            entityTabPreviewGenerator.genereteTabPreview(entityTabPreview,
+	                    entity);
+	            entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
+	        }
+	        entityView.setEntityTabPreviews(entityTabPreviews);
+        }
+	    entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
+	    entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
 
         return entityView;
     }

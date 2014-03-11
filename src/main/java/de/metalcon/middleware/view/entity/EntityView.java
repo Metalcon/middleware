@@ -62,10 +62,5 @@ public abstract class EntityView extends MetalconView {
             Map<EntityTabType, EntityTabPreview> entityTabPreviews) {
         this.entityTabPreviews = entityTabPreviews;
     }
-    
-    @Override
-    public String getPjaxrNamespace() {
-    	return super.getPjaxrNamespace() + "." + this.getEntityType();
-    }
 
 }
