@@ -1,18 +1,22 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
-  <#--
-   # This is the default metalcon page template. Every "page" on metalcon uses
-   # this view. Inside it, it includes more specific views.
-   #-->
 
-  <#--
-   # Lists of all css files to be included in the output. Inside a view a view
-   # specific stylesheet can be added like this:
-   # <#assign stylesheets = stylesheet + ["mystyle.css"]>
-   #-->
-  <#assign stylesheets = []>
-  <#assign lessStylesheets = ["main.less"]>
+<#--
+ # This is the default metalcon page template. Every "page" on metalcon uses
+ # this view. Inside it, it includes more specific views.
+ #-->
+<#assign stylesheets = []>
+
+<#--
+ # Lists of all css files to be included in the output. Inside a view a view
+ # specific stylesheet can be added like this:
+ # <#assign stylesheets = stylesheet + ["mystyle.css"]>
+ #-->
+<#assign lessStylesheets = ["main.less"]>
+
+<#if view.pjaxrMatching == 0>
+<@mtl.html>
+
   
   <#--
    # Include more specific view template. These are expected to set the
@@ -103,3 +107,13 @@
     </div>
   </@mtl.body>
 </@mtl.html>
+</#if>
+<#if view.pjaxrMatching &gt; 0>
+  <#if view.type == "entity">
+    <#include "entity/_entity.ftl">
+  </#if>
+  <@mtl.pjaxrHead title="${view_title}"></@mtl.pjaxrHead>
+  <@mtl.pjaxrBody>
+    ${content}
+  </@mtl.pjaxrBody>
+</#if>

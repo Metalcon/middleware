@@ -57,6 +57,10 @@ public abstract class MetalconView implements View {
     public void setPjaxrNamespace(String pjaxrNamespace) {
         this.pjaxrNamespace = pjaxrNamespace;
     }
+
+    public int getPjaxrMatching() {
+        return this.pjaxrMatching;
+    }
     
     public void setPjaxrMatching(int pjaxrMatching) {
         this.pjaxrMatching = pjaxrMatching;

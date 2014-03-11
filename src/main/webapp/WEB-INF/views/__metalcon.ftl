@@ -140,3 +140,18 @@
   </@body>
 </@xhtml>
 </#macro>
+
+
+<#macro pjaxrBody>
+<pjaxr-body>
+  <#nested>
+</pjaxr-body>
+</#macro>
+
+
+<#macro pjaxrHead title>
+<pjaxr-head>
+  <title>${title?html}</title>
+  <#nested>
+</pjaxr-head>
+</#macro>

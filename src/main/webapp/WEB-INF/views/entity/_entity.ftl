@@ -1,23 +1,6 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__metalcon.ftl" as mtl>
 
-<#--
- # Will include the correct TabPreview template.
- # @param tabPreviewName (String)
- #        Name of the included TabPreview, for example "ABOUT_TAB".
- # @example
- #   <@includeTabPreview "ABOUT_TAB"/>
- #-->
-<#assign tabPreviews = view.entityTabPreviews>
-<#macro includeTabPreview tabPreviewName>
-  <#assign tab = tabPreviews[tabPreviewName]>
-  <#if tab??>
-    <#include "tab/preview/_tab_preview.ftl">
-  <#else>
-    <!-- Error: Failed to load tab -->
-    <#-- TODO: raise some kind of error -->
-  </#if>
-</#macro>
 
 <#--
  # Will include the current TabContent.
@@ -40,23 +23,42 @@
 
 <#assign stylesheets = stylesheets + ["entity.css"]>
 <#assign view_title = entity_title>
-<#assign content>
-  <ol class="breadcrumb">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Metallica</a></li>
-    <li class="active">Newsfeed</li>
-  </ol>
-  <div class="row">
-    <div class="col-xs-8">
-      <h1>Metallica</h1>
-      <@inner_content/>
+
+<#if (view.pjaxrMatching &gt; 1)>
+  <#assign content>
+    <@inner_content/>
+  </#assign>
+<#else>
+  <#assign content>
+    <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Metallica</a></li>
+      <li class="active">Newsfeed</li>
+    </ol>
+    <div class="row">
+      <div class="col-xs-8">
+        <h1>Metallica</h1>
+        <@inner_content/>
+      </div>
+      <div id="tabs" class="col-xs-4">
+        <ul>
+
+          <#assign tabPreviews = view.entityTabPreviews>
+          <#macro includeTabPreview tabPreviewName>
+            <#assign tab = tabPreviews[tabPreviewName]>
+            <#if tab??>
+              <#include "tab/preview/_tab_preview.ftl">
+            <#else>
+              <!-- Error: Failed to load tab -->
+              <#-- TODO: raise some kind of error -->
+            </#if>
+          </#macro>
+                  
+          <#list entity_tabPreviews as entity_tabPreview>
+            <@includeTabPreview entity_tabPreview/>
+          </#list>
+        </ul>
+      </div>
     </div>
-    <div id="tabs" class="col-xs-4">
-      <ul>
-        <#list entity_tabPreviews as entity_tabPreview>
-          <@includeTabPreview entity_tabPreview/>
-        </#list>
-      </ul>
-    </div>
-  </div>
-</#assign>
+  </#assign>
+</#if>

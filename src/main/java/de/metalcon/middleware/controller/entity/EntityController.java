@@ -119,7 +119,7 @@ public abstract class EntityController extends MetalconController {
                 entityTabContent, entity);
         entityView.setEntityTabContent(entityTabContent);
         
-        //if (pjaxrObj.getMatchingCount() >= 2) {
+        if (pjaxrObj.getMatchingCount() < 2) {
 	        Map<EntityTabType, EntityTabPreview> entityTabPreviews =
 	                new HashMap<EntityTabType, EntityTabPreview>();
 	        for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
@@ -135,7 +135,7 @@ public abstract class EntityController extends MetalconController {
 	            entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
 	        }
 	        entityView.setEntityTabPreviews(entityTabPreviews);
-        //}
+        }
 	    entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
 	    entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
 
