@@ -24,17 +24,17 @@ public abstract class EntityTabContentFactory {
     public EntityTabContent createTabContent(EntityTabType entityTabType) {
         switch (entityTabType) {
         // @formatter:off
-            case ABOUT_TAB:           return createAboutTabContent();
-            case BANDS_TAB:           return createBandsTabContent();
-            case EVENTS_TAB:          return createEventsTabContent();
-            case NEWSFEED_TAB:        return createNewsfeedTabContent();
-            case PHOTOS_TAB:          return createPhotosTabContent();
-            case RECOMMENDATIONS_TAB: return createRecomendationsTabContent();
-            case RECORDS_TAB:         return createRecordsTabContent();
-            case REVIEWS_TAB:         return createReviewsTabContent();
-            case TRACKS_TAB:          return createTracksTabContent();
-            case USERS_TAB:           return createUsersTabContent();
-            case VENUES_TAB:          return createVenuesTabContent();
+            case ABOUT:           return createAboutTabContent();
+            case BANDS:           return createBandsTabContent();
+            case EVENTS:          return createEventsTabContent();
+            case NEWSFEED:        return createNewsfeedTabContent();
+            case PHOTOS:          return createPhotosTabContent();
+            case RECOMMENDATIONS: return createRecomendationsTabContent();
+            case RECORDS:         return createRecordsTabContent();
+            case REVIEWS:         return createReviewsTabContent();
+            case TRACKS:          return createTracksTabContent();
+            case USERS:           return createUsersTabContent();
+            case VENUES:          return createVenuesTabContent();
             // @formatter:on
 
             default:

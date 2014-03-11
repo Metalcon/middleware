@@ -9,7 +9,7 @@ public abstract class RecordsTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.RECORDS_TAB;
+        return EntityTabType.RECORDS;
     }
 
 }

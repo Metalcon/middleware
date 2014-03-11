@@ -7,7 +7,7 @@ public class NewsfeedTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.NEWSFEED_TAB;
+        return EntityTabType.NEWSFEED;
     }
 
 }

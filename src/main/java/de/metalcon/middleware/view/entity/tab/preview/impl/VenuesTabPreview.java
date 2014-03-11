@@ -7,7 +7,7 @@ public class VenuesTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.VENUES_TAB;
+        return EntityTabType.VENUES;
     }
 
 }

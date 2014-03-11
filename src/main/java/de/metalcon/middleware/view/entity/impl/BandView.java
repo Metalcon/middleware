@@ -10,4 +10,9 @@ public class BandView extends EntityView {
         return EntityType.BAND;
     }
 
+    @Override
+    public String getPjaxrNamespace() {
+    	String name = "Metallica";
+    	return super.getPjaxrNamespace() + "." + name;
+    }
 }

@@ -25,7 +25,7 @@ public abstract class MetalconView implements View {
 
     @PostConstruct
     private void init() throws Exception {
-        view = viewResolver.resolveViewName("site", Locale.GERMANY);
+        view = viewResolver.resolveViewName("_site", Locale.GERMANY);
     }
 
     @Override
@@ -40,11 +40,25 @@ public abstract class MetalconView implements View {
             HttpServletResponse response) throws Exception {
         Map<String, Object> m = new HashMap<String, Object>(model);
         m.put("view", this);
+        this.getMatchingPjaxrNamespace(request);
+        m.put("pjaxr", this.getMatchingPjaxrNamespace(request));
         view.render(m, request, response);
     }
 
     public String getType() {
         return "site";
     }
-
+    
+    public String getPjaxrNamespace() {
+    	return "metalcon";
+    }
+    
+    public String getMatchingPjaxrNamespace(HttpServletRequest request) {
+    	if (request.getHeader("X-PJAX") != null && request.getHeader("X-PJAX-NAMESPACE") != null) { 
+    		System.out.println("GOT PJAXR-REQUEST");
+    		return "yes";
+    	}
+    	return "no";
+    }
+    
 }

@@ -12,7 +12,7 @@ public abstract class AboutTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.ABOUT_TAB;
+        return EntityTabType.ABOUT;
     }
 
 }

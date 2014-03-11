@@ -7,7 +7,7 @@ public class TracksTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.TRACKS_TAB;
+        return EntityTabType.TRACKS;
     }
 
 }

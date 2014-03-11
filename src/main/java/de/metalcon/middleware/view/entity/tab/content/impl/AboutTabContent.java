@@ -7,7 +7,7 @@ public class AboutTabContent extends EntityTabContent {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.ABOUT_TAB;
+        return EntityTabType.ABOUT;
     }
 
 }

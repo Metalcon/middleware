@@ -9,7 +9,7 @@ public abstract class NewsfeedTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.NEWSFEED_TAB;
+        return EntityTabType.NEWSFEED;
     }
 
 }

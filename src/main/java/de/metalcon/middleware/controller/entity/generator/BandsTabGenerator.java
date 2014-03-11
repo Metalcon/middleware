@@ -9,7 +9,7 @@ public abstract class BandsTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.BANDS_TAB;
+        return EntityTabType.BANDS;
     }
 
 }

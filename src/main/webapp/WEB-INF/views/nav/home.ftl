@@ -1,6 +1,6 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/spring.ftl" as spring>
-<#import "/metalcon.ftl" as mtl>
+<#import "/__metalcon.ftl" as mtl>
 <@mtl.html>
   <@mtl.head title="Home - Metalcon"/>
   <@mtl.body>

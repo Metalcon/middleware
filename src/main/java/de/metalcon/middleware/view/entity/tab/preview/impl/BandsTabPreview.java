@@ -7,7 +7,7 @@ public class BandsTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.BANDS_TAB;
+        return EntityTabType.BANDS;
     }
 
 }

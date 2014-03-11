@@ -9,7 +9,7 @@ public abstract class ReviewsTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.REVIEWS_TAB;
+        return EntityTabType.REVIEWS;
     }
 
 }

@@ -75,17 +75,17 @@ public abstract class EntityController extends MetalconController {
      */
     private void fillEntityTabGenerators() {
         // @formatter:off
-        if (this instanceof AboutTabGenerating)           entityTabsGenerators.put(EntityTabType.ABOUT_TAB,           ((AboutTabGenerating)           this).getAboutTabGenerator());
-        if (this instanceof BandsTabGenerating)           entityTabsGenerators.put(EntityTabType.BANDS_TAB,           ((BandsTabGenerating)           this).getBandsTabGenerator());
-        if (this instanceof EventsTabGenerating)          entityTabsGenerators.put(EntityTabType.EVENTS_TAB,          ((EventsTabGenerating)          this).getEventsTabGenerator());
-        if (this instanceof NewsfeedTabGenerating)        entityTabsGenerators.put(EntityTabType.NEWSFEED_TAB,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());
-        if (this instanceof PhotosTabGenerating)          entityTabsGenerators.put(EntityTabType.PHOTOS_TAB,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());
-        if (this instanceof RecommendationsTabGenerating) entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS_TAB, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator());
-        if (this instanceof RecordsTabGenerating)         entityTabsGenerators.put(EntityTabType.RECORDS_TAB,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());
-        if (this instanceof ReviewsTabGenerating)         entityTabsGenerators.put(EntityTabType.REVIEWS_TAB,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());
-        if (this instanceof TracksTabGenerating)          entityTabsGenerators.put(EntityTabType.TRACKS_TAB,          ((TracksTabGenerating)          this).getTracksTabGenerator());
-        if (this instanceof UsersTabGenerating)           entityTabsGenerators.put(EntityTabType.USERS_TAB,           ((UsersTabGenerating)           this).getUsersTabGenerator());
-        if (this instanceof VenuesTabGenerating)          entityTabsGenerators.put(EntityTabType.VENUES_TAB,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());
+        if (this instanceof AboutTabGenerating)           entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());
+        if (this instanceof BandsTabGenerating)           entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());
+        if (this instanceof EventsTabGenerating)          entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());
+        if (this instanceof NewsfeedTabGenerating)        entityTabsGenerators.put(EntityTabType.NEWSFEED,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());
+        if (this instanceof PhotosTabGenerating)          entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());
+        if (this instanceof RecommendationsTabGenerating) entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator());
+        if (this instanceof RecordsTabGenerating)         entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());
+        if (this instanceof ReviewsTabGenerating)         entityTabsGenerators.put(EntityTabType.REVIEWS,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());
+        if (this instanceof TracksTabGenerating)          entityTabsGenerators.put(EntityTabType.TRACKS,          ((TracksTabGenerating)          this).getTracksTabGenerator());
+        if (this instanceof UsersTabGenerating)           entityTabsGenerators.put(EntityTabType.USERS,           ((UsersTabGenerating)           this).getUsersTabGenerator());
+        if (this instanceof VenuesTabGenerating)          entityTabsGenerators.put(EntityTabType.VENUES,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());
         // @formatter:on
     }
 
@@ -98,7 +98,7 @@ public abstract class EntityController extends MetalconController {
      * @return default tab for this entity
      */
     protected EntityTabType getDefaultTab() {
-        return EntityTabType.NEWSFEED_TAB;
+        return EntityTabType.NEWSFEED;
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             Map<String, String> pathVars) throws RedirectException,
             NoSuchRequestHandlingMethodException {
-        if (entityTabType == EntityTabType.EMPTY_TAB) {
+        if (entityTabType == EntityTabType.EMPTY) {
             entityTabType = getDefaultTab();
         }
 
@@ -173,7 +173,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.EMPTY_TAB, request, pathVars);
+        return handleTab(EntityTabType.EMPTY, request, pathVars);
     }
 
     // TAB REQUEST HANDLING
@@ -196,7 +196,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.ABOUT_TAB, request, pathVars);
+        return handleTab(EntityTabType.ABOUT, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.BANDS_TAB_MAPPING)
@@ -204,7 +204,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.BANDS_TAB, request, pathVars);
+        return handleTab(EntityTabType.BANDS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.EVENTS_TAB_MAPPING)
@@ -212,7 +212,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.EVENTS_TAB, request, pathVars);
+        return handleTab(EntityTabType.EVENTS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.NEWSFEED_TAB_MAPPING)
@@ -220,7 +220,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.NEWSFEED_TAB, request, pathVars);
+        return handleTab(EntityTabType.NEWSFEED, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.PHOTOS_TAB_MAPPING)
@@ -228,7 +228,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.PHOTOS_TAB, request, pathVars);
+        return handleTab(EntityTabType.PHOTOS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.RECOMMENDATIONS_TAB_MAPPING)
@@ -236,7 +236,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.RECOMMENDATIONS_TAB, request, pathVars);
+        return handleTab(EntityTabType.RECOMMENDATIONS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.RECORDS_TAB_MAPPING)
@@ -244,7 +244,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.RECORDS_TAB, request, pathVars);
+        return handleTab(EntityTabType.RECORDS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.REVIEWS_TAB_MAPPING)
@@ -252,7 +252,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.REVIEWS_TAB, request, pathVars);
+        return handleTab(EntityTabType.REVIEWS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.TRACKS_TAB_MAPPING)
@@ -260,7 +260,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.TRACKS_TAB, request, pathVars);
+        return handleTab(EntityTabType.TRACKS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.USERS_TAB_MAPPING)
@@ -268,7 +268,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.USERS_TAB, request, pathVars);
+        return handleTab(EntityTabType.USERS, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.VENUES_TAB_MAPPING)
@@ -276,7 +276,7 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.VENUES_TAB, request, pathVars);
+        return handleTab(EntityTabType.VENUES, request, pathVars);
     }
 
 }
