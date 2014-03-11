@@ -12,7 +12,7 @@ public class BandNewsfeedTabGenerator extends NewsfeedTabGenerator {
 
     @Override
     public void generateTabContent(EntityTabContent tabContent, Entity entity) {
-        // TODO Auto-generated method stub
+        super.generateTabContent(tabContent, entity);
     }
 
     @Override

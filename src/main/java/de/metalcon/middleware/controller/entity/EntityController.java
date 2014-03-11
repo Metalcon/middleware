@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.metalcon.middleware.backend.newsfeedserver.NewsFeedItemData;
+import de.metalcon.middleware.backend.newsfeedserver.NewsFeedServer;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
@@ -69,18 +72,40 @@ public abstract class EntityController extends MetalconController {
 
     private void fillEntityTabGenerators() {
         // @formatter:off
-        if (this instanceof AboutTabGenerating)           entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());
-        if (this instanceof BandsTabGenerating)           entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());
-        if (this instanceof EventsTabGenerating)          entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());
-        if (this instanceof NewsfeedTabGenerating)        entityTabsGenerators.put(EntityTabType.NEWSFEED,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());
-        if (this instanceof PhotosTabGenerating)          entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());
-        if (this instanceof RecommendationsTabGenerating) entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator());
-        if (this instanceof RecordsTabGenerating)         entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());
-        if (this instanceof ReviewsTabGenerating)         entityTabsGenerators.put(EntityTabType.REVIEWS,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());
-        if (this instanceof TracksTabGenerating)          entityTabsGenerators.put(EntityTabType.TRACKS,          ((TracksTabGenerating)          this).getTracksTabGenerator());
-        if (this instanceof UsersTabGenerating)           entityTabsGenerators.put(EntityTabType.USERS,           ((UsersTabGenerating)           this).getUsersTabGenerator());
-        if (this instanceof VenuesTabGenerating)          entityTabsGenerators.put(EntityTabType.VENUES,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());
-        // @formatter:on
+        if (this instanceof AboutTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());
+        }
+        if (this instanceof BandsTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());
+        }
+        if (this instanceof EventsTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());
+        }
+        if (this instanceof NewsfeedTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.NEWSFEED,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());
+        }
+        if (this instanceof PhotosTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());
+        }
+        if (this instanceof RecommendationsTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator());
+        }
+        if (this instanceof RecordsTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());
+        }
+        if (this instanceof ReviewsTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.REVIEWS,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());
+        }
+        if (this instanceof TracksTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.TRACKS,          ((TracksTabGenerating)          this).getTracksTabGenerator());
+        }
+        if (this instanceof UsersTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.USERS,           ((UsersTabGenerating)           this).getUsersTabGenerator());
+        }
+        if (this instanceof VenuesTabGenerating) {
+            entityTabsGenerators.put(EntityTabType.VENUES,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());
+            // @formatter:on
+        }
     }
 
     public abstract EntityType getEntityType();
@@ -94,15 +119,11 @@ public abstract class EntityController extends MetalconController {
             HttpServletRequest request,
             Map<String, String> pathVars) throws RedirectException,
             NoSuchRequestHandlingMethodException {
-        if (entityTabType == EntityTabType.EMPTY)
+        if (entityTabType == EntityTabType.EMPTY) {
             entityTabType = getDefaultTab();
+        }
 
-        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
-
-        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null)
-            throw new NoSuchRequestHandlingMethodException(request);
-
-        Entity entity = entityManager.getEntity(muid);
+        Entity entity = getEntity(pathVars, entityTabType, request);
 
         Map<EntityTabType, EntityTabPreview> entityTabPreviews =
                 new HashMap<EntityTabType, EntityTabPreview>();
@@ -125,11 +146,26 @@ public abstract class EntityController extends MetalconController {
                 entityTabContent, entity);
 
         EntityView entityView = entityViewFactory.createView(getEntityType());
-        entityView.setMuid(muid);
+        entityView.setMuid(entity.getMuid());
         entityView.setEntityTabContent(entityTabContent);
         entityView.setEntityTabPreviews(entityTabPreviews);
 
         return entityView;
+    }
+
+    private Entity getEntity(
+            Map<String, String> pathVars,
+            EntityTabType entityTabType,
+            HttpServletRequest request) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
+
+        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
+            throw new NoSuchRequestHandlingMethodException(request);
+        }
+
+        Entity entity = entityManager.getEntity(muid);
+        return entity;
     }
 
     @RequestMapping({
@@ -166,12 +202,34 @@ public abstract class EntityController extends MetalconController {
         return handleTab(EntityTabType.EVENTS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.NEWSFEED_TAB_MAPPING)
+    @RequestMapping(
+            value = UrlMappings.NEWSFEED_TAB_MAPPING,
+            method = RequestMethod.GET)
     public final EntityView mappingNewsfeedTab(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
+        System.out.println("get");
         return handleTab(EntityTabType.NEWSFEED, request, pathVars);
+    }
+
+    @Autowired
+    NewsFeedServer nfs;
+
+    @RequestMapping(
+            value = UrlMappings.NEWSFEED_TAB_MAPPING,
+            method = RequestMethod.POST)
+    public final EntityView mappingNewsfeedTabPost(
+            HttpServletRequest request,
+            @PathVariable Map<String, String> pathVars,
+            NewsFeedItemData formData) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        System.out.println("post");
+        Entity entity = getEntity(pathVars, EntityTabType.NEWSFEED, request);
+        // FIXME: go on here
+        //        nfs.postNews(entity, form);
+        throw new RedirectException("");
+        // return handleTab(EntityTabType.NEWSFEED, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.PHOTOS_TAB_MAPPING)
