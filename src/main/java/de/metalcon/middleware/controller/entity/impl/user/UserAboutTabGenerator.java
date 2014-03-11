@@ -16,7 +16,7 @@ public class UserAboutTabGenerator extends AboutTabGenerator {
     }
 
     @Override
-    public void genereteTabPreview(EntityTabPreview tabPreview, Entity entity) {
+    public void generateTabPreview(EntityTabPreview tabPreview, Entity entity) {
         // TODO Auto-generated method stub
     }
 

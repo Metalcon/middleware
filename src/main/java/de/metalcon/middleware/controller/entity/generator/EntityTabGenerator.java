@@ -13,7 +13,7 @@ public abstract class EntityTabGenerator {
             EntityTabContent tabContent,
             Entity entity);
 
-    public abstract void genereteTabPreview(
+    public abstract void generateTabPreview(
             EntityTabPreview tabPreview,
             Entity entity);
 
