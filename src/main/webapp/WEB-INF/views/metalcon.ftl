@@ -22,14 +22,8 @@
  #   </@mtl.html>
  #-->
 <#macro html>
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/2002/08/xhtml/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.w3.org/1999/xhtml
-                          http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd"
-      lang="de" xml:lang="de">
+<!DOCTYPE html>
+<html lang="de">
   <#nested>
 </html>
 </#macro>
@@ -48,6 +42,8 @@
 <head>
   <title>${title?html}</title>
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <#nested>
 </head>
 </#macro>
@@ -63,6 +59,16 @@
 </#macro>
 
 <#--
+ # Convenience macro to inclue a LESS-file. Use inside <head> tag.
+ #
+ # @example
+ #   <mtl.lessStylesheet href="myStyle.less"/>
+ #-->
+<#macro lessStylesheet href>
+<link rel="stylesheet/less" type="text/css" href="<@spring.url "/resources/less/${href}"/>"/>
+</#macro>
+
+<#--
  # Convenience macro to create a <body> tag.
  #
  # @example
@@ -74,6 +80,48 @@
 <body>
   <#nested>
 </body>
+</#macro>
+
+<#--
+ # Convenience macro to create a page.
+ #
+ # @example
+ #   <@mtl.page>
+ #     Stuff inside page container.
+ #   </@mtl.page>
+ #-->
+<#macro page>
+<div id="page" class="container">
+  <#nested>
+</div>
+</#macro>
+
+<#--
+ # Convenience macro to create a content.
+ #
+ # @example
+ #   <@mtl.content>
+ #     Stuff inside content container.
+ #   </@mtl.content>
+ #-->
+<#macro content>
+<div id="content" class="col-xs-12">
+  <#nested>
+</div>
+</#macro>
+
+<#--
+ # Convenience macro to create a inner_content.
+ #
+ # @example
+ #   <@mtl.content>
+ #     Stuff inside inner_content container.
+ #   </@mtl.content>
+ #-->
+<#macro inner_content>
+<div id="inner_content">
+  <#nested>
+</div>
 </#macro>
 
 <#--

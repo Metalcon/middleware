@@ -1,7 +1,7 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/metalcon.ftl" as mtl>
 
-<div id="tabContent">
+<div id="inner_content">
   <#--
    # Will include the corrrect tabPreview subtemplate.
    # For example, if tabPreviewName is "ABOUT_TAB" this will include "impl/about_tab.ftl"

@@ -25,7 +25,7 @@ public abstract class MetalconView implements View {
 
     @PostConstruct
     private void init() throws Exception {
-        view = viewResolver.resolveViewName("page", Locale.GERMANY);
+        view = viewResolver.resolveViewName("site", Locale.GERMANY);
     }
 
     @Override
@@ -44,7 +44,7 @@ public abstract class MetalconView implements View {
     }
 
     public String getType() {
-        return "page";
+        return "site";
     }
 
 }
