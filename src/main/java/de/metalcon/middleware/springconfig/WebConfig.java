@@ -37,12 +37,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureContentNegotiation(
             ContentNegotiationConfigurer configurer) {
         Map<String, MediaType> mediaTypes = new HashMap<String, MediaType>();
-        mediaTypes.put("html", MediaType.APPLICATION_XHTML_XML);
+        mediaTypes.put("html", MediaType.TEXT_HTML);
         mediaTypes.put("json", MediaType.APPLICATION_JSON);
 
         configurer.replaceMediaTypes(mediaTypes).favorPathExtension(true)
                 .useJaf(false)
-                .defaultContentType(MediaType.APPLICATION_XHTML_XML);
+                .defaultContentType(MediaType.TEXT_HTML);
     }
 
     @Bean
@@ -62,7 +62,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     public FreeMarkerViewResolver freeMarkerViewResolver() {
         FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
-        viewResolver.setContentType(MediaType.APPLICATION_XHTML_XML_VALUE);
+        viewResolver.setContentType(MediaType.TEXT_HTML_VALUE);
         viewResolver.setCache(true);
         viewResolver.setPrefix("");
         viewResolver.setSuffix(".ftl");

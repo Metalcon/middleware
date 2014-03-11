@@ -25,7 +25,7 @@
  #  <#includeTabContent/>
  #-->
 <#assign tabContent = view.entityTabContent>
-<#macro includeTabContent>
+<#macro inner_content>
   <#assign tab = tabContent>
   <#include "tab/content/tab_content.ftl">
 </#macro>
@@ -40,9 +40,21 @@
 
 <#assign stylesheets = stylesheets + ["entity.css"]>
 <#assign view_title = entity_title>
-<#assign view_content>
-  <ul>
-    ${entity_tabPreviews}
-  </ul>
-  <@includeTabContent/>
+<#assign content>
+  <ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Metallica</a></li>
+    <li class="active">Newsfeed</li>
+  </ol>
+  <div class="row">
+    <div class="col-xs-8">
+      <h1>Metallica</h1>
+      <@inner_content/>
+    </div>
+    <div id="tabs" class="col-xs-4">
+      <ul>
+        ${entity_tabPreviews}
+      </ul>
+    </div>
+  </div>
 </#assign>
