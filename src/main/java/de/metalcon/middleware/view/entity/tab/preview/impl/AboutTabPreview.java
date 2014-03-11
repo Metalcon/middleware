@@ -7,7 +7,7 @@ public class AboutTabPreview extends EntityTabPreview {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.ABOUT_TAB;
+        return EntityTabType.ABOUT;
     }
 
 }

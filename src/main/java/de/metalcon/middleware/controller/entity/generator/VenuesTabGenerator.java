@@ -9,7 +9,7 @@ public abstract class VenuesTabGenerator extends EntityTabGenerator {
 
     @Override
     public EntityTabType getEntityTabType() {
-        return EntityTabType.VENUES_TAB;
+        return EntityTabType.VENUES;
     }
 
 }
