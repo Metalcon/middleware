@@ -25,6 +25,9 @@ import de.metalcon.middleware.controller.entity.generator.TracksTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.UsersTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
 
+/**
+ * controller handling band requests
+ */
 @Controller
 @RequestMapping(
         value = UrlMappings.BAND_MAPPING,
