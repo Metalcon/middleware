@@ -104,19 +104,52 @@ public abstract class EntityController extends MetalconController {
     }
 
     /**
+     * Checks whether the current EntityType has the requested tab and 404s
+     * if not. Returns the entity object.
+     * 
+     * @param entityTabType
+     *            Type of request tab.
+     * @param request
+     *            Servlet request.
+     * @param pathVars
+     *            Variables from request path.
+     * @return The entities MUID.
+     * @throws RedirectException
+     *             TODO
+     * @throws NoSuchRequestHandlingMethodException
+     *             If entity type doesn't have requested tab type or MUID
+     *             couldn't be resolved.
+     */
+    private Muid getMuidAndCheck404(
+            EntityTabType entityTabType,
+            HttpServletRequest request,
+            Map<String, String> pathVars) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        // resolve MUID to entity (data model object)
+        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
+
+        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
+            throw new NoSuchRequestHandlingMethodException(request);
+        }
+
+        return muid;
+    }
+
+    /**
      * create and fill view object
      * 
      * @param entityTabType
-     *            type of active tab
+     *            Type of requested tab.
      * @param request
-     *            servlet request
+     *            Servlet request.
      * @param pathVars
-     *            request path
+     *            Variables from request path.
      * @return filled view object
      * @throws RedirectException
      *             TODO
      * @throws NoSuchRequestHandlingMethodException
-     *             if tab type invalid or MUID not resolved
+     *             If entity type doesn't have requested tab type or MUID
+     *             couldn't be resolved.
      */
     private final EntityView handleTab(
             EntityTabType entityTabType,
@@ -134,18 +167,13 @@ public abstract class EntityController extends MetalconController {
 
         Pjaxr pjaxrObj = new Pjaxr(request, pjaxrNamespace);
 
+        Muid muid = getMuidAndCheck404(entityTabType, request, pathVars);
+
+        Entity entity = entityManager.getEntity(muid, getEntityType());
+
         // create view object
         EntityView entityView = entityViewFactory.createView(getEntityType());
-
-        // resolve MUID to entity (data model object)
-        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
-        entityView.setMuid(muid);
-
-        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
-            throw new NoSuchRequestHandlingMethodException(request);
-        }
-
-        Entity entity = entityManager.getEntity(muid);
+        entityView.setMuid(entity.getMuid());
 
         // create empty tab content and fill it with data from entity
         EntityTabContent entityTabContent =
