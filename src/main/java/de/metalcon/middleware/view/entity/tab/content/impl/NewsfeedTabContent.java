@@ -1,5 +1,6 @@
 package de.metalcon.middleware.view.entity.tab.content.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,18 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 
 public class NewsfeedTabContent extends EntityTabContent {
 
-    @Autowired
-    private NewsFeedServer nfs;
+    private Map<String, Object> newsFeed = new HashMap<String, Object>();
 
     @Override
     public EntityTabType getEntityTabType() {
         return EntityTabType.NEWSFEED;
     }
 
+    public void setNewsFeed(Map<String, Object> newsFeed) {
+        this.newsFeed = newsFeed;
+    }
+
     public Map<String, Object> getNewsFeed() {
-        return nfs.getNewsFeed("3", "3", true);
+        return newsFeed;
     }
 }

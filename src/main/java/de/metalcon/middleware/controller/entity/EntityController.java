@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import de.iekadou.spring_pjaxr.Pjaxr;
@@ -152,6 +153,9 @@ public abstract class EntityController extends MetalconController {
                 entityTabContentFactory.createTabContent(entityTabType);
         entityTabsGenerators.get(entityTabType).generateTabContent(
                 entityTabContent, entity);
+
+        EntityView entityView = entityViewFactory.createView(getEntityType());
+        entityView.setMuid(entity.getMuid());
         entityView.setEntityTabContent(entityTabContent);
 
         if (pjaxrObj.getMatchingCount() < 2) {
@@ -177,6 +181,21 @@ public abstract class EntityController extends MetalconController {
         entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
 
         return entityView;
+    }
+
+    private Entity getEntity(
+            Map<String, String> pathVars,
+            EntityTabType entityTabType,
+            HttpServletRequest request) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
+
+        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
+            throw new NoSuchRequestHandlingMethodException(request);
+        }
+
+        Entity entity = entityManager.getEntity(muid);
+        return entity;
     }
 
     @RequestMapping({
@@ -228,12 +247,34 @@ public abstract class EntityController extends MetalconController {
         return handleTab(EntityTabType.EVENTS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.NEWSFEED_TAB_MAPPING)
+    @RequestMapping(
+            value = UrlMappings.NEWSFEED_TAB_MAPPING,
+            method = RequestMethod.GET)
     public final EntityView mappingNewsfeedTab(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
+        System.out.println("get");
         return handleTab(EntityTabType.NEWSFEED, request, pathVars);
+    }
+
+    @Autowired
+    NewsFeedServer nfs;
+
+    @RequestMapping(
+            value = UrlMappings.NEWSFEED_TAB_MAPPING,
+            method = RequestMethod.POST)
+    public final EntityView mappingNewsfeedTabPost(
+            HttpServletRequest request,
+            @PathVariable Map<String, String> pathVars,
+            NewsFeedItemData formData) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        System.out.println("post");
+        Entity entity = getEntity(pathVars, EntityTabType.NEWSFEED, request);
+        // FIXME: go on here
+        //        nfs.postNews(entity, form);
+        throw new RedirectException("");
+        // return handleTab(EntityTabType.NEWSFEED, request, pathVars);
     }
 
     @RequestMapping(UrlMappings.PHOTOS_TAB_MAPPING)
