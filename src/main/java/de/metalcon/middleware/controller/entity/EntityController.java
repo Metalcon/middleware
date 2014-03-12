@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import de.iekadou.spring_pjaxr.Pjaxr;
+
+
+
+//import de.iekadou.spring_pjaxr.Pjaxr;
+import de.iekadou.spring_pjaxr.*;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
@@ -135,18 +139,9 @@ public abstract class EntityController extends MetalconController {
 
         Pjaxr pjaxrObj = new Pjaxr(request, pjaxrNamespace);
 
-        // create view object
-        EntityView entityView = entityViewFactory.createView(getEntityType());
 
-        // resolve MUID to entity (data model object)
-        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
-        entityView.setMuid(muid);
 
-        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
-            throw new NoSuchRequestHandlingMethodException(request);
-        }
-
-        Entity entity = entityManager.getEntity(muid);
+        Entity entity = getEntity(pathVars, entityTabType, request);
 
         // create empty tab content and fill it with data from entity
         EntityTabContent entityTabContent =
@@ -258,16 +253,13 @@ public abstract class EntityController extends MetalconController {
         return handleTab(EntityTabType.NEWSFEED, request, pathVars);
     }
 
-    @Autowired
-    NewsFeedServer nfs;
 
     @RequestMapping(
             value = UrlMappings.NEWSFEED_TAB_MAPPING,
             method = RequestMethod.POST)
     public final EntityView mappingNewsfeedTabPost(
             HttpServletRequest request,
-            @PathVariable Map<String, String> pathVars,
-            NewsFeedItemData formData) throws RedirectException,
+            @PathVariable Map<String, String> pathVars) throws RedirectException,
             NoSuchRequestHandlingMethodException {
         System.out.println("post");
         Entity entity = getEntity(pathVars, EntityTabType.NEWSFEED, request);
