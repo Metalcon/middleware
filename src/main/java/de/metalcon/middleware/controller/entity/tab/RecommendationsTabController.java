@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.view.entity.EntityView;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
@@ -20,6 +21,7 @@ public class RecommendationsTabController extends EntityTabController {
     }
 
     public EntityView handleGet(
+            EntityController entityController,
             HttpServletRequest request,
             Map<String, String> pathVars)
             throws NoSuchRequestHandlingMethodException, RedirectException {
