@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import de.iekadou.spring_pjaxr.Pjaxr;
@@ -26,6 +27,10 @@ import de.metalcon.middleware.controller.entity.generating.TracksTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.VenuesTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
+import de.metalcon.middleware.controller.entity.tab.AboutTabController;
+import de.metalcon.middleware.controller.entity.tab.BandsTabController;
+import de.metalcon.middleware.controller.entity.tab.EventsTabController;
+import de.metalcon.middleware.controller.entity.tab.NewsfeedTabController;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
 import de.metalcon.middleware.domain.Muid;
@@ -45,6 +50,18 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreviewFactory;
  */
 
 public abstract class EntityController extends MetalconController {
+
+    @Autowired
+    private AboutTabController aboutTabController;
+
+    @Autowired
+    private BandsTabController bandsTabController;
+
+    @Autowired
+    private EventsTabController eventsTabController;
+
+    @Autowired
+    private NewsfeedTabController newsfeedTabController;
 
     @Autowired
     private EntityViewFactory entityViewFactory;
@@ -151,7 +168,7 @@ public abstract class EntityController extends MetalconController {
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
-    private final EntityView handleTab(
+    public final EntityView handleTab(
             EntityTabType entityTabType,
             HttpServletRequest request,
             Map<String, String> pathVars) throws RedirectException,
@@ -232,88 +249,120 @@ public abstract class EntityController extends MetalconController {
      * @throws NoSuchRequestHandlingMethodException
      *             if no about tab or entity invalid
      */
-    @RequestMapping(UrlMappings.ABOUT_TAB_MAPPING)
-    public final EntityView mappingAboutTab(
+    @RequestMapping(
+            value = UrlMappings.ABOUT_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingAboutTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.ABOUT, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.BANDS_TAB_MAPPING)
-    public final EntityView mappingBandsTab(
+    @RequestMapping(
+            value = UrlMappings.BANDS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingBandsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.BANDS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.EVENTS_TAB_MAPPING)
-    public final EntityView mappingEventsTab(
+    @RequestMapping(
+            value = UrlMappings.EVENTS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingEventsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.EVENTS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.NEWSFEED_TAB_MAPPING)
-    public final EntityView mappingNewsfeedTab(
+    @RequestMapping(
+            value = UrlMappings.NEWSFEED_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingNewsfeedTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return handleTab(EntityTabType.NEWSFEED, request, pathVars);
+        return newsfeedTabController.handleGet(request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.PHOTOS_TAB_MAPPING)
-    public final EntityView mappingPhotosTab(
+    @RequestMapping(
+            value = UrlMappings.NEWSFEED_TAB_MAPPING,
+            method = RequestMethod.POST)
+    public final EntityView mappingNewsfeedTabPost(
+            HttpServletRequest request,
+            @PathVariable Map<String, String> pathVars)
+            throws RedirectException, NoSuchRequestHandlingMethodException {
+        return newsfeedTabController.handlePost(request, pathVars);
+    }
+
+    @RequestMapping(
+            value = UrlMappings.PHOTOS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingPhotosTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.PHOTOS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.RECOMMENDATIONS_TAB_MAPPING)
-    public final EntityView mappingRecommendationsTab(
+    @RequestMapping(
+            value = UrlMappings.RECOMMENDATIONS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingRecommendationsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.RECOMMENDATIONS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.RECORDS_TAB_MAPPING)
-    public final EntityView mappingRecordsTab(
+    @RequestMapping(
+            value = UrlMappings.RECORDS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingRecordsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.RECORDS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.REVIEWS_TAB_MAPPING)
-    public final EntityView mappingReviewsTab(
+    @RequestMapping(
+            value = UrlMappings.REVIEWS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingReviewsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.REVIEWS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.TRACKS_TAB_MAPPING)
-    public final EntityView mappingTracksTab(
+    @RequestMapping(
+            value = UrlMappings.TRACKS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingTracksTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.TRACKS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.USERS_TAB_MAPPING)
-    public final EntityView mappingUsersTab(
+    @RequestMapping(
+            value = UrlMappings.USERS_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingUsersTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         return handleTab(EntityTabType.USERS, request, pathVars);
     }
 
-    @RequestMapping(UrlMappings.VENUES_TAB_MAPPING)
-    public final EntityView mappingVenuesTab(
+    @RequestMapping(
+            value = UrlMappings.VENUES_TAB_MAPPING,
+            method = RequestMethod.GET)
+    public final EntityView mappingVenuesTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
