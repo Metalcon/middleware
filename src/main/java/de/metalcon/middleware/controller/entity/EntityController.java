@@ -9,14 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 // import de.iekadou.spring_pjaxr.Pjaxr;
 import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
-import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.BandsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.EventsTabGenerating;
@@ -254,10 +251,7 @@ public abstract class EntityController extends MetalconController {
         return entityView;
     }
 
-    @RequestMapping({
-        "", "/"
-    })
-    public final EntityView mappingEmptyTab(
+    public final EntityView mappingEmptyTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
@@ -279,9 +273,6 @@ public abstract class EntityController extends MetalconController {
      * @throws NoSuchRequestHandlingMethodException
      *             if no about tab or entity invalid
      */
-    @RequestMapping(
-            value = UrlMappings.ABOUT_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingAboutTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -289,9 +280,6 @@ public abstract class EntityController extends MetalconController {
         return aboutTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.BANDS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingBandsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -299,9 +287,6 @@ public abstract class EntityController extends MetalconController {
         return bandsTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.EVENTS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingEventsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -309,9 +294,6 @@ public abstract class EntityController extends MetalconController {
         return eventsTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.NEWSFEED_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingNewsfeedTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -319,9 +301,6 @@ public abstract class EntityController extends MetalconController {
         return newsfeedTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.NEWSFEED_TAB_MAPPING,
-            method = RequestMethod.POST)
     public final EntityView mappingNewsfeedTabPost(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -330,9 +309,6 @@ public abstract class EntityController extends MetalconController {
         return newsfeedTabController.handlePost(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.PHOTOS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingPhotosTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -340,9 +316,6 @@ public abstract class EntityController extends MetalconController {
         return photosTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.RECOMMENDATIONS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingRecommendationsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -350,9 +323,6 @@ public abstract class EntityController extends MetalconController {
         return recommendationsTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.RECORDS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingRecordsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -360,9 +330,6 @@ public abstract class EntityController extends MetalconController {
         return recordsTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.REVIEWS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingReviewsTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -370,9 +337,6 @@ public abstract class EntityController extends MetalconController {
         return reviewsTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.TRACKS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingTracksTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -380,9 +344,6 @@ public abstract class EntityController extends MetalconController {
         return tracksTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.USERS_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingUsersTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
@@ -390,9 +351,6 @@ public abstract class EntityController extends MetalconController {
         return usersTabController.handleGet(this, request, pathVars);
     }
 
-    @RequestMapping(
-            value = UrlMappings.VENUES_TAB_MAPPING,
-            method = RequestMethod.GET)
     public final EntityView mappingVenuesTabGet(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)

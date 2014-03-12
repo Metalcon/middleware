@@ -8,23 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import de.metalcon.middleware.core.request.JsonRequest;
 import de.metalcon.middleware.core.request.RequestTransaction;
 
 @Controller
-@RequestMapping(
-        value = "/test/band",
-        method = RequestMethod.GET)
 public class TestBandController {
 
     @Autowired
     private BeanFactory beanFactory;
 
-    @RequestMapping("")
     public ModelAndView handleRequest() {
         RequestTransaction tx = beanFactory.getBean(RequestTransaction.class);
         tx.request(new JsonRequest("http://headers.jsontest.com/"));
@@ -36,15 +30,15 @@ public class TestBandController {
         List<String> jsonAnswers = new LinkedList<String>();
 
         Object answer;
-        while ((answer = tx.recieve()) != null)
+        while ((answer = tx.recieve()) != null) {
             jsonAnswers.add((String) answer);
+        }
 
         ModelMap model = new ModelMap();
         model.addAttribute("jsonAnswers", jsonAnswers);
         return new ModelAndView("test/model", model);
     }
 
-    @RequestMapping("{bandName}")
     public ModelAndView handleRequestByBandName(
             @PathVariable("bandName") String bandName) {
         ModelMap model = new ModelMap();

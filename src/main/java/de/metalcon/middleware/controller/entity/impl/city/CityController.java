@@ -2,9 +2,7 @@ package de.metalcon.middleware.controller.entity.impl.city;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.BandsTabGenerating;
@@ -25,7 +23,6 @@ import de.metalcon.middleware.controller.entity.generator.VenuesTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
 
 @Controller
-@RequestMapping(UrlMappings.CITY_MAPPING)
 public class CityController extends EntityController implements
         AboutTabGenerating, BandsTabGenerating, EventsTabGenerating,
         NewsfeedTabGenerating, PhotosTabGenerating,

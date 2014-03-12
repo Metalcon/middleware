@@ -2,9 +2,7 @@ package de.metalcon.middleware.controller.entity.impl.band;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.EventsTabGenerating;
@@ -28,7 +26,6 @@ import de.metalcon.middleware.domain.entity.EntityType;
  * controller handling band requests
  */
 @Controller
-@RequestMapping(UrlMappings.BAND_MAPPING)
 public class BandController extends EntityController implements
         AboutTabGenerating, EventsTabGenerating, NewsfeedTabGenerating,
         PhotosTabGenerating, RecommendationsTabGenerating,
