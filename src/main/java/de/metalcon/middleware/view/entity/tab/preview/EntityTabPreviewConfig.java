@@ -91,6 +91,9 @@ public class EntityTabPreviewConfig {
         return new VenuesTabPreview();
     }
 
+    /**
+     * @return factory instantiating empty entity tab preview in prototype scope
+     */
     @Bean
     public EntityTabPreviewFactory entityTabPreviewFactory() {
         return new EntityTabPreviewFactory() {

@@ -28,6 +28,9 @@ import de.metalcon.middleware.domain.entity.impl.User;
 import de.metalcon.middleware.domain.entity.impl.Venue;
 import de.metalcon.middleware.exception.RedirectException;
 
+/**
+ * manages mapping from URL to MUID and vice versa
+ */
 @Component
 public class EntityUrlMapppingManager {
 
@@ -96,7 +99,7 @@ public class EntityUrlMapppingManager {
     public void registerMuid(Muid muid) {
         Entity entity = entityManager.getEntity(muid);
         switch (entity.getEntityType()) {
-        // @formatter:off
+            // @formatter:off
             case BAND:       registerMuidBand      (muid, (Band)       entity); break;
             case CITY:       registerMuidCity      (muid, (City)       entity); break;
             case EVENT:      registerMuidEvent     (muid, (Event)      entity); break;
@@ -118,7 +121,7 @@ public class EntityUrlMapppingManager {
     public Muid getMuid(EntityType entityType, Map<String, String> pathVars)
             throws RedirectException {
         switch (entityType) {
-        // @formatter:off
+            // @formatter:off
             case BAND:       return getMuidBand      (pathVars);
             case CITY:       return getMuidCity      (pathVars);
             case EVENT:      return getMuidEvent     (pathVars);

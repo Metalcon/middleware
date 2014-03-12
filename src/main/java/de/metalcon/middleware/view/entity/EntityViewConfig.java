@@ -84,6 +84,9 @@ public class EntityViewConfig {
         return new VenueView();
     }
 
+    /**
+     * @return factory instantiating empty entity views in prototype scope
+     */
     @Bean
     public EntityViewFactory entityViewFactory() {
         return new EntityViewFactory() {

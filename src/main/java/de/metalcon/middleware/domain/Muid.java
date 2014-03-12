@@ -2,17 +2,32 @@ package de.metalcon.middleware.domain;
 
 import de.metalcon.middleware.domain.entity.EntityType;
 
+/**
+ * unique identifier for a Metalcon entity knowing the entity's type (Metalcon
+ * Unique IDentifier)
+ */
 public class Muid {
 
     public static final Muid EMPTY_MUID = new Muid(0);
 
+    /**
+     * unique identifier
+     */
     private long value;
 
-    public Muid(
-            long value) {
+    /**
+     * create new Metalcon identifier
+     * 
+     * @param value
+     *            unique identifier
+     */
+    public Muid(long value) {
         this.value = value;
     }
 
+    /**
+     * @return unique identifier
+     */
     public long getValue() {
         return value;
     }
@@ -21,29 +36,35 @@ public class Muid {
         this.value = value;
     }
 
+    /**
+     * get type of the entity represented by this MUID
+     * 
+     * @return entity type
+     */
     public EntityType getEntityType() {
         // TODO: stub implementation
         long rem = value % 10;
-        if (rem == 1)
+        if (rem == 1) {
             return EntityType.USER;
-        else if (rem == 2)
+        } else if (rem == 2) {
             return EntityType.BAND;
-        else if (rem == 3)
+        } else if (rem == 3) {
             return EntityType.RECORD;
-        else if (rem == 4)
+        } else if (rem == 4) {
             return EntityType.TRACK;
-        else if (rem == 5)
+        } else if (rem == 5) {
             return EntityType.VENUE;
-        else if (rem == 6)
+        } else if (rem == 6) {
             return EntityType.EVENT;
-        else if (rem == 7)
+        } else if (rem == 7) {
             return EntityType.CITY;
-        else if (rem == 8)
+        } else if (rem == 8) {
             return EntityType.GENRE;
-        else if (rem == 9)
+        } else if (rem == 9) {
             return EntityType.INSTRUMENT;
-        else if (rem == 0)
+        } else if (rem == 0) {
             return EntityType.TOUR;
+        }
 
         throw new UnsupportedOperationException(
                 "Muid.getEntityType() not implemented yet.");
@@ -56,10 +77,12 @@ public class Muid {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this)
+        if (other == this) {
             return true;
-        if (other == null || getClass() != other.getClass())
+        }
+        if (other == null || getClass() != other.getClass()) {
             return false;
+        }
         Muid o = (Muid) other;
         return value == o.value;
     }

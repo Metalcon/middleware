@@ -43,6 +43,9 @@ public abstract class EntityTabContentFactory {
         }
     }
 
+    /**
+     * @return empty about tab content container
+     */
     public abstract AboutTabContent createAboutTabContent();
 
     public abstract BandsTabContent createBandsTabContent();

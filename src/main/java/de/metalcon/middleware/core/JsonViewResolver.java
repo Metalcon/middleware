@@ -9,10 +9,15 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 
+/**
+ * resolves JSON views
+ */
 public class JsonViewResolver implements ViewResolver {
 
     /**
-     * @return View for JSON output.
+     * resolves JSON views by name
+     * 
+     * @return empty view for JSON output
      */
     @Override
     public View resolveViewName(String viewName, Locale locale)

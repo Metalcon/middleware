@@ -12,15 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
+/**
+ * basic Metalcon view (_site)<br>
+ * (holdes PJAXR values)
+ */
 public abstract class MetalconView implements View {
 
     @Autowired
     private ViewResolver viewResolver;
 
     private View view;
-    
-    private String pjaxrNamespace  = "";
-    private int pjaxrMatching  = 0;
+
+    private String pjaxrNamespace = "";
+    private int pjaxrMatching = 0;
 
     public MetalconView() {
         view = null;
@@ -37,9 +41,7 @@ public abstract class MetalconView implements View {
     }
 
     @Override
-    public final void render(
-            Map<String, ?> model,
-            HttpServletRequest request,
+    public final void render(Map<String, ?> model, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> m = new HashMap<String, Object>(model);
         m.put("view", this);
@@ -51,7 +53,7 @@ public abstract class MetalconView implements View {
     }
 
     public String getPjaxrNamespace() {
-        return this.pjaxrNamespace;
+        return pjaxrNamespace;
     }
 
     public void setPjaxrNamespace(String pjaxrNamespace) {
@@ -59,11 +61,11 @@ public abstract class MetalconView implements View {
     }
 
     public int getPjaxrMatching() {
-        return this.pjaxrMatching;
+        return pjaxrMatching;
     }
-    
+
     public void setPjaxrMatching(int pjaxrMatching) {
         this.pjaxrMatching = pjaxrMatching;
     }
-    
+
 }

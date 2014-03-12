@@ -41,6 +41,9 @@ public abstract class EntityViewFactory {
         }
     }
 
+    /**
+     * @return empty band view
+     */
     public abstract BandView createBandView();
 
     public abstract CityView createCityView();
