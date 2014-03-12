@@ -1,5 +1,6 @@
 package de.metalcon.middleware.controller.entity;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+// import de.iekadou.spring_pjaxr.Pjaxr;
 import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.UrlMappings;
@@ -165,7 +167,7 @@ public abstract class EntityController extends MetalconController {
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
-    private Muid getMuidAndCheck404(
+    public Muid getMuidAndCheck404(
             EntityTabType entityTabType,
             HttpServletRequest request,
             Map<String, String> pathVars) throws RedirectException,
@@ -323,7 +325,8 @@ public abstract class EntityController extends MetalconController {
     public final EntityView mappingNewsfeedTabPost(
             HttpServletRequest request,
             @PathVariable Map<String, String> pathVars)
-            throws RedirectException, NoSuchRequestHandlingMethodException {
+            throws RedirectException, NoSuchRequestHandlingMethodException,
+            IOException {
         return newsfeedTabController.handlePost(this, request, pathVars);
     }
 
