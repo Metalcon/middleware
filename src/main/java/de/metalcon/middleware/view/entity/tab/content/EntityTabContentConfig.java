@@ -91,6 +91,9 @@ public class EntityTabContentConfig {
         return new VenuesTabContent();
     }
 
+    /**
+     * @return factory instantiating empty tab content in prototype scope
+     */
     @Bean
     public EntityTabContentFactory entityTabContentFactory() {
         return new EntityTabContentFactory() {

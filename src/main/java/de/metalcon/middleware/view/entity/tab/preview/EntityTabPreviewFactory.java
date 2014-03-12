@@ -43,6 +43,9 @@ public abstract class EntityTabPreviewFactory {
         }
     }
 
+    /**
+     * @return empty about tab preview
+     */
     public abstract AboutTabPreview createAboutTabPreview();
 
     public abstract BandsTabPreview createBandsTabPreview();
