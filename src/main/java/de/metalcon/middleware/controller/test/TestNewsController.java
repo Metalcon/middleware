@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,9 +27,6 @@ import de.metalcon.middleware.core.request.JsonRequest;
 import de.metalcon.middleware.core.request.RequestTransaction;
 
 @Controller
-@RequestMapping(
-        value = "/test/news",
-        method = RequestMethod.GET)
 public class TestNewsController {
 
     private static ObjectMapper mapper = new ObjectMapper();
@@ -39,12 +34,10 @@ public class TestNewsController {
     @Autowired
     private BeanFactory beanFactory;
 
-    @RequestMapping("")
     public ModelAndView handle() {
         return new ModelAndView("news");
     }
 
-    @RequestMapping("{userId}/{posterId}/{ownUpdates}")
     public ModelAndView listNews(
             @PathVariable("userId") String userId,
             @PathVariable("posterId") String posterId,
@@ -94,9 +87,6 @@ public class TestNewsController {
         return new ModelAndView("test/news", model);
     }
 
-    @RequestMapping(
-            value = "{userId}/{posterId}/{ownUpdates}/post",
-            method = RequestMethod.POST)
     public String postNews(
             @PathVariable("userId") String userId,
             @PathVariable("posterId") String posterId,

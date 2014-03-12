@@ -2,9 +2,7 @@ package de.metalcon.middleware.controller.entity.impl.record;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.metalcon.middleware.controller.UrlMappings;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.NewsfeedTabGenerating;
@@ -21,7 +19,6 @@ import de.metalcon.middleware.controller.entity.generator.UsersTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
 
 @Controller
-@RequestMapping(UrlMappings.RECORD_MAPPING)
 public class RecordController extends EntityController implements
         AboutTabGenerating, NewsfeedTabGenerating,
         RecommendationsTabGenerating, ReviewsTabGenerating,

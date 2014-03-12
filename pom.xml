@@ -78,6 +78,12 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
     </dependency>
+    <!-- SpringMVC-Router -->
+    <dependency>
+      <groupId>org.resthub</groupId>
+      <artifactId>springmvc-router</artifactId>
+      <version>1.2.0</version>
+    </dependency>
     
     <!-- Servlet -->
     <dependency>
