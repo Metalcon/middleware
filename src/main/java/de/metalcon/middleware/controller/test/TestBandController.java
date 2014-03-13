@@ -10,8 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
-import de.metalcon.middleware.core.request.JsonRequest;
-import de.metalcon.middleware.core.request.RequestTransaction;
+import de.metalcon.middleware.core.request.legacy.JsonRequest;
+import de.metalcon.middleware.core.request.legacy.RequestTransaction;
 
 @Controller
 public class TestBandController {

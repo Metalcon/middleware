@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.metalcon.middleware.core.request.JsonRequest;
-import de.metalcon.middleware.core.request.RequestTransaction;
+import de.metalcon.middleware.core.request.legacy.JsonRequest;
+import de.metalcon.middleware.core.request.legacy.RequestTransaction;
 
 @Controller
 public class TestNewsController {

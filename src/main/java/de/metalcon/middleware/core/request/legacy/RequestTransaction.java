@@ -1,4 +1,4 @@
-package de.metalcon.middleware.core.request;
+package de.metalcon.middleware.core.request.legacy;
 
 import java.util.Collections;
 import java.util.Set;

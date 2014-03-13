@@ -1,4 +1,4 @@
-package de.metalcon.middleware.core.request;
+package de.metalcon.middleware.core.request.legacy;
 
 import org.springframework.web.client.RestTemplate;
 
