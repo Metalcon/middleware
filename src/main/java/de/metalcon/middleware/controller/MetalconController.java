@@ -9,18 +9,20 @@ import de.metalcon.middleware.view.MetalconView;
 public abstract class MetalconController {
 
     private String metalconNamespace = "metalcon";
-    
+
     public String getMetalconNamespace() {
-    	return this.metalconNamespace;
+        return metalconNamespace;
     }
-    
-    @Autowired UserSessionFactory usf;
-    public MetalconView handleRequest(MetalconView mcView){
-        UserSession user = usf.getUserSession();
-        mcView.setId(user.getId()+"");
+
+    @Autowired
+    private UserSessionFactory userSessionFactory;
+
+    public MetalconView handleRequest(MetalconView mcView) {
+        UserSession user = userSessionFactory.getUserSession();
+        mcView.setId(user.getId() + "");
         user.incPageCount();
-        mcView.setPc(user.getPageCount()+"");
+        mcView.setPc(user.getPageCount() + "");
         return mcView;
     }
-    
+
 }

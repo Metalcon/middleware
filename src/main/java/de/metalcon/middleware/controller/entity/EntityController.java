@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-
-
 // import de.iekadou.spring_pjaxr.Pjaxr;
 import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
@@ -41,12 +39,10 @@ import de.metalcon.middleware.controller.entity.tab.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.VenuesTabController;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
-import de.metalcon.middleware.core.UserSession;
 import de.metalcon.middleware.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
-import de.metalcon.middleware.view.MetalconView;
 import de.metalcon.middleware.view.entity.EntityView;
 import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
@@ -252,9 +248,9 @@ public abstract class EntityController extends MetalconController {
         entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
         entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
 
-        entityView = (EntityView)super.handleRequest(entityView);
-        
-        return /*(EntityView)handleRequest(*/entityView;//);
+        entityView = (EntityView) super.handleRequest(entityView);
+
+        return entityView;
     }
 
     public final EntityView mappingEmptyTabGet(

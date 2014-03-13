@@ -21,11 +21,14 @@ public abstract class MetalconView implements View {
     @Autowired
     private ViewResolver viewResolver;
 
-    String userId;
-    String pc; 
+    private String userId;
+
+    private String pc;
+
     private View view;
 
     private String pjaxrNamespace = "";
+
     private int pjaxrMatching = 0;
 
     public MetalconView() {
@@ -43,7 +46,9 @@ public abstract class MetalconView implements View {
     }
 
     @Override
-    public final void render(Map<String, ?> model, HttpServletRequest request,
+    public final void render(
+            Map<String, ?> model,
+            HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> m = new HashMap<String, Object>(model);
         m.put("view", this);
@@ -58,21 +63,22 @@ public abstract class MetalconView implements View {
         return pjaxrNamespace;
     }
 
-    public String getId(){
+    public String getId() {
         return userId;
     }
-    public void setId(String userId){
+
+    public void setId(String userId) {
         this.userId = userId;
     }
 
-    public String getPc(){
+    public String getPc() {
         return pc;
     }
-    public void setPc(String pc){
+
+    public void setPc(String pc) {
         this.pc = pc;
     }
-    
-    
+
     public void setPjaxrNamespace(String pjaxrNamespace) {
         this.pjaxrNamespace = pjaxrNamespace;
     }
