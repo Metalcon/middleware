@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/maven-v4_0_0.xsd">
+                             <parent>
+  <groupId>de.metalcon</groupId>
+  <artifactId>pom</artifactId>
+  <version>0.0.1</version>
+</parent>
+                             
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.metalcon</groupId>
@@ -58,6 +64,12 @@
   </dependencyManagement>
 
   <dependencies>
+    <!-- metalcon -->
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>api</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>  
     <!-- Spring -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -233,4 +245,12 @@
       </plugin>
     </plugins>
   </build>
+  <!-- Metalcon repository to resolve dependencies from -->
+<repositories>
+<repository>
+  <id>metalcon-depend</id>
+  <url>http://metalcon2.physik.uni-mainz.de:8080/mvn/</url>
+</repository>
+</repositories>
+  
 </project>
