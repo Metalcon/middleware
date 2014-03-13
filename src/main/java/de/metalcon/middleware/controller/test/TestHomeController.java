@@ -3,15 +3,21 @@ package de.metalcon.middleware.controller.test;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+
+import de.metalcon.middleware.core.UserSession;
+import de.metalcon.middleware.core.UserSessionFactory;
 
 @Controller
 public class TestHomeController {
 
     //private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
+    @Autowired UserSessionFactory usf; 
+    
     public ModelAndView home() {
         List<String> bands = new LinkedList<String>();
         bands.add("Ensiferum");
@@ -20,6 +26,11 @@ public class TestHomeController {
         bands.add("Bolt Thrower");
         bands.add("another test");
 
+        UserSession user = usf.getUserSession();
+        bands.add("user id: " + user.getId());
+        user.incPageCount();
+        bands.add("page count: " + user.getPageCount());
+        
         ModelMap model = new ModelMap();
         model.addAttribute("bands", bands);
         return new ModelAndView("test/home", model);

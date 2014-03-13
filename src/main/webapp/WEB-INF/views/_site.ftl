@@ -69,6 +69,8 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">Metalcon</a>
+            <a class="navbar-brand" href="/">pagecounts ${view.pc}</a>
+            <a class="navbar-brand" href="/">userid ${view.id}</a>
           </div>
           <form class="collapse navbar-collapse navbar-form navbar-nav" role="form">
             <div class="form-group">

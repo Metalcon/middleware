@@ -21,6 +21,8 @@ public abstract class MetalconView implements View {
     @Autowired
     private ViewResolver viewResolver;
 
+    String userId;
+    String pc; 
     private View view;
 
     private String pjaxrNamespace = "";
@@ -56,6 +58,21 @@ public abstract class MetalconView implements View {
         return pjaxrNamespace;
     }
 
+    public String getId(){
+        return userId;
+    }
+    public void setId(String userId){
+        this.userId = userId;
+    }
+
+    public String getPc(){
+        return pc;
+    }
+    public void setPc(String pc){
+        this.pc = pc;
+    }
+    
+    
     public void setPjaxrNamespace(String pjaxrNamespace) {
         this.pjaxrNamespace = pjaxrNamespace;
     }
