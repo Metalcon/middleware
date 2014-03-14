@@ -17,7 +17,9 @@ public abstract class MetalconController {
     @Autowired
     private UserSessionFactory userSessionFactory;
 
-    public MetalconView handleRequest(MetalconView mcView) {
+    public MetalconView handleRequest(
+            MetalconView mcView,
+            RequestParameters params) {
         UserSession user = userSessionFactory.getUserSession();
         mcView.setId(user.getId() + "");
         user.incPageCount();
