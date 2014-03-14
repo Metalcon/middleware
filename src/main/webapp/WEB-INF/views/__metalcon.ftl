@@ -131,16 +131,6 @@
   </#if>
 </#macro>
 
-<#macro innerContent>
-  <#if pjaxrMatching &lt; 4>
-    <div id="inner_content">
-      <#nested>
-    </div>
-  <#else>
-    <#nested>
-  </#if>
-</#macro>
-
 <#--
  # To be used in views that are not implemented yet.
  #
