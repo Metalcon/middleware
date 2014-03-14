@@ -3,14 +3,43 @@
 
 
 <#--
- # Will include the current TabContent.
+ # Will include the current TabContent to "inner_content" if available.
  # @example
  #   <#includeTabContent/>
  #-->
-<#assign tabContent = view.entityTabContent>
-<#macro inner_content>
+<#assign inner_content = "">
+<#if view?? && view.entityTabContent??>
+  <#assign tabContent = view.entityTabContent>
   <#assign tab = tabContent>
   <#include "tab/content/_tab_content.ftl">
+</#if>
+
+<#--
+ # Will assign the current entitiy's tabPreviews' names to tabPreviews, if available.
+ # @example
+ #   <#includeTabPreview tabPreviewName/>
+ #-->
+<#assign tabPreviews=[]>
+<#if view?? && view.entityTabPreviews??>
+  <#assign tabPreviews = view.entityTabPreviews>
+</#if>
+
+
+<#--
+ # Macro to include tabPreview given as tabPreviewName out tabPreviews.
+ # @example
+ #   <#includeTabPreview tabPreviewName/>
+ #-->
+<#macro includeTabPreview tabPreviews tabPreviewName>
+  <#if tabPreviews??>
+    <#assign tab = tabPreviews[tabPreviewName]>
+    <#if tab??>
+      <#include "tab/preview/_tab_preview.ftl">
+    <#else>
+      <!-- Error: Failed to load tab -->
+      <#-- TODO: raise some kind of error -->
+    </#if>
+  </#if>
 </#macro>
 
 <#--
@@ -24,41 +53,43 @@
 <#assign stylesheets = stylesheets + ["entity.css"]>
 <#assign view_title = entity_title>
 
-<#if (view.pjaxrMatching &gt; 1)>
-  <#assign content>
-    <@inner_content/>
-  </#assign>
+<#-- 
+ # if pjaxrNamespace matching the current entity already, tabs don't have to 
+ # be updated
+ #-->
+<#if (pjaxrMatching &lt; 3)>
+  <#macro content_block>
+    <@mtl.content>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Metallica</a></li>
+        <li class="active">Newsfeed</li>
+      </ol>
+      <div class="row">
+        <div class="col-xs-8">
+          <h1>${entity_title}</h1>
+          <#nested>
+        </div>
+        <div id="tabs" class="col-xs-4">
+          <ul>
+            <#list entity_tabPreviews as entity_tabPreview>
+              <@includeTabPreview tabPreviews entity_tabPreview/>
+            </#list>
+          </ul>
+        </div>
+      </div>
+    </@mtl.content>
+  </#macro>
 <#else>
-  <#assign content>
-    <ol class="breadcrumb">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Metallica</a></li>
-      <li class="active">Newsfeed</li>
-    </ol>
-    <div class="row">
-      <div class="col-xs-8">
-        <h1>Metallica</h1>
-        <@inner_content/>
-      </div>
-      <div id="tabs" class="col-xs-4">
-        <ul>
-
-          <#assign tabPreviews = view.entityTabPreviews>
-          <#macro includeTabPreview tabPreviewName>
-            <#assign tab = tabPreviews[tabPreviewName]>
-            <#if tab??>
-              <#include "tab/preview/_tab_preview.ftl">
-            <#else>
-              <!-- Error: Failed to load tab -->
-              <#-- TODO: raise some kind of error -->
-            </#if>
-          </#macro>
-                  
-          <#list entity_tabPreviews as entity_tabPreview>
-            <@includeTabPreview entity_tabPreview/>
-          </#list>
-        </ul>
-      </div>
-    </div>
-  </#assign>
+  <#macro content_block>
+    <@mtl.content>
+      <#nested>
+    </@mtl.content>
+  </#macro>
 </#if>
+
+<#macro inner_content_block>
+  <@mtl.innerContent>
+    ${inner_content}
+  </@mtl.innerContent>
+</#macro>
