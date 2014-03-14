@@ -204,14 +204,14 @@ public abstract class EntityController extends MetalconController {
             entityTabType = getDefaultTab();
         }
 
+        Muid muid = getMuidAndCheck404(entityTabType, request, pathVars);
+
         String pjaxrNamespace =
                 getMetalconNamespace() + "." + getEntityType().toString() + "."
-                        + "Metallica" + "."
+                        + muid + "."
                         + entityTabType.toString().toLowerCase();
 
         Pjaxr pjaxrObj = new Pjaxr(request, pjaxrNamespace);
-
-        Muid muid = getMuidAndCheck404(entityTabType, request, pathVars);
 
         Entity entity = entityManager.getEntity(muid, getEntityType());
 
@@ -219,34 +219,43 @@ public abstract class EntityController extends MetalconController {
         EntityView entityView = entityViewFactory.createView(getEntityType());
         entityView.setMuid(entity.getMuid());
 
-        // create empty tab content and fill it with data from entity
-        EntityTabContent entityTabContent =
-                entityTabContentFactory.createTabContent(entityTabType);
-        entityTabsGenerators.get(entityTabType).generateTabContent(
-                entityTabContent, entity);
-        entityView.setEntityTabContent(entityTabContent);
-
-        if (pjaxrObj.getMatchingCount() < 2) {
-            // create tab previews
-            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-                    new HashMap<EntityTabType, EntityTabPreview>();
-            for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
-                    .entrySet()) {
-                EntityTabType entityTabPreviewType = entry.getKey();
-                EntityTabGenerator entityTabPreviewGenerator = entry.getValue();
-
-                // create empty tab preview and fill it with data from entity
-                EntityTabPreview entityTabPreview =
-                        entityTabPreviewFactory
-                                .createTabPreview(entityTabPreviewType);
-                entityTabPreviewGenerator.generateTabPreview(entityTabPreview,
-                        entity);
-                entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
-            }
-            entityView.setEntityTabPreviews(entityTabPreviews);
+        switch (pjaxrObj.getMatchingCount()) {
+            case Pjaxr.NEEDED_IN_SITE:
+            case Pjaxr.NEEDED_IN_PAGE:
+            case Pjaxr.NEEDED_IN_CONTENT:
+    
+                // create tab previews if content
+                Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+                        new HashMap<EntityTabType, EntityTabPreview>();
+                for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
+                        .entrySet()) {
+                    EntityTabType entityTabPreviewType = entry.getKey();
+                    EntityTabGenerator entityTabPreviewGenerator = entry.getValue();
+    
+                    // create empty tab preview and fill it with data from entity
+                    EntityTabPreview entityTabPreview =
+                            entityTabPreviewFactory
+                                    .createTabPreview(entityTabPreviewType);
+                    entityTabPreviewGenerator.generateTabPreview(entityTabPreview,
+                            entity);
+                    entityTabPreviews.put(entityTabPreviewType, entityTabPreview);
+                }
+                entityView.setEntityTabPreviews(entityTabPreviews);
+    
+            case Pjaxr.NEEDED_IN_INNER_CONTENT:
+    
+                // create empty tab content and fill it with data from entity
+                EntityTabContent entityTabContent =
+                        entityTabContentFactory.createTabContent(entityTabType);
+                entityTabsGenerators.get(entityTabType).generateTabContent(
+                        entityTabContent, entity);
+                entityView.setEntityTabContent(entityTabContent);
+    
+            default:
+                break;
         }
         entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
-        entityView.setPjaxrNamespace(pjaxrObj.getCurrentNamespace());
+        entityView.setPjaxrNamespace(pjaxrNamespace);
 
         entityView = (EntityView) super.handleRequest(entityView);
 

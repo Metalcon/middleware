@@ -11,6 +11,11 @@
  
 <#import "/spring.ftl" as spring>
 <#setting locale="de_DE">
+<#if view?? && view.pjaxrMatching??>
+  <#global pjaxrMatching=view.pjaxrMatching>
+<#else>
+  <#global pjaxrMatching=0>
+</#if>
 
 <#--
  # Convenience macro to create a <html> tag. Saves us from writing XHTML-
@@ -38,12 +43,14 @@
  #     Stuff inside <head> tag.
  #   </@mtl.head>
  #-->
-<#macro head title>
+<#macro head title metaTags=[]>
 <head>
   <title>${title?html}</title>
-  <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <#if metaTags??>
+    <#list metaTags as metaTag>
+        <meta<#list metaTag?keys as key> ${key}="${metaTag[key]}"</#list> />
+    </#list>
+  </#if>
   <#nested>
 </head>
 </#macro>
@@ -82,46 +89,56 @@
 </body>
 </#macro>
 
-<#--
- # Convenience macro to create a page.
- #
- # @example
- #   <@mtl.page>
- #     Stuff inside page container.
- #   </@mtl.page>
- #-->
+<#macro site>
+  <#if pjaxrMatching &lt; 1>
+    <div id="site">
+      <#nested>
+    </div>
+  <#else>
+    <#nested>
+  </#if>
+</#macro>
+
 <#macro page>
-<div id="page" class="container">
-  <#nested>
-</div>
+  <#if pjaxrMatching &lt; 2>
+    <div id="page" class="container">
+      <div class="row">
+        <#nested>
+        </div>
+    </div>
+  <#else>
+    <#nested>
+  </#if>
 </#macro>
 
-<#--
- # Convenience macro to create a content.
- #
- # @example
- #   <@mtl.content>
- #     Stuff inside content container.
- #   </@mtl.content>
- #-->
 <#macro content>
-<div id="content" class="col-xs-12">
-  <#nested>
-</div>
+  <#if pjaxrMatching &lt; 3>
+    <div id="content" class="col-xs-12">
+      <#nested>
+    </div>
+  <#else>
+    <#nested>
+  </#if>
 </#macro>
 
-<#--
- # Convenience macro to create a inner_content.
- #
- # @example
- #   <@mtl.content>
- #     Stuff inside inner_content container.
- #   </@mtl.content>
- #-->
-<#macro inner_content>
-<div id="inner_content">
-  <#nested>
-</div>
+<#macro innerContent>
+  <#if pjaxrMatching &lt; 4>
+    <div id="inner_content">
+      <#nested>
+    </div>
+  <#else>
+    <#nested>
+  </#if>
+</#macro>
+
+<#macro innerContent>
+  <#if pjaxrMatching &lt; 4>
+    <div id="inner_content">
+      <#nested>
+    </div>
+  <#else>
+    <#nested>
+  </#if>
 </#macro>
 
 <#--
@@ -141,17 +158,30 @@
 </@xhtml>
 </#macro>
 
-
+<#--
+ #  Pjaxr utilities
+ # -->
 <#macro pjaxrBody>
 <pjaxr-body>
   <#nested>
 </pjaxr-body>
 </#macro>
 
-
-<#macro pjaxrHead title>
+<#macro pjaxrHead title metaTags=[]>
 <pjaxr-head>
   <title>${title?html}</title>
+  <#if metaTags??>
+    <#list metaTags as metaTag>
+        <meta<#list metaTag?keys as key> ${key}="${metaTag[key]}"</#list> />
+    </#list>
+  </#if>
   <#nested>
 </pjaxr-head>
+</#macro>
+
+<#--
+ # <pjaxr-namespace> should not have whitespaces in it (or new lines)
+ #-->
+<#macro pjaxrNamespace>
+  <pjaxr-namespace><#nested></pjaxr-namespace>
 </#macro>

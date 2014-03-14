@@ -6,17 +6,69 @@
  # this view. Inside it, it includes more specific views.
  #-->
 
-<#--
- # Lists of all css files to be included in the output. Inside a view a view
- # specific stylesheet can be added like this:
- # <#assign stylesheets = stylesheet + ["mystyle.css"]>
- #-->
-<#assign stylesheets = []>
-<#assign lessStylesheets = ["main.less"]>
+<#assign lessStylesheets = lessStylesheets + ["main.less"]>
 
-<#if view.pjaxrMatching == 0>
+<#assign metaTags = metaTags + [{"http-equiv": "content-type", 
+                                 "content": "application/xhtml+xml; charset=UTF-8"},
+                                {"http-equiv": "X-UA-Compatible", 
+                                 "content": "IE=edge"},
+                                {"name": "viewport", 
+                                 "content": "width=device-width, initial-scale=1"}]>
+
+<#macro page_block>
+  <@mtl.page>
+    <#nested>
+    <a href="/instrument/Guitar-19/about">Guitar</a>
+  </@mtl.page>
+</#macro>
+
+<#macro site_block>
+  <@mtl.site>
+    <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Metalcon</a>
+          ${view_pc}
+          ${view_id}
+        </div>
+        <form class="collapse navbar-collapse navbar-form navbar-nav" role="form">
+          <div class="form-group">
+            <input type="text" placeholder="Search..." class="form-control">
+          </div>
+        </form>
+        <form class="collapse navbar-collapse navbar-form navbar-right" role="form">
+          <div class="form-group">
+            <input type="text" placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
+      </div>
+    </div>
+    <#nested>
+    <footer id="footer" class="navbar navbar-inverse">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="nav navbar-nav">
+              <li><a href="#">Metalcon</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </@mtl.site>
+</#macro>
+
 <@mtl.html>
-
   
   <#--
    # Include more specific view template. These are expected to set the
@@ -24,11 +76,7 @@
    # view_title - String containing the title to be displayed in <title>-tag.
    # view_content - HTML string to contain body content.
    #-->
-  <#if view.type == "entity">
-    <#include "entity/_entity.ftl">
-  </#if>
-
-  <@mtl.head title="${view_title}">
+  <@mtl.head title="${view_title}" metaTags=metaTags>
     <#list stylesheets as stylesheet>
       <@mtl.stylesheet href=stylesheet/>
     </#list>
@@ -58,63 +106,12 @@
     <script src="/resources/libs/less/1.7.0/less.min.js" type="text/javascript"></script>
   </@mtl.head>
   <@mtl.body>
-    <div id="site">
-      <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Metalcon</a>
-            <a class="navbar-brand" href="/">pagecounts ${view.pc}</a>
-            <a class="navbar-brand" href="/">userid ${view.id}</a>
-          </div>
-          <form class="collapse navbar-collapse navbar-form navbar-nav" role="form">
-            <div class="form-group">
-              <input type="text" placeholder="Search..." class="form-control">
-            </div>
-          </form>
-          <form class="collapse navbar-collapse navbar-form navbar-right" role="form">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div>
-      </div>
-      <@mtl.page>
-        <div class="row">
-          <@mtl.content>
-            ${content}
-          </@mtl.content>
-        </div>
-      </@mtl.page>
-      <footer id="footer" class="navbar navbar-inverse">
-        <div class="container">
-          <div class="row">
-            <div class="col-xs-12">
-              <ul class="nav navbar-nav">
-                <li><a href="#">Metalcon</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    <@site_block>
+      <@page_block>
+        <@content_block>
+          <@inner_content_block></@inner_content_block>
+        </@content_block>
+      </@page_block>
+    </@site_block>
   </@mtl.body>
 </@mtl.html>
-<#elseif view.pjaxrMatching &gt; 0>
-  <#if view.type == "entity">
-    <#include "entity/_entity.ftl">
-  </#if>
-  <@mtl.pjaxrHead title="${view_title}"></@mtl.pjaxrHead>
-  <@mtl.pjaxrBody>
-    ${content}
-  </@mtl.pjaxrBody>
-</#if>

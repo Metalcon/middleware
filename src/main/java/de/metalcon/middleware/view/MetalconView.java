@@ -37,7 +37,7 @@ public abstract class MetalconView implements View {
 
     @PostConstruct
     private void init() throws Exception {
-        view = viewResolver.resolveViewName("_site", Locale.GERMANY);
+        view = viewResolver.resolveViewName("_base", Locale.GERMANY);
     }
 
     @Override
