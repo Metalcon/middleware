@@ -261,6 +261,8 @@ public abstract class EntityController extends MetalconController {
         return entityView;
     }
 
+    // TAB REQUEST HANDLING
+
     public final EntityView mappingEmptyTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -269,8 +271,6 @@ public abstract class EntityController extends MetalconController {
         return newsfeedTabController.handleGet(this, new RequestParameters(
                 request, response, pathVars));
     }
-
-    // TAB REQUEST HANDLING
 
     /**
      * handle about tab requests
