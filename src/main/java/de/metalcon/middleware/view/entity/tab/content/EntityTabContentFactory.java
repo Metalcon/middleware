@@ -1,5 +1,9 @@
 package de.metalcon.middleware.view.entity.tab.content;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.impl.AboutTabContent;
 import de.metalcon.middleware.view.entity.tab.content.impl.BandsTabContent;
@@ -13,13 +17,8 @@ import de.metalcon.middleware.view.entity.tab.content.impl.TracksTabContent;
 import de.metalcon.middleware.view.entity.tab.content.impl.UsersTabContent;
 import de.metalcon.middleware.view.entity.tab.content.impl.VenuesTabContent;
 
-/**
- * Together with EntityTabContentConfig, this file is used to provide access to
- * prototype access to EntityTabContents inside singleton beans. See:
- * http://docs.spring.io/spring/docs/current/spring-framework-reference/html/
- * beans.html#beans-java-method-injection
- */
-public abstract class EntityTabContentFactory {
+@Configuration
+public class EntityTabContentFactory {
 
     public EntityTabContent createTabContent(EntityTabType entityTabType) {
         switch (entityTabType) {
@@ -46,26 +45,70 @@ public abstract class EntityTabContentFactory {
     /**
      * @return empty about tab content container
      */
-    public abstract AboutTabContent createAboutTabContent();
+    @Bean
+    @Scope("prototype")
+    public AboutTabContent createAboutTabContent() {
+        return new AboutTabContent();
+    }
 
-    public abstract BandsTabContent createBandsTabContent();
+    @Bean
+    @Scope("prototype")
+    public BandsTabContent createBandsTabContent() {
+        return new BandsTabContent();
+    }
 
-    public abstract EventsTabContent createEventsTabContent();
+    @Bean
+    @Scope("prototype")
+    public EventsTabContent createEventsTabContent() {
+        return new EventsTabContent();
+    }
 
-    public abstract NewsfeedTabContent createNewsfeedTabContent();
+    @Bean
+    @Scope("prototype")
+    public NewsfeedTabContent createNewsfeedTabContent() {
+        return new NewsfeedTabContent();
+    }
 
-    public abstract PhotosTabContent createPhotosTabContent();
+    @Bean
+    @Scope("prototype")
+    public PhotosTabContent createPhotosTabContent() {
+        return new PhotosTabContent();
+    }
 
-    public abstract RecommendationsTabContent createRecomendationsTabContent();
+    @Bean
+    @Scope("prototype")
+    public RecommendationsTabContent createRecomendationsTabContent() {
+        return new RecommendationsTabContent();
+    }
 
-    public abstract RecordsTabContent createRecordsTabContent();
+    @Bean
+    @Scope("prototype")
+    public RecordsTabContent createRecordsTabContent() {
+        return new RecordsTabContent();
+    }
 
-    public abstract ReviewsTabContent createReviewsTabContent();
+    @Bean
+    @Scope("prototype")
+    public ReviewsTabContent createReviewsTabContent() {
+        return new ReviewsTabContent();
+    }
 
-    public abstract TracksTabContent createTracksTabContent();
+    @Bean
+    @Scope("prototype")
+    public TracksTabContent createTracksTabContent() {
+        return new TracksTabContent();
+    }
 
-    public abstract UsersTabContent createUsersTabContent();
+    @Bean
+    @Scope("prototype")
+    public UsersTabContent createUsersTabContent() {
+        return new UsersTabContent();
+    }
 
-    public abstract VenuesTabContent createVenuesTabContent();
+    @Bean
+    @Scope("prototype")
+    public VenuesTabContent createVenuesTabContent() {
+        return new VenuesTabContent();
+    }
 
 }

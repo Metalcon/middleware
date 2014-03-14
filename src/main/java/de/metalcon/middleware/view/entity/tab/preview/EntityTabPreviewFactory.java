@@ -1,5 +1,9 @@
 package de.metalcon.middleware.view.entity.tab.preview;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.preview.impl.AboutTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.BandsTabPreview;
@@ -13,13 +17,8 @@ import de.metalcon.middleware.view.entity.tab.preview.impl.TracksTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.UsersTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.VenuesTabPreview;
 
-/**
- * Together with EntityTabPreviewConfig, this file is used to provide access to
- * prototype access to EntityTabPreviews inside singleton beans. See:
- * http://docs.spring.io/spring/docs/current/spring-framework-reference/html/
- * beans.html#beans-java-method-injection
- */
-public abstract class EntityTabPreviewFactory {
+@Configuration
+public class EntityTabPreviewFactory {
 
     public EntityTabPreview createTabPreview(EntityTabType entityTabType) {
         switch (entityTabType) {
@@ -46,26 +45,70 @@ public abstract class EntityTabPreviewFactory {
     /**
      * @return empty about tab preview
      */
-    public abstract AboutTabPreview createAboutTabPreview();
+    @Bean
+    @Scope("prototype")
+    public AboutTabPreview createAboutTabPreview() {
+        return new AboutTabPreview();
+    }
 
-    public abstract BandsTabPreview createBandsTabPreview();
+    @Bean
+    @Scope("prototype")
+    public BandsTabPreview createBandsTabPreview() {
+        return new BandsTabPreview();
+    }
 
-    public abstract EventsTabPreview createEventsTabPreview();
+    @Bean
+    @Scope("prototype")
+    public EventsTabPreview createEventsTabPreview() {
+        return new EventsTabPreview();
+    }
 
-    public abstract NewsfeedTabPreview createNewsfeedTabPreview();
+    @Bean
+    @Scope("prototype")
+    public NewsfeedTabPreview createNewsfeedTabPreview() {
+        return new NewsfeedTabPreview();
+    }
 
-    public abstract PhotosTabPreview createPhotosTabPreview();
+    @Bean
+    @Scope("prototype")
+    public PhotosTabPreview createPhotosTabPreview() {
+        return new PhotosTabPreview();
+    }
 
-    public abstract RecommendationsTabPreview createRecomendationsTabPreview();
+    @Bean
+    @Scope("prototype")
+    public RecommendationsTabPreview createRecomendationsTabPreview() {
+        return new RecommendationsTabPreview();
+    }
 
-    public abstract RecordsTabPreview createRecordsTabPreview();
+    @Bean
+    @Scope("prototype")
+    public RecordsTabPreview createRecordsTabPreview() {
+        return new RecordsTabPreview();
+    }
 
-    public abstract ReviewsTabPreview createReviewsTabPreview();
+    @Bean
+    @Scope("prototype")
+    public ReviewsTabPreview createReviewsTabPreview() {
+        return new ReviewsTabPreview();
+    }
 
-    public abstract TracksTabPreview createTracksTabPreview();
+    @Bean
+    @Scope("prototype")
+    public TracksTabPreview createTracksTabPreview() {
+        return new TracksTabPreview();
+    }
 
-    public abstract UsersTabPreview createUsersTabPreview();
+    @Bean
+    @Scope("prototype")
+    public UsersTabPreview createUsersTabPreview() {
+        return new UsersTabPreview();
+    }
 
-    public abstract VenuesTabPreview createVenuesTabPreview();
+    @Bean
+    @Scope("prototype")
+    public VenuesTabPreview createVenuesTabPreview() {
+        return new VenuesTabPreview();
+    }
 
 }

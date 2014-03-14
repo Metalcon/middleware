@@ -1,5 +1,9 @@
 package de.metalcon.middleware.view.entity;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.BandView;
 import de.metalcon.middleware.view.entity.impl.CityView;
@@ -12,13 +16,8 @@ import de.metalcon.middleware.view.entity.impl.TrackView;
 import de.metalcon.middleware.view.entity.impl.UserView;
 import de.metalcon.middleware.view.entity.impl.VenueView;
 
-/**
- * Together with EntityViewConfig, this file is used to provide access to
- * prototype access to EntityViews inside singleton beans. See:
- * http://docs.spring.io/spring/docs/current/spring-framework-reference/html/
- * beans.html#beans-java-method-injection
- */
-public abstract class EntityViewFactory {
+@Configuration
+public class EntityViewFactory {
 
     public EntityView createView(EntityType entityType) {
         switch (entityType) {
@@ -44,24 +43,64 @@ public abstract class EntityViewFactory {
     /**
      * @return empty band view
      */
-    public abstract BandView createBandView();
+    @Bean
+    @Scope("prototype")
+    public BandView createBandView() {
+        return new BandView();
+    }
 
-    public abstract CityView createCityView();
+    @Bean
+    @Scope("prototype")
+    public CityView createCityView() {
+        return new CityView();
+    }
 
-    public abstract EventView createEventView();
+    @Bean
+    @Scope("prototype")
+    public EventView createEventView() {
+        return new EventView();
+    }
 
-    public abstract GenreView createGenreView();
+    @Bean
+    @Scope("prototype")
+    public GenreView createGenreView() {
+        return new GenreView();
+    }
 
-    public abstract InstrumentView createInstrumentView();
+    @Bean
+    @Scope("prototype")
+    public InstrumentView createInstrumentView() {
+        return new InstrumentView();
+    }
 
-    public abstract RecordView createRecordView();
+    @Bean
+    @Scope("prototype")
+    public RecordView createRecordView() {
+        return new RecordView();
+    }
 
-    public abstract TourView createTourView();
+    @Bean
+    @Scope("prototype")
+    public TourView createTourView() {
+        return new TourView();
+    }
 
-    public abstract TrackView createTrackView();
+    @Bean
+    @Scope("prototype")
+    public TrackView createTrackView() {
+        return new TrackView();
+    }
 
-    public abstract UserView createUserView();
+    @Bean
+    @Scope("prototype")
+    public UserView createUserView() {
+        return new UserView();
+    }
 
-    public abstract VenueView createVenueView();
+    @Bean
+    @Scope("prototype")
+    public VenueView createVenueView() {
+        return new VenueView();
+    }
 
 }
