@@ -97,7 +97,7 @@
       <li><code>/about</code></li>
       <li><code>/bands</code></li>
       <li><code>/events</code></li>
-      <li><code>/newsfeed</code></li>
+      <li><code>/news</code></li>
       <li><code>/photos</code></li>
       <li><code>/recommendations</code></li>
       <li><code>/records</code></li>
