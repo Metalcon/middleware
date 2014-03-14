@@ -2,7 +2,7 @@ package de.metalcon.middleware.controller.entity.impl.city;
 
 import org.springframework.stereotype.Component;
 
-import de.metalcon.middleware.controller.entity.generator.VenuesTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.VenuesTabGenerator;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;

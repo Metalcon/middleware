@@ -40,6 +40,25 @@ public class EntityViewFactory {
         }
     }
 
+    public EntityView createView(Class<? extends EntityView> entityViewClass) {
+        // @formatter:off
+             if (entityViewClass.equals(BandView.class))       { return createBandView();       }
+        else if (entityViewClass.equals(CityView.class))       { return createCityView();       }
+        else if (entityViewClass.equals(EventView.class))      { return createEventView();      }
+        else if (entityViewClass.equals(GenreView.class))      { return createGenreView();      }
+        else if (entityViewClass.equals(InstrumentView.class)) { return createInstrumentView(); }
+        else if (entityViewClass.equals(RecordView.class))     { return createRecordView();     }
+        else if (entityViewClass.equals(TourView.class))       { return createTourView();       }
+        else if (entityViewClass.equals(TrackView.class))      { return createTrackView();      }
+        else if (entityViewClass.equals(UserView.class))       { return createUserView();       }
+        else if (entityViewClass.equals(VenueView.class))      { return createVenueView();      }
+        // @formatter:on
+        else {
+            throw new IllegalStateException("Unimpelemented EntityViewClass: "
+                    + entityViewClass.toString() + ".");
+        }
+    }
+
     /**
      * @return empty band view
      */

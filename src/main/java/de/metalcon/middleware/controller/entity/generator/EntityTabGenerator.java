@@ -10,10 +10,19 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
  */
 public abstract class EntityTabGenerator {
 
+    private EntityTabType entityTabType;
+
+    public EntityTabGenerator(
+            EntityTabType entityTabType) {
+        this.entityTabType = entityTabType;
+    }
+
     /**
      * @return tab type
      */
-    public abstract EntityTabType getEntityTabType();
+    public EntityTabType getEntityTabType() {
+        return entityTabType;
+    }
 
     /**
      * fill tab content with data

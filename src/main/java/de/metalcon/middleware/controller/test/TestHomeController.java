@@ -17,7 +17,7 @@ public class TestHomeController {
     //private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    private UserSessionFactory usf;
+    private UserSessionFactory userSessionFactory;
 
     public ModelAndView home() {
         List<String> bands = new LinkedList<String>();
@@ -27,7 +27,7 @@ public class TestHomeController {
         bands.add("Bolt Thrower");
         bands.add("another test");
 
-        UserSession user = usf.getUserSession();
+        UserSession user = userSessionFactory.getUserSession();
         bands.add("user id: " + user.getId());
         user.incPageCount();
         bands.add("page count: " + user.getPageCount());

@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.EntityView;
 
 public class TrackView extends EntityView {
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.TRACK;
+    public TrackView() {
+        super(EntityType.TRACK);
     }
 
 }

@@ -8,9 +8,8 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
  */
 public class AboutTabContent extends EntityTabContent {
 
-    @Override
-    public EntityTabType getEntityTabType() {
-        return EntityTabType.ABOUT;
+    public AboutTabContent() {
+        super(EntityTabType.ABOUT);
     }
 
 }

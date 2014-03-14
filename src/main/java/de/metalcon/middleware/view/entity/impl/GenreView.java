@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.EntityView;
 
 public class GenreView extends EntityView {
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.GENRE;
+    public GenreView() {
+        super(EntityType.GENRE);
     }
 
 }

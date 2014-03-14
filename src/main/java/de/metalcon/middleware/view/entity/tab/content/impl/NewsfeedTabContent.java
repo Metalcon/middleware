@@ -10,9 +10,8 @@ public class NewsfeedTabContent extends EntityTabContent {
 
     private Map<String, Object> newsFeed = new HashMap<String, Object>();
 
-    @Override
-    public EntityTabType getEntityTabType() {
-        return EntityTabType.NEWSFEED;
+    public NewsfeedTabContent() {
+        super(EntityTabType.NEWSFEED);
     }
 
     public void setNewsFeed(Map<String, Object> newsFeed) {

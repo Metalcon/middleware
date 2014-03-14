@@ -4,6 +4,15 @@ import de.metalcon.middleware.view.entity.tab.EntityTabType;
 
 public abstract class EntityTabPreview {
 
-    public abstract EntityTabType getEntityTabType();
+    public EntityTabType entityTabType;
+
+    public EntityTabPreview(
+            EntityTabType entityTabType) {
+        this.entityTabType = entityTabType;
+    }
+
+    public EntityTabType getEntityTabType() {
+        return entityTabType;
+    }
 
 }

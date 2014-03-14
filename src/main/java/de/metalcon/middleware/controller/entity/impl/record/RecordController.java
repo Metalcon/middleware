@@ -4,22 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.NewsfeedTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.ReviewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.TracksTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.UsersTabGenerating;
-import de.metalcon.middleware.controller.entity.generator.AboutTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.NewsfeedTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.RecommendationsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.ReviewsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.TracksTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.UsersTabGenerator;
+import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.ReviewsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.TracksTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
+import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.ReviewsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.middleware.view.entity.impl.RecordView;
 
 @Controller
-public class RecordController extends EntityController implements
+public class RecordController extends EntityController<RecordView> implements
         AboutTabGenerating, NewsfeedTabGenerating,
         RecommendationsTabGenerating, ReviewsTabGenerating,
         TracksTabGenerating, UsersTabGenerating {
@@ -42,9 +43,8 @@ public class RecordController extends EntityController implements
     @Autowired
     private RecordUsersTabGenerator usersTabGenerator;
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.RECORD;
+    public RecordController() {
+        super(EntityType.RECORD, RecordView.class);
     }
 
     @Override

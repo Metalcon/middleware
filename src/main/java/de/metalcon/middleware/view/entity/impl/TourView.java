@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.EntityView;
 
 public class TourView extends EntityView {
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.TOUR;
+    public TourView() {
+        super(EntityType.TOUR);
     }
 
 }

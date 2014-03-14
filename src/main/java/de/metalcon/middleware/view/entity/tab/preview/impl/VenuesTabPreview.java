@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 
 public class VenuesTabPreview extends EntityTabPreview {
 
-    @Override
-    public EntityTabType getEntityTabType() {
-        return EntityTabType.VENUES;
+    public VenuesTabPreview() {
+        super(EntityTabType.VENUES);
     }
 
 }

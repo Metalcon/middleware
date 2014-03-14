@@ -8,9 +8,18 @@ import de.metalcon.middleware.view.entity.tab.EntityTabType;
  */
 public abstract class EntityTabContent {
 
+    private EntityTabType entityTabType;
+
+    public EntityTabContent(
+            EntityTabType entityTabType) {
+        this.entityTabType = entityTabType;
+    }
+
     /**
      * @return tab type on this entity page
      */
-    public abstract EntityTabType getEntityTabType();
+    public EntityTabType getEntityTabType() {
+        return entityTabType;
+    }
 
 }

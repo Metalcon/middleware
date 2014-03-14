@@ -12,33 +12,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-// import de.iekadou.spring_pjaxr.Pjaxr;
 import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.RequestParameters;
-import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.BandsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.NewsfeedTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.PhotosTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.RecordsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.ReviewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.TracksTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.UsersTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.VenuesTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.ReviewsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.TracksTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.VenuesTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
-import de.metalcon.middleware.controller.entity.tab.AboutTabController;
-import de.metalcon.middleware.controller.entity.tab.BandsTabController;
-import de.metalcon.middleware.controller.entity.tab.EventsTabController;
-import de.metalcon.middleware.controller.entity.tab.NewsfeedTabController;
-import de.metalcon.middleware.controller.entity.tab.PhotosTabController;
-import de.metalcon.middleware.controller.entity.tab.RecommendationsTabController;
-import de.metalcon.middleware.controller.entity.tab.RecordsTabController;
-import de.metalcon.middleware.controller.entity.tab.ReviewsTabController;
-import de.metalcon.middleware.controller.entity.tab.TracksTabController;
-import de.metalcon.middleware.controller.entity.tab.UsersTabController;
-import de.metalcon.middleware.controller.entity.tab.VenuesTabController;
+import de.metalcon.middleware.controller.entity.tab.EntityTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.AboutTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.BandsTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.EventsTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.NewsfeedTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.PhotosTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.RecommendationsTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.RecordsTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.ReviewsTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.TracksTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
 import de.metalcon.middleware.domain.Muid;
@@ -53,11 +53,13 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContentFactory;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreviewFactory;
 
+// import de.iekadou.spring_pjaxr.Pjaxr;
+
 /**
  * basic controller for entity requests
  */
-
-public abstract class EntityController extends MetalconController {
+public abstract class EntityController<EntityViewType extends EntityView >
+        extends MetalconController {
 
     @Autowired
     private AboutTabController aboutTabController;
@@ -93,13 +95,13 @@ public abstract class EntityController extends MetalconController {
     private VenuesTabController venuesTabController;
 
     @Autowired
-    private EntityViewFactory entityViewFactory;
-
-    @Autowired
     private EntityTabContentFactory entityTabContentFactory;
 
     @Autowired
     private EntityTabPreviewFactory entityTabPreviewFactory;
+
+    @Autowired
+    protected EntityViewFactory entityViewFactory;
 
     @Autowired
     protected EntityUrlMapppingManager entityUrlMappingManager;
@@ -107,9 +109,17 @@ public abstract class EntityController extends MetalconController {
     @Autowired
     private EntityManager entityManager;
 
+    private EntityType entityType;
+
+    private Class<? extends EntityView> entityViewClass;
+
     private Map<EntityTabType, EntityTabGenerator> entityTabsGenerators;
 
-    public EntityController() {
+    public EntityController(
+            EntityType entityType,
+            Class<? extends EntityView> entityViewClass) {
+        this.entityType = entityType;
+        this.entityViewClass = entityViewClass;
         entityTabsGenerators = new HashMap<EntityTabType, EntityTabGenerator>();
     }
 
@@ -140,7 +150,16 @@ public abstract class EntityController extends MetalconController {
     /**
      * @return type of the requested entity
      */
-    public abstract EntityType getEntityType();
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    protected EntityViewType createView() {
+        @SuppressWarnings("unchecked")
+        EntityViewType view =
+                (EntityViewType) entityViewFactory.createView(entityViewClass);
+        return view;
+    }
 
     /**
      * @return default tab for this entity
@@ -198,23 +217,30 @@ public abstract class EntityController extends MetalconController {
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
-    public final EntityView handleTab(
-            EntityTabType entityTabType,
-            RequestParameters params) throws RedirectException,
+    protected EntityViewType handleGet(
+            EntityViewType view,
+            RequestParameters params,
+            EntityTabController entityTabController) throws RedirectException,
             NoSuchRequestHandlingMethodException {
-        Muid muid = getMuidAndCheck404(entityTabType, params);
+        Muid muid =
+                getMuidAndCheck404(entityTabController.getEntityTabType(),
+                        params);
 
         String pjaxrNamespace =
-                getMetalconNamespace() + "." + getEntityType().toString() + "."
-                        + muid + "." + entityTabType.toString().toLowerCase();
+                getMetalconNamespace()
+                        + "."
+                        + getEntityType().toString()
+                        + "."
+                        + muid
+                        + "."
+                        + entityTabController.getEntityTabType().toString()
+                                .toLowerCase();
 
         Pjaxr pjaxrObj = new Pjaxr(params.getRequest(), pjaxrNamespace);
 
         Entity entity = entityManager.getEntity(muid, getEntityType());
 
-        // create view object
-        EntityView entityView = entityViewFactory.createView(getEntityType());
-        entityView.setMuid(entity.getMuid());
+        view.setMuid(entity.getMuid());
 
         switch (pjaxrObj.getMatchingCount()) {
             case Pjaxr.NEEDED_IN_SITE:
@@ -239,37 +265,50 @@ public abstract class EntityController extends MetalconController {
                     entityTabPreviews.put(entityTabPreviewType,
                             entityTabPreview);
                 }
-                entityView.setEntityTabPreviews(entityTabPreviews);
+                view.setEntityTabPreviews(entityTabPreviews);
 
             case Pjaxr.NEEDED_IN_INNER_CONTENT:
 
                 // create empty tab content and fill it with data from entity
                 EntityTabContent entityTabContent =
-                        entityTabContentFactory.createTabContent(entityTabType);
-                entityTabsGenerators.get(entityTabType).generateTabContent(
-                        entityTabContent, entity);
-                entityView.setEntityTabContent(entityTabContent);
+                        entityTabContentFactory
+                                .createTabContent(entityTabController
+                                        .getEntityTabType());
+                entityTabsGenerators
+                        .get(entityTabController.getEntityTabType())
+                        .generateTabContent(entityTabContent, entity);
+                view.setEntityTabContent(entityTabContent);
 
             default:
                 break;
         }
-        entityView.setPjaxrMatching(pjaxrObj.getMatchingCount());
-        entityView.setPjaxrNamespace(pjaxrNamespace);
+        view.setPjaxrMatching(pjaxrObj.getMatchingCount());
+        view.setPjaxrNamespace(pjaxrNamespace);
 
-        entityView = (EntityView) super.handleRequest(entityView, params);
+        @SuppressWarnings("unchecked")
+        EntityViewType viewAfterTabController =
+                (EntityViewType) entityTabController.handleGet(view, params,
+                        this);
+        view = viewAfterTabController;
 
-        return entityView;
+        @SuppressWarnings("unchecked")
+        EntityViewType viewAfterSuper =
+                (EntityViewType) super.handleGet(view, params);
+        view = viewAfterSuper;
+
+        return view;
     }
 
     // TAB REQUEST HANDLING
 
-    public final EntityView mappingEmptyTabGet(
+    public final EntityViewType mappingEmptyTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return newsfeedTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, newsfeedTabController);
     }
 
     /**
@@ -285,113 +324,129 @@ public abstract class EntityController extends MetalconController {
      * @throws NoSuchRequestHandlingMethodException
      *             if no about tab or entity invalid
      */
-    public final EntityView mappingAboutTabGet(
+    public final EntityViewType mappingAboutTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return aboutTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, aboutTabController);
     }
 
-    public final EntityView mappingBandsTabGet(
+    public final EntityViewType mappingBandsTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return bandsTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, bandsTabController);
     }
 
-    public final EntityView mappingEventsTabGet(
+    public final EntityViewType mappingEventsTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return eventsTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, eventsTabController);
     }
 
-    public final EntityView mappingNewsfeedTabGet(
+    public final EntityViewType mappingNewsfeedTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return newsfeedTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, newsfeedTabController);
     }
 
-    public final EntityView mappingNewsfeedTabPost(
+    public final EntityViewType mappingNewsfeedTabPost(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException,
             IOException {
-        return newsfeedTabController.handlePost(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        // TODO
+        @SuppressWarnings("unchecked")
+        EntityViewType view =
+                (EntityViewType) newsfeedTabController.createNewsfeedItem(params, this);
+        return view;
     }
 
-    public final EntityView mappingPhotosTabGet(
+    public final EntityViewType mappingPhotosTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return photosTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, photosTabController);
     }
 
-    public final EntityView mappingRecommendationsTabGet(
+    public final EntityViewType mappingRecommendationsTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return recommendationsTabController.handleGet(this,
-                new RequestParameters(request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, recommendationsTabController);
     }
 
-    public final EntityView mappingRecordsTabGet(
+    public final EntityViewType mappingRecordsTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return recordsTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, recordsTabController);
     }
 
-    public final EntityView mappingReviewsTabGet(
+    public final EntityViewType mappingReviewsTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return reviewsTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, reviewsTabController);
     }
 
-    public final EntityView mappingTracksTabGet(
+    public final EntityViewType mappingTracksTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return tracksTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, tracksTabController);
     }
 
-    public final EntityView mappingUsersTabGet(
+    public final EntityViewType mappingUsersTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return usersTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, usersTabController);
     }
 
-    public final EntityView mappingVenuesTabGet(
+    public final EntityViewType mappingVenuesTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        return venuesTabController.handleGet(this, new RequestParameters(
-                request, response, pathVars));
+        RequestParameters params =
+                new RequestParameters(request, response, pathVars);
+        return handleGet(createView(), params, venuesTabController);
     }
 
 }

@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.EntityView;
 
 public class InstrumentView extends EntityView {
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.INSTRUMENT;
+    public InstrumentView() {
+        super(EntityType.INSTRUMENT);
     }
 
 }

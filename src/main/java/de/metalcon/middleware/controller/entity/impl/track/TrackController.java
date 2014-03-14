@@ -4,18 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.NewsfeedTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.UsersTabGenerating;
-import de.metalcon.middleware.controller.entity.generator.AboutTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.NewsfeedTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.RecommendationsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.UsersTabGenerator;
+import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
+import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.middleware.view.entity.impl.TrackView;
 
 @Controller
-public class TrackController extends EntityController implements
+public class TrackController extends EntityController<TrackView> implements
         AboutTabGenerating, NewsfeedTabGenerating,
         RecommendationsTabGenerating, UsersTabGenerating {
 
@@ -31,9 +32,8 @@ public class TrackController extends EntityController implements
     @Autowired
     private TrackUsersTabGenerator usersTabGenerator;
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.TRACK;
+    public TrackController() {
+        super(EntityType.TRACK, TrackView.class);
     }
 
     @Override

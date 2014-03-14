@@ -15,6 +15,8 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
  */
 public abstract class EntityView extends MetalconView {
 
+    private EntityType entityType;
+
     /**
      * identifier of the entity displayed
      */
@@ -30,8 +32,10 @@ public abstract class EntityView extends MetalconView {
      */
     private Map<EntityTabType, EntityTabPreview> entityTabPreviews;
 
-    public EntityView() {
+    public EntityView(
+            EntityType entityType) {
         super();
+        this.entityType = entityType;
         muid = null;
         entityTabContent = null;
         entityTabPreviews = null;
@@ -40,7 +44,9 @@ public abstract class EntityView extends MetalconView {
     /**
      * @return type of the entity displayed
      */
-    public abstract EntityType getEntityType();
+    public EntityType getEntityType() {
+        return entityType;
+    }
 
     @Override
     public String getType() {
@@ -76,7 +82,8 @@ public abstract class EntityView extends MetalconView {
         if (entityTabPreviews == null) {
             return null;
         }
-        Map<String, EntityTabPreview> m = new HashMap<String, EntityTabPreview>();
+        Map<String, EntityTabPreview> m =
+                new HashMap<String, EntityTabPreview>();
         for (Map.Entry<EntityTabType, EntityTabPreview> entityTabPreview : entityTabPreviews
                 .entrySet()) {
             m.put(entityTabPreview.getKey().toString(),

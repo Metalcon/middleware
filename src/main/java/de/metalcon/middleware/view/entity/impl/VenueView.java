@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.EntityView;
 
 public class VenueView extends EntityView {
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.VENUE;
+    public VenueView() {
+        super(EntityType.VENUE);
     }
 
 }

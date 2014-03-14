@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 
 public class UsersTabContent extends EntityTabContent {
 
-    @Override
-    public EntityTabType getEntityTabType() {
-        return EntityTabType.USERS;
+    public UsersTabContent() {
+        super(EntityTabType.USERS);
     }
 
 }

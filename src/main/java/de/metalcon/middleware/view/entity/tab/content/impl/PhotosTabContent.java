@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 
 public class PhotosTabContent extends EntityTabContent {
 
-    @Override
-    public EntityTabType getEntityTabType() {
-        return EntityTabType.PHOTOS;
+    public PhotosTabContent() {
+        super(EntityTabType.PHOTOS);
     }
 
 }

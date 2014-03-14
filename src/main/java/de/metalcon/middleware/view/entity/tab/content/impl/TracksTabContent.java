@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 
 public class TracksTabContent extends EntityTabContent {
 
-    @Override
-    public EntityTabType getEntityTabType() {
-        return EntityTabType.TRACKS;
+    public TracksTabContent() {
+        super(EntityTabType.TRACKS);
     }
 
 }

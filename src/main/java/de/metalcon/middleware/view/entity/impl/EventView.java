@@ -5,9 +5,8 @@ import de.metalcon.middleware.view.entity.EntityView;
 
 public class EventView extends EntityView {
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.EVENT;
+    public EventView() {
+        super(EntityType.EVENT);
     }
 
 }
