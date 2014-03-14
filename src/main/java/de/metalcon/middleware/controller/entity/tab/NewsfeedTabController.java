@@ -1,15 +1,13 @@
 package de.metalcon.middleware.controller.entity.tab;
 
 import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import de.metalcon.middleware.backend.newsfeedserver.NewsFeedServer;
+import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.domain.Muid;
 import de.metalcon.middleware.exception.RedirectException;
@@ -29,22 +27,18 @@ public class NewsfeedTabController extends EntityTabController {
 
     public EntityView handleGet(
             EntityController entityController,
-            HttpServletRequest request,
-            Map<String, String> pathVars)
+            RequestParameters params)
             throws NoSuchRequestHandlingMethodException, RedirectException {
-        return entityController
-                .handleTab(getEntityTabType(), request, pathVars);
+        return entityController.handleTab(getEntityTabType(), params);
     }
 
     public EntityView handlePost(
             EntityController entityController,
-            HttpServletRequest request,
-            Map<String, String> pathVars)
+            RequestParameters params)
             throws NoSuchRequestHandlingMethodException, RedirectException,
             IOException {
         Muid muid =
-                entityController.getMuidAndCheck404(getEntityTabType(),
-                        request, pathVars);
+                entityController.getMuidAndCheck404(getEntityTabType(), params);
 
         nfs.postNews(muid.toString(), muid.toString(), true,
                 "TODO: get form messages");

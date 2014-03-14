@@ -73,6 +73,9 @@ public abstract class EntityView extends MetalconView {
      * @return tab previews on entity page
      */
     public final Map<String, EntityTabPreview> getEntityTabPreviews() {
+        if (entityTabPreviews == null) {
+            return null;
+        }
         Map<String, EntityTabPreview> m = new HashMap<String, EntityTabPreview>();
         for (Map.Entry<EntityTabType, EntityTabPreview> entityTabPreview : entityTabPreviews
                 .entrySet()) {

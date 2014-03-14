@@ -1,12 +1,9 @@
 package de.metalcon.middleware.controller.entity.tab;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.view.entity.EntityView;
@@ -22,11 +19,9 @@ public class BandsTabController extends EntityTabController {
 
     public EntityView handleGet(
             EntityController entityController,
-            HttpServletRequest request,
-            Map<String, String> pathVars)
+            RequestParameters params)
             throws NoSuchRequestHandlingMethodException, RedirectException {
-        return entityController
-                .handleTab(getEntityTabType(), request, pathVars);
+        return entityController.handleTab(getEntityTabType(), params);
     }
 
 }
