@@ -18,7 +18,7 @@ import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
@@ -31,7 +31,7 @@ import de.metalcon.middleware.controller.entity.tab.EntityTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.AboutTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.BandsTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.EventsTabController;
-import de.metalcon.middleware.controller.entity.tab.impl.NewsfeedTabController;
+import de.metalcon.middleware.controller.entity.tab.impl.NewsTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.PhotosTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.RecommendationsTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.RecordsTabController;
@@ -71,7 +71,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
     private EventsTabController eventsTabController;
 
     @Autowired
-    private NewsfeedTabController newsfeedTabController;
+    private NewsTabController newsTabController;
 
     @Autowired
     private PhotosTabController photosTabController;
@@ -136,7 +136,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         if (this instanceof AboutTabGenerating)           { entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());           }
         if (this instanceof BandsTabGenerating)           { entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());           }
         if (this instanceof EventsTabGenerating)          { entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());          }
-        if (this instanceof NewsfeedTabGenerating)        { entityTabsGenerators.put(EntityTabType.NEWSFEED,        ((NewsfeedTabGenerating)        this).getNewsfeedTabGenerator());        }
+        if (this instanceof NewsTabGenerating)        { entityTabsGenerators.put(EntityTabType.NEWS,        ((NewsTabGenerating)        this).getNewsTabGenerator());        }
         if (this instanceof PhotosTabGenerating)          { entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());          }
         if (this instanceof RecommendationsTabGenerating) { entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator()); }
         if (this instanceof RecordsTabGenerating)         { entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());         }
@@ -165,7 +165,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
      * @return default tab for this entity
      */
     protected EntityTabType getDefaultTab() {
-        return EntityTabType.NEWSFEED;
+        return EntityTabType.NEWS;
     }
 
     /**
@@ -308,7 +308,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, newsfeedTabController);
+        return handleGet(createView(), params, newsTabController);
     }
 
     /**
@@ -354,17 +354,17 @@ public abstract class EntityController<EntityViewType extends EntityView >
         return handleGet(createView(), params, eventsTabController);
     }
 
-    public final EntityViewType mappingNewsfeedTabGet(
+    public final EntityViewType mappingNewsTabGet(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, newsfeedTabController);
+        return handleGet(createView(), params, newsTabController);
     }
 
-    public final EntityViewType mappingNewsfeedTabPost(
+    public final EntityViewType mappingNewsTabPost(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
@@ -375,7 +375,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         // TODO
         @SuppressWarnings("unchecked")
         EntityViewType view =
-                (EntityViewType) newsfeedTabController.createNewsfeedItem(params, this);
+                (EntityViewType) newsTabController.createNewsItem(params, this);
         return view;
     }
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
@@ -14,7 +14,7 @@ import de.metalcon.middleware.controller.entity.generating.impl.TracksTabGenerat
 import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.PhotosTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerator;
@@ -28,7 +28,7 @@ import de.metalcon.middleware.view.entity.impl.BandView;
  */
 @Controller
 public class BandController extends EntityController<BandView> implements
-        AboutTabGenerating, EventsTabGenerating, NewsfeedTabGenerating,
+        AboutTabGenerating, EventsTabGenerating, NewsTabGenerating,
         PhotosTabGenerating, RecommendationsTabGenerating,
         RecordsTabGenerating, TracksTabGenerating, UsersTabGenerating {
 
@@ -39,7 +39,7 @@ public class BandController extends EntityController<BandView> implements
     private BandEventsTabGenerator eventsTabGenerator;
 
     @Autowired
-    private BandNewsfeedTabGenerator newsfeedTabGenerator;
+    private BandNewsTabGenerator newsTabGenerator;
 
     @Autowired
     private BandPhotosTabGenerator photosTabGenerator;
@@ -71,8 +71,8 @@ public class BandController extends EntityController<BandView> implements
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
     @Override

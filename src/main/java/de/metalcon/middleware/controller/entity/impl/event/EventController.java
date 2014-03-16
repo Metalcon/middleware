@@ -6,13 +6,13 @@ import org.springframework.stereotype.Controller;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.PhotosTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
@@ -21,7 +21,7 @@ import de.metalcon.middleware.view.entity.impl.EventView;
 
 @Controller
 public class EventController extends EntityController<EventView> implements
-        AboutTabGenerating, BandsTabGenerating, NewsfeedTabGenerating,
+        AboutTabGenerating, BandsTabGenerating, NewsTabGenerating,
         PhotosTabGenerating, RecommendationsTabGenerating, UsersTabGenerating {
 
     @Autowired
@@ -31,7 +31,7 @@ public class EventController extends EntityController<EventView> implements
     private EventBandsTabGenerator bandsTabGenerator;
 
     @Autowired
-    private EventNewsfeedTabGenerator newsfeedTabGenerator;
+    private EventNewsTabGenerator newsTabGenerator;
 
     @Autowired
     private EventPhotosTabGenerator photosTabGenerator;
@@ -57,8 +57,8 @@ public class EventController extends EntityController<EventView> implements
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
     @Override

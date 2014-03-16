@@ -90,7 +90,7 @@
     </ul>
     <h2>Tabs</h2>
     <p>Currently if no other tab is specified, the default tab for all entities
-    is the NewsfeedTab.</p>
+    is the NewsTab.</p>
     <p>You can append a tab mapping to any of the URLs. (Note that some
     entity types dont support a tap mapping so they will 404).</p>
     <ul>

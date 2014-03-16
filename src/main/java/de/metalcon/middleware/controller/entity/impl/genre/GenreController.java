@@ -7,7 +7,7 @@ import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.ReviewsTabGenerating;
@@ -16,7 +16,7 @@ import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerati
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.ReviewsTabGenerator;
@@ -28,7 +28,7 @@ import de.metalcon.middleware.view.entity.impl.GenreView;
 @Controller
 public class GenreController extends EntityController<GenreView> implements
         AboutTabGenerating, BandsTabGenerating, EventsTabGenerating,
-        NewsfeedTabGenerating, RecommendationsTabGenerating,
+        NewsTabGenerating, RecommendationsTabGenerating,
         RecordsTabGenerating, ReviewsTabGenerating, TracksTabGenerating,
         UsersTabGenerating {
 
@@ -42,7 +42,7 @@ public class GenreController extends EntityController<GenreView> implements
     private GenreEventsTabGenerator eventsTabGenerator;
 
     @Autowired
-    private GenreNewsfeedTabGenerator newsfeedTabGenerator;
+    private GenreNewsTabGenerator newsTabGenerator;
 
     @Autowired
     private GenreRecommendationsTabGenerator recommendationsTabGenerator;
@@ -79,8 +79,8 @@ public class GenreController extends EntityController<GenreView> implements
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
     @Override

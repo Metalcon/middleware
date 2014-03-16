@@ -5,11 +5,11 @@ import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
@@ -17,14 +17,14 @@ import de.metalcon.middleware.view.entity.impl.InstrumentView;
 
 @Controller
 public class InstrumentController extends EntityController<InstrumentView>
-        implements AboutTabGenerating, NewsfeedTabGenerating,
+        implements AboutTabGenerating, NewsTabGenerating,
         RecommendationsTabGenerating, UsersTabGenerating {
 
     @Autowired
     private InstrumentAboutTabGenerator aboutTabGenerator;
 
     @Autowired
-    private InstrumentNewsfeedTabGenerator newsfeedTabGenerator;
+    private InstrumentNewsTabGenerator newsTabGenerator;
 
     @Autowired
     private InstrumentRecommendationsTabGenerator recommendationsTabGenerator;
@@ -42,8 +42,8 @@ public class InstrumentController extends EntityController<InstrumentView>
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
     @Override

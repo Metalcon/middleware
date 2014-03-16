@@ -1,14 +1,14 @@
-package de.metalcon.middleware.controller.entity.impl.record;
+package de.metalcon.middleware.controller.entity.impl.track;
 
 import org.springframework.stereotype.Component;
 
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 
 @Component
-public class RecordNewsfeedTabGenerator extends NewsfeedTabGenerator {
+public class TrackNewsTabGenerator extends NewsTabGenerator {
 
     @Override
     public void generateTabContent(EntityTabContent tabContent, Entity entity) {

@@ -1,4 +1,4 @@
-package de.metalcon.middleware.backend.newsfeedserver;
+package de.metalcon.middleware.backend.newsserver;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,18 +23,18 @@ import de.metalcon.middleware.core.request.RequestTransaction;
 import de.metalcon.middleware.domain.Muid;
 
 @Component
-public class NewsFeedServer {
+public class NewsServer {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private BeanFactory beanFactory;
 
-    public NewsFeedServer() {
+    public NewsServer() {
         // TODO Auto-generated constructor stub
     }
 
-    private Map<String, Object> fetchNewsFeedFromServer(
+    private Map<String, Object> fetchNewsFromServer(
             Muid user_id,
             Muid poster_id,
             Boolean ownUpdates) {
@@ -89,12 +89,12 @@ public class NewsFeedServer {
         return model;
     }
 
-    public Map<String, Object> getNewsFeed(
+    public Map<String, Object> getNews(
             Muid user_id,
             Muid poster_id,
             Boolean ownUpdates) {
-        fetchNewsFeedFromServer(user_id, poster_id, ownUpdates);
-        return fetchNewsFeedFromServer(user_id, poster_id, ownUpdates);
+        fetchNewsFromServer(user_id, poster_id, ownUpdates);
+        return fetchNewsFromServer(user_id, poster_id, ownUpdates);
     }
 
     public String postNews(

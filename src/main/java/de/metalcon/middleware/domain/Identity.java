@@ -9,7 +9,7 @@ import de.metalcon.middleware.domain.entity.EntityType;
  * object types:
  * <ul>
  * <li>photo</li>
- * <li>news feed item</li>
+ * <li>news item</li>
  * <li>each entity having an own page</li>
  * </ul>
  * 

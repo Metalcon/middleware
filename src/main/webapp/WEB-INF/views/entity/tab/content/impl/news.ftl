@@ -1,13 +1,13 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__metalcon.ftl" as mtl>
 
-Newsfeed Tab
+News Tab
 <#escape x as x?html>
   <h1>Metalcon Newsstream</h1>
   <ul class="info">
-    <li>User: <em>${view.entityTabContent.newsFeed.userId}</em></li>
-     <li>Poster: <em>${view.entityTabContent.newsFeed.posterId}</em></li>
-     <li><em>${view.entityTabContent.newsFeed.ownUpdates?string("Showing", "Not showing")}</em> own updates</li>
+    <li>User: <em>${view.entityTabContent.news.userId}</em></li>
+     <li>Poster: <em>${view.entityTabContent.news.posterId}</em></li>
+     <li><em>${view.entityTabContent.news.ownUpdates?string("Showing", "Not showing")}</em> own updates</li>
   </ul>
   <h2>Post</h2>
   <form action="" method="POST">
@@ -18,7 +18,7 @@ Newsfeed Tab
   </form>
   <h2>News</h2>
   <ul id="news">
-    <#list view.entityTabContent.newsFeed.news as item>
+    <#list view.entityTabContent.news.news as item>
       <li class="item">
         <p class="head">
           <span class="verb">${item.verb}</span>

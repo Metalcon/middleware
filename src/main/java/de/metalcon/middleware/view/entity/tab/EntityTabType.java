@@ -26,9 +26,9 @@ public enum EntityTabType {
     EVENTS,
 
     /**
-     * news feed for entity
+     * news for entity
      */
-    NEWSFEED,
+    NEWS,
 
     PHOTOS,
 

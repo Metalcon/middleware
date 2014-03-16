@@ -8,7 +8,7 @@ import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.preview.impl.AboutTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.BandsTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.EventsTabPreview;
-import de.metalcon.middleware.view.entity.tab.preview.impl.NewsfeedTabPreview;
+import de.metalcon.middleware.view.entity.tab.preview.impl.NewsTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.PhotosTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.RecommendationsTabPreview;
 import de.metalcon.middleware.view.entity.tab.preview.impl.RecordsTabPreview;
@@ -26,7 +26,7 @@ public class EntityTabPreviewFactory {
             case ABOUT:           return createAboutTabPreview();
             case BANDS:           return createBandsTabPreview();
             case EVENTS:          return createEventsTabPreview();
-            case NEWSFEED:        return createNewsfeedTabPreview();
+            case NEWS:        return createNewsTabPreview();
             case PHOTOS:          return createPhotosTabPreview();
             case RECOMMENDATIONS: return createRecomendationsTabPreview();
             case RECORDS:         return createRecordsTabPreview();
@@ -65,8 +65,8 @@ public class EntityTabPreviewFactory {
 
     @Bean
     @Scope("prototype")
-    public NewsfeedTabPreview createNewsfeedTabPreview() {
-        return new NewsfeedTabPreview();
+    public NewsTabPreview createNewsTabPreview() {
+        return new NewsTabPreview();
     }
 
     @Bean

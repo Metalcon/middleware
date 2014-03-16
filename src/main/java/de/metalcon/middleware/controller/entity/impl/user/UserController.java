@@ -7,7 +7,7 @@ import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
@@ -18,7 +18,7 @@ import de.metalcon.middleware.controller.entity.generating.impl.VenuesTabGenerat
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.PhotosTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerator;
@@ -32,7 +32,7 @@ import de.metalcon.middleware.view.entity.impl.UserView;
 @Controller
 public class UserController extends EntityController<UserView> implements
         AboutTabGenerating, BandsTabGenerating, EventsTabGenerating,
-        NewsfeedTabGenerating, PhotosTabGenerating,
+        NewsTabGenerating, PhotosTabGenerating,
         RecommendationsTabGenerating, RecordsTabGenerating,
         ReviewsTabGenerating, TracksTabGenerating, UsersTabGenerating,
         VenuesTabGenerating {
@@ -47,7 +47,7 @@ public class UserController extends EntityController<UserView> implements
     private UserEventsTabGenerator eventsTabGenerator;
 
     @Autowired
-    private UserNewsfeedTabGenerator newsfeedTabGenerator;
+    private UserNewsTabGenerator newsTabGenerator;
 
     @Autowired
     private UserPhotosTabGenerator photosTabGenerator;
@@ -90,8 +90,8 @@ public class UserController extends EntityController<UserView> implements
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
     @Override

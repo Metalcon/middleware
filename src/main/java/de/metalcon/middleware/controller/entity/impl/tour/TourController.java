@@ -5,21 +5,21 @@ import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.TourView;
 
 @Controller
 public class TourController extends EntityController<TourView> implements
-        AboutTabGenerating, NewsfeedTabGenerating {
+        AboutTabGenerating, NewsTabGenerating {
 
     @Autowired
     private TourAboutTabGenerator aboutTabGenerator;
 
     @Autowired
-    private TourNewsfeedTabGenerator newsfeedTabGenerator;
+    private TourNewsTabGenerator newsTabGenerator;
 
     public TourController() {
         super(EntityType.TOUR, TourView.class);
@@ -31,8 +31,8 @@ public class TourController extends EntityController<TourView> implements
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
 }

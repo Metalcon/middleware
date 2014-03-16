@@ -7,7 +7,7 @@ import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsfeedTabGenerating;
+import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
 import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
@@ -15,7 +15,7 @@ import de.metalcon.middleware.controller.entity.generating.impl.VenuesTabGenerat
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
-import de.metalcon.middleware.controller.entity.generator.impl.NewsfeedTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.PhotosTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
@@ -26,7 +26,7 @@ import de.metalcon.middleware.view.entity.impl.CityView;
 @Controller
 public class CityController extends EntityController<CityView> implements
         AboutTabGenerating, BandsTabGenerating, EventsTabGenerating,
-        NewsfeedTabGenerating, PhotosTabGenerating,
+        NewsTabGenerating, PhotosTabGenerating,
         RecommendationsTabGenerating, UsersTabGenerating, VenuesTabGenerating {
 
     @Autowired
@@ -39,7 +39,7 @@ public class CityController extends EntityController<CityView> implements
     private CityEventsTabGenerator eventsTabGenerator;
 
     @Autowired
-    private CityNewsfeedTabGenerator newsfeedTabGenerator;
+    private CityNewsTabGenerator newsTabGenerator;
 
     @Autowired
     private CityPhotosTabGenerator photosTabGenerator;
@@ -73,8 +73,8 @@ public class CityController extends EntityController<CityView> implements
     }
 
     @Override
-    public NewsfeedTabGenerator getNewsfeedTabGenerator() {
-        return newsfeedTabGenerator;
+    public NewsTabGenerator getNewsTabGenerator() {
+        return newsTabGenerator;
     }
 
     @Override

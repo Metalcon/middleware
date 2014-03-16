@@ -63,7 +63,7 @@
       <ol class="breadcrumb">
         <li><a href="#">Home</a></li>
         <li><a href="#">Metallica</a></li>
-        <li class="active">Newsfeed</li>
+        <li class="active">News</li>
       </ol>
       <div class="row">
         <div class="col-xs-8">
