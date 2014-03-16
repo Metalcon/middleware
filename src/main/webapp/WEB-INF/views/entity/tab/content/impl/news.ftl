@@ -6,8 +6,8 @@ News Tab
   <h1>Metalcon Newsstream</h1>
   <ul class="info">
     <li>User: <em>${view.entityTabContent.news.userId}</em></li>
-     <li>Poster: <em>${view.entityTabContent.news.posterId}</em></li>
-     <li><em>${view.entityTabContent.news.ownUpdates?string("Showing", "Not showing")}</em> own updates</li>
+    <li>Poster: <em>${view.entityTabContent.news.posterId}</em></li>
+    <li><em>${view.entityTabContent.news.ownUpdates?string("Showing", "Not showing")}</em> own updates</li>
   </ul>
   <h2>Post</h2>
   <form action="" method="POST">

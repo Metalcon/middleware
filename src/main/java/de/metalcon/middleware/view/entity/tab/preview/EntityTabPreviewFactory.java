@@ -26,7 +26,7 @@ public class EntityTabPreviewFactory {
             case ABOUT:           return createAboutTabPreview();
             case BANDS:           return createBandsTabPreview();
             case EVENTS:          return createEventsTabPreview();
-            case NEWS:        return createNewsTabPreview();
+            case NEWS:            return createNewsTabPreview();
             case PHOTOS:          return createPhotosTabPreview();
             case RECOMMENDATIONS: return createRecomendationsTabPreview();
             case RECORDS:         return createRecordsTabPreview();
