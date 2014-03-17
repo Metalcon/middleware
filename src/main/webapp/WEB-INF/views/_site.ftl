@@ -42,12 +42,12 @@
             <input type="text" placeholder="Search..." class="form-control">
           </div>
         </form>
-        <form class="collapse navbar-collapse navbar-form navbar-right" role="form">
+        <form class="collapse navbar-collapse navbar-form navbar-right" role="form" action="/login" method="POST">
           <div class="form-group">
-            <input type="text" placeholder="Email" class="form-control">
+            <input type="text" placeholder="email" id="email" name="email" class="form-control">
           </div>
           <div class="form-group">
-            <input type="password" placeholder="Password" class="form-control">
+            <input type="password" placeholder="password" id="password" name="password" class="form-control">
           </div>
           <button type="submit" class="btn btn-success">Sign in</button>
         </form>

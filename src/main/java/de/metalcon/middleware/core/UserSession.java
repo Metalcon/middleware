@@ -13,6 +13,8 @@ public class UserSession {
 
     Muid muid;
 
+    private boolean loggedIn;
+
     public int getId() {
         if (id < 0) {
             id = (int) (Math.random() * 100);
@@ -34,5 +36,13 @@ public class UserSession {
 
     public Muid getMuid() {
         return muid;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 }
