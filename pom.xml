@@ -105,6 +105,12 @@
       <scope>provided</scope>
     </dependency>
     
+    <!-- zmq bindings -->
+    <dependency>
+      <groupId>net.hh</groupId>
+      <artifactId>RequestDispatcher</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
     <!-- Apache HTTP -->
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
