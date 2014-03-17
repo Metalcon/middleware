@@ -81,25 +81,23 @@ public class EntityUrlMapppingManager {
         mappingToMuidVenue = new HashMap<String, Muid>();
     }
 
-    /*
-     * private ? mappings = new LinkedList<EntityType, HashMap<String,
-     * Muid>>(10*2);
-     * // TODO: talk to Lukas to reduce switch blocks - solution for
-     * albums/records pending
-     * public void registerMuid(Muid muid) {
-     * Entity entity = this.entityManager.getEntity(muid);
-     * Set<String> mappings = new LinkedHashSet<String>();
-     * String name = toUrlText(entity.getName());
-     * mappings.add(name);
-     * this.registerMappings(this.mappings.get(muid.getEntityType()), muid,
-     * mappings);
-     * }
-     */
+    //    private List<EntityType, HashMap<String, Muid>> mappings =
+    //            new LinkedList<EntityType, HashMap<String, Muid>>(10 * 2);
+    //    // TODO: talk to Lukas to reduce switch blocks - solution for
+    //    // albums/records pending
+    //    public void registerMuid(Muid muid) {
+    //        Entity entity = entityManager.getEntity(muid);
+    //        Set<String> mappings = new LinkedHashSet<String>();
+    //        String name = toUrlText(entity.getName());
+    //        mappings.add(name);
+    //        registerMappings(this.mappings.get(muid.getEntityType()), muid,
+    //                mappings);
+    //    }
 
     public void registerMuid(Muid muid) {
         Entity entity = entityManager.getEntity(muid);
         switch (entity.getEntityType()) {
-            // @formatter:off
+        // @formatter:off
             case BAND:       registerMuidBand      (muid, (Band)       entity); break;
             case CITY:       registerMuidCity      (muid, (City)       entity); break;
             case EVENT:      registerMuidEvent     (muid, (Event)      entity); break;
@@ -121,7 +119,7 @@ public class EntityUrlMapppingManager {
     public Muid getMuid(EntityType entityType, Map<String, String> pathVars)
             throws RedirectException {
         switch (entityType) {
-            // @formatter:off
+        // @formatter:off
             case BAND:       return getMuidBand      (pathVars);
             case CITY:       return getMuidCity      (pathVars);
             case EVENT:      return getMuidEvent     (pathVars);
@@ -364,7 +362,7 @@ public class EntityUrlMapppingManager {
             mappings.add(venueName + WORD_SEPERATOR + cityName);
         }
 
-        registerMappings(mappingToMuidVenue, cityMuid, mappings);
+        registerMappings(mappingToMuidVenue, muid, mappings);
     }
 
     // getMuid<Entity>
