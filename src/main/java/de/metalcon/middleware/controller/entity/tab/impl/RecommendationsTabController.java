@@ -9,7 +9,7 @@ import de.metalcon.middleware.view.entity.tab.EntityTabType;
 public class RecommendationsTabController extends EntityTabController {
 
     public RecommendationsTabController() {
-        super(EntityTabType.RECORDS);
+        super(EntityTabType.RECOMMENDATIONS);
     }
 
 }
