@@ -24,14 +24,9 @@ public abstract class MetalconController {
     public MetalconView handleRequest(
             MetalconView mcView,
             RequestParameters params) {
-<<<<<<< HEAD
-        UserSession user = userSessionFactory.getUserSession();
-        view.setId(user.getId() + "");
-=======
 
         UserSession user = prepareUserSession(params);
         mcView.setId(user.getMuid() + "");
->>>>>>> feature/session
         user.incPageCount();
         mcView.setPc(user.getPageCount() + "");
         return mcView;
