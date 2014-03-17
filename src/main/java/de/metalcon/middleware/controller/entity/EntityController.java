@@ -49,9 +49,7 @@ import de.metalcon.middleware.view.entity.EntityView;
 import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
-import de.metalcon.middleware.view.entity.tab.content.EntityTabContentFactory;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
-import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreviewFactory;
 
 // import de.iekadou.spring_pjaxr.Pjaxr;
 
@@ -95,12 +93,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
     private VenuesTabController venuesTabController;
 
     @Autowired
-    private EntityTabContentFactory entityTabContentFactory;
-
-    @Autowired
-    private EntityTabPreviewFactory entityTabPreviewFactory;
-
-    @Autowired
     protected EntityViewFactory entityViewFactory;
 
     @Autowired
@@ -113,14 +105,15 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
     private Class<? extends EntityView> entityViewClass;
 
-    private Map<EntityTabType, EntityTabGenerator> entityTabsGenerators;
+    private Map<EntityTabType, EntityTabGenerator<?, ?>> entityTabsGenerators;
 
     public EntityController(
             EntityType entityType,
             Class<? extends EntityView> entityViewClass) {
         this.entityType = entityType;
         this.entityViewClass = entityViewClass;
-        entityTabsGenerators = new HashMap<EntityTabType, EntityTabGenerator>();
+        entityTabsGenerators =
+                new HashMap<EntityTabType, EntityTabGenerator<?, ?>>();
     }
 
     @PostConstruct
@@ -154,7 +147,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         return entityType;
     }
 
-    protected EntityTabGenerator getEntityTabGenerator(
+    protected EntityTabGenerator<?, ?> getEntityTabGenerator(
             EntityTabType entityTabType) {
         return entityTabsGenerators.get(entityTabType);
     }
@@ -214,7 +207,12 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 entityUrlMappingManager.getMuid(getEntityType(),
                         params.getPathVars());
 
+        System.out.println("ROOFL");
         if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
+            System.out.println("deine mudda");
+            System.out.println(entityTabType.toString());
+            System.out.println(entityTabsGenerators.get(entityTabType));
+            System.out.println(muid.toString());
             throw new NoSuchRequestHandlingMethodException(params.getRequest());
         }
 
@@ -264,18 +262,21 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 // create tab previews if content
                 Map<EntityTabType, EntityTabPreview> entityTabPreviews =
                         new HashMap<EntityTabType, EntityTabPreview>();
-                for (Map.Entry<EntityTabType, EntityTabGenerator> entry : entityTabsGenerators
+                for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
                         .entrySet()) {
                     EntityTabType entityTabPreviewType = entry.getKey();
-                    EntityTabGenerator entityTabPreviewGenerator =
+                    EntityTabGenerator<?, ?> entityTabPreviewGenerator =
                             entry.getValue();
 
                     // create empty tab preview and fill it with data from entity
+                    //                    EntityTabPreview entityTabPreview =
+                    //                            entityTabPreviewFactory
+                    //                                    .createTabPreview(entityTabPreviewType);
+                    //                    entityTabPreviewGenerator.generateTabPreview(
+                    //                            entityTabPreview, entity);
                     EntityTabPreview entityTabPreview =
-                            entityTabPreviewFactory
-                                    .createTabPreview(entityTabPreviewType);
-                    entityTabPreviewGenerator.generateTabPreview(
-                            entityTabPreview, entity);
+                            entityTabPreviewGenerator
+                                    .generateTabPreview(entity);
                     entityTabPreviews.put(entityTabPreviewType,
                             entityTabPreview);
                 }
@@ -283,12 +284,14 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
             case Pjaxr.NEEDED_IN_INNER_CONTENT:
                 // create empty tab content and fill it with data from entity
-                EntityTabGenerator entityTabGenerator =
+                EntityTabGenerator<?, ?> entityTabGenerator =
                         getEntityTabGenerator(entityTabType);
 
+                //                EntityTabContent entityTabContent =
+                //                        entityTabContentFactory.createTabContent(entityTabType);
+                //                entityTabGenerator.generateTabContent(entityTabContent, entity);
                 EntityTabContent entityTabContent =
-                        entityTabContentFactory.createTabContent(entityTabType);
-                entityTabGenerator.generateTabContent(entityTabContent, entity);
+                        entityTabGenerator.generateTabContent(entity);
                 view.setEntityTabContent(entityTabContent);
 
             default:
@@ -320,7 +323,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.EVENTS);
+        return handleGet(createView(), params, EntityTabType.NEWS);
     }
 
     /**
