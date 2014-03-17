@@ -44,16 +44,17 @@ public class EntityManager {
      * 
      * @param muid
      *            Entity identifier.
-     * @param expected
+     * @param expectedType
      *            Expected entity type.
      * @return Entity referenced by that identifier.
      * @throws IllegalArgumentException
      *             If the identifier does not have the expected type.
      */
     public Entity getEntity(Muid muid, EntityType expectedType) {
-        if (muid.getEntityType() != expectedType)
+        if (muid.getEntityType() != expectedType) {
             throw new IllegalArgumentException("entity type is not "
                     + expectedType + " but " + muid.getEntityType());
+        }
         return getEntity(muid);
     }
 

@@ -187,10 +187,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
      * 
      * @param entityTabType
      *            Type of request tab.
-     * @param request
-     *            Servlet request.
-     * @param pathVars
-     *            Variables from request path.
      * @return The entities MUID.
      * @throws RedirectException
      *             TODO
@@ -207,12 +203,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 entityUrlMappingManager.getMuid(getEntityType(),
                         params.getPathVars());
 
-        System.out.println("ROOFL");
         if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
-            System.out.println("deine mudda");
-            System.out.println(entityTabType.toString());
-            System.out.println(entityTabsGenerators.get(entityTabType));
-            System.out.println(muid.toString());
             throw new NoSuchRequestHandlingMethodException(params.getRequest());
         }
 
@@ -224,10 +215,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
      * 
      * @param entityTabType
      *            Type of requested tab.
-     * @param request
-     *            Servlet request.
-     * @param pathVars
-     *            Variables from request path.
      * @return filled view object
      * @throws RedirectException
      *             TODO
@@ -235,6 +222,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
+    @SuppressWarnings("fallthrough")
     protected EntityViewType handleGet(
             EntityViewType view,
             RequestParameters params,
@@ -268,12 +256,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
                     EntityTabGenerator<?, ?> entityTabPreviewGenerator =
                             entry.getValue();
 
-                    // create empty tab preview and fill it with data from entity
-                    //                    EntityTabPreview entityTabPreview =
-                    //                            entityTabPreviewFactory
-                    //                                    .createTabPreview(entityTabPreviewType);
-                    //                    entityTabPreviewGenerator.generateTabPreview(
-                    //                            entityTabPreview, entity);
                     EntityTabPreview entityTabPreview =
                             entityTabPreviewGenerator
                                     .generateTabPreview(entity);
@@ -287,9 +269,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 EntityTabGenerator<?, ?> entityTabGenerator =
                         getEntityTabGenerator(entityTabType);
 
-                //                EntityTabContent entityTabContent =
-                //                        entityTabContentFactory.createTabContent(entityTabType);
-                //                entityTabGenerator.generateTabContent(entityTabContent, entity);
                 EntityTabContent entityTabContent =
                         entityTabGenerator.generateTabContent(entity);
                 view.setEntityTabContent(entityTabContent);
