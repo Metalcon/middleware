@@ -51,8 +51,6 @@ import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 
-// import de.iekadou.spring_pjaxr.Pjaxr;
-
 /**
  * basic controller for entity requests
  */
@@ -143,16 +141,16 @@ public abstract class EntityController<EntityViewType extends EntityView >
     /**
      * @return type of the requested entity
      */
-    public EntityType getEntityType() {
+    public final EntityType getEntityType() {
         return entityType;
     }
 
-    protected EntityTabGenerator<?, ?> getEntityTabGenerator(
+    protected final EntityTabGenerator<?, ?> getEntityTabGenerator(
             EntityTabType entityTabType) {
         return entityTabsGenerators.get(entityTabType);
     }
 
-    protected EntityTabController getEntityTabController(
+    protected final EntityTabController getEntityTabController(
             EntityTabType entityTabType) {
         switch (entityTabType) {
         // @formatter:off
@@ -174,7 +172,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         }
     }
 
-    protected EntityViewType createView() {
+    protected final EntityViewType createView() {
         @SuppressWarnings("unchecked")
         EntityViewType view =
                 (EntityViewType) entityViewFactory.createView(entityViewClass);
