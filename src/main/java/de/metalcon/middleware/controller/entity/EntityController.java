@@ -162,13 +162,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
     }
 
     /**
-     * @return default tab for this entity
-     */
-    protected EntityTabType getDefaultTab() {
-        return EntityTabType.NEWS;
-    }
-
-    /**
      * Checks whether the current EntityType has the requested tab and 404s
      * if not. Returns the entity object.
      * 
