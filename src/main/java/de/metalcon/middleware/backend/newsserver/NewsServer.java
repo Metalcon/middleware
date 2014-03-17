@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
+import api.newsfeed.NewsFeed;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,7 +25,7 @@ import de.metalcon.middleware.core.request.RequestTransaction;
 import de.metalcon.middleware.domain.Muid;
 
 @Component
-public class NewsServer {
+public class NewsServer implements NewsFeed {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -117,5 +119,57 @@ public class NewsServer {
 
         return "redirect:/test/news/" + userId + "/" + posterId + "/"
                 + ownUpdates.toString();
+    }
+
+    @Override
+    public void createUser(
+            String userId,
+            String displayName,
+            String profilePicturePath) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void createStatusUpdate(
+            long timestamp,
+            String user,
+            Map<String, Object> content) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void createFriendship(String followingId, String followedId) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Map<String, Object> readStatusUpdates(
+            String posterId,
+            String userId,
+            int numItems,
+            boolean ownUpdates) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean removeFriendship(String followingId, String followedId) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean deleteStatusUpdate(String user, String statusUpdateId) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }
