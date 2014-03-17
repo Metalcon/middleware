@@ -1,4 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
+<#import "/spring.ftl" as spring>
 <#import "/__metalcon.ftl" as mtl>
 
 <#--
@@ -33,7 +34,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Metalcon</a>
+          <a class="navbar-brand" href="<@spring.url "/"/>">Metalcon</a>
           ${view_pc}
           ${view_id}
         </div>
@@ -84,26 +85,26 @@
       <@mtl.lessStylesheet href=stylesheet/>
     </#list>
     
-    <script src="/resources/libs/jquery/2.1.0/jquery.js"></script>
-    <script src="/resources/libs/jquery-pjaxr/1.1.0/jquery-pjaxr.js"></script>
+    <script src="<@spring.url "/resources/libs/jquery/2.1.0/jquery.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/jquery-pjaxr/1.1.0/jquery-pjaxr.js"/>"></script>
     
-    <script src="/resources/libs/bootstrap/3.1.1/js/affix.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/alert.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/button.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/carousel.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/collapse.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/dropdown.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/modal.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/tooltip.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/popover.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/scrollspy.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/tab.js"></script>
-    <script src="/resources/libs/bootstrap/3.1.1/js/transition.js"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/affix.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/alert.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/button.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/carousel.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/collapse.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/dropdown.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/modal.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/tooltip.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/popover.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/scrollspy.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/tab.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/transition.js"/>"></script>
     
-    <script src="/resources/js/main.js"></script>
+    <script src="<@spring.url "/resources/js/main.js"/>"></script>
   
     <!--TODO only in develop and has to be last -->
-    <script src="/resources/libs/less/1.7.0/less.min.js" type="text/javascript"></script>
+    <script src="<@spring.url "/resources/libs/less/1.7.0/less.min.js"/>" type="text/javascript"></script>
   </@mtl.head>
   <@mtl.body>
     <@site_block>
