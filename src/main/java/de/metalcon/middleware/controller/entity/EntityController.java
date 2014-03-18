@@ -285,7 +285,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         @SuppressWarnings("unchecked")
         EntityViewType viewAfterSuper =
-                (EntityViewType) super.handleGet(view, params);
+                (EntityViewType) super.handleRequest(view, params);
         view = viewAfterSuper;
 
         return view;
