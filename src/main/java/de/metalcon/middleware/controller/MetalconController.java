@@ -22,14 +22,14 @@ public abstract class MetalconController {
     private UserSessionFactory userSessionFactory;
 
     public MetalconView handleRequest(
-            MetalconView mcView,
+            MetalconView view,
             RequestParameters params) {
 
         UserSession user = prepareUserSession(params);
-        mcView.setId(user.getMuid() + "");
+        view.setId(user.getMuid() + "");
         user.incPageCount();
-        mcView.setPc(user.getPageCount() + "");
-        return mcView;
+        view.setPc(user.getPageCount() + "");
+        return view;
     }
 
     /**
@@ -58,6 +58,7 @@ public abstract class MetalconController {
         for (Cookie c : params.getRequest().getCookies()) {
             if (c.getName().equals(GlobalConstants.GLOBAL_SESSION_COOKIE)) {
                 globalState = c;
+                break;
             }
         }
         // if it does not exist create one
