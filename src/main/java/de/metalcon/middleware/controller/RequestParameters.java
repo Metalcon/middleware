@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Helper object to pass request paramters around.
- * 
- * @author lukas
- * 
  */
 public class RequestParameters {
 

@@ -40,13 +40,12 @@ public abstract class MetalconController {
      * The global state lives for 180 days and is currently not renewed. upon
      * login this cookie should be renewed
      * 
-     * aso see bug: https://github.com/Metalcon/middleware/issues/10
+     * also see bug: https://github.com/Metalcon/middleware/issues/10
      * 
      * @param params
      *            Request parameters of the http request containing httpRequest
      *            and httpResponse objects
      * @return the UserSession object of the usersession bean
-     * @author rpickhardt
      * 
      * @see MetalconController
      */

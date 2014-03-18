@@ -3,9 +3,6 @@ package de.metalcon.middleware.core;
 /**
  * Class which stores global constants. all fields in this class should be
  * public static final
- * 
- * @author rpickhardt
- * 
  */
 public class GlobalConstants {
 
