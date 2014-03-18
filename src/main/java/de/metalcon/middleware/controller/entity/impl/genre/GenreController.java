@@ -4,15 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.ReviewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.TracksTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
@@ -26,11 +17,7 @@ import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.GenreView;
 
 @Controller
-public class GenreController extends EntityController<GenreView> implements
-        AboutTabGenerating, BandsTabGenerating, EventsTabGenerating,
-        NewsTabGenerating, RecommendationsTabGenerating,
-        RecordsTabGenerating, ReviewsTabGenerating, TracksTabGenerating,
-        UsersTabGenerating {
+public class GenreController extends EntityController<GenreView> {
 
     @Autowired
     private GenreAboutTabGenerator aboutTabGenerator;

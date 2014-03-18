@@ -4,10 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
@@ -16,9 +12,7 @@ import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.InstrumentView;
 
 @Controller
-public class InstrumentController extends EntityController<InstrumentView>
-        implements AboutTabGenerating, NewsTabGenerating,
-        RecommendationsTabGenerating, UsersTabGenerating {
+public class InstrumentController extends EntityController<InstrumentView> {
 
     @Autowired
     private InstrumentAboutTabGenerator aboutTabGenerator;

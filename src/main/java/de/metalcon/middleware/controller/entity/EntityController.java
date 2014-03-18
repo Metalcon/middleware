@@ -15,18 +15,18 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.RequestParameters;
-import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.ReviewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.TracksTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.VenuesTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.PhotosTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.ReviewsTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
+import de.metalcon.middleware.controller.entity.generator.impl.VenuesTabGenerator;
 import de.metalcon.middleware.controller.entity.tab.EntityTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.AboutTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.BandsTabController;
@@ -124,17 +124,17 @@ public abstract class EntityController<EntityViewType extends EntityView >
      */
     private void fillEntityTabGenerators() {
         // @formatter:off
-        if (this instanceof AboutTabGenerating)           { entityTabsGenerators.put(EntityTabType.ABOUT,           ((AboutTabGenerating)           this).getAboutTabGenerator());           }
-        if (this instanceof BandsTabGenerating)           { entityTabsGenerators.put(EntityTabType.BANDS,           ((BandsTabGenerating)           this).getBandsTabGenerator());           }
-        if (this instanceof EventsTabGenerating)          { entityTabsGenerators.put(EntityTabType.EVENTS,          ((EventsTabGenerating)          this).getEventsTabGenerator());          }
-        if (this instanceof NewsTabGenerating)            { entityTabsGenerators.put(EntityTabType.NEWS,            ((NewsTabGenerating)            this).getNewsTabGenerator());            }
-        if (this instanceof PhotosTabGenerating)          { entityTabsGenerators.put(EntityTabType.PHOTOS,          ((PhotosTabGenerating)          this).getPhotosTabGenerator());          }
-        if (this instanceof RecommendationsTabGenerating) { entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, ((RecommendationsTabGenerating) this).getRecommendationsTabGenerator()); }
-        if (this instanceof RecordsTabGenerating)         { entityTabsGenerators.put(EntityTabType.RECORDS,         ((RecordsTabGenerating)         this).getRecordsTabGenerator());         }
-        if (this instanceof ReviewsTabGenerating)         { entityTabsGenerators.put(EntityTabType.REVIEWS,         ((ReviewsTabGenerating)         this).getReviewsTabGenerator());         }
-        if (this instanceof TracksTabGenerating)          { entityTabsGenerators.put(EntityTabType.TRACKS,          ((TracksTabGenerating)          this).getTracksTabGenerator());          }
-        if (this instanceof UsersTabGenerating)           { entityTabsGenerators.put(EntityTabType.USERS,           ((UsersTabGenerating)           this).getUsersTabGenerator());           }
-        if (this instanceof VenuesTabGenerating)          { entityTabsGenerators.put(EntityTabType.VENUES,          ((VenuesTabGenerating)          this).getVenuesTabGenerator());          }
+        entityTabsGenerators.put(EntityTabType.ABOUT,           getAboutTabGenerator());
+        entityTabsGenerators.put(EntityTabType.BANDS,           getBandsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.EVENTS,          getEventsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.NEWS,            getNewsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.PHOTOS,          getPhotosTabGenerator());
+        entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, getRecommendationsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.RECORDS,         getRecordsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.REVIEWS,         getReviewsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.TRACKS,          getTracksTabGenerator());
+        entityTabsGenerators.put(EntityTabType.USERS,           getUsersTabGenerator());
+        entityTabsGenerators.put(EntityTabType.VENUES,          getVenuesTabGenerator());
         // @formatter:on
     }
 
@@ -201,7 +201,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 entityUrlMappingManager.getMuid(getEntityType(),
                         params.getPathVars());
 
-        if (!entityTabsGenerators.containsKey(entityTabType) || muid == null) {
+        if (entityTabsGenerators.get(entityTabType) == null || muid == null) {
             throw new NoSuchRequestHandlingMethodException(params.getRequest());
         }
 
@@ -253,12 +253,13 @@ public abstract class EntityController<EntityViewType extends EntityView >
                     EntityTabType entityTabPreviewType = entry.getKey();
                     EntityTabGenerator<?, ?> entityTabPreviewGenerator =
                             entry.getValue();
-
-                    EntityTabPreview entityTabPreview =
-                            entityTabPreviewGenerator
-                                    .generateTabPreview(entity);
-                    entityTabPreviews.put(entityTabPreviewType,
-                            entityTabPreview);
+                    if (entityTabPreviewGenerator != null) {
+                        EntityTabPreview entityTabPreview =
+                                entityTabPreviewGenerator
+                                        .generateTabPreview(entity);
+                        entityTabPreviews.put(entityTabPreviewType,
+                                entityTabPreview);
+                    }
                 }
                 view.setEntityTabPreviews(entityTabPreviews);
 
@@ -291,6 +292,54 @@ public abstract class EntityController<EntityViewType extends EntityView >
         return view;
     }
 
+    // =========================================================================
+    // TAB GENERATORS
+
+    public AboutTabGenerator getAboutTabGenerator() {
+        return null;
+    }
+
+    public BandsTabGenerator getBandsTabGenerator() {
+        return null;
+    }
+
+    public EventsTabGenerator getEventsTabGenerator() {
+        return null;
+    }
+
+    public NewsTabGenerator getNewsTabGenerator() {
+        return null;
+    }
+
+    public PhotosTabGenerator getPhotosTabGenerator() {
+        return null;
+    }
+
+    public RecommendationsTabGenerator getRecommendationsTabGenerator() {
+        return null;
+    }
+
+    public RecordsTabGenerator getRecordsTabGenerator() {
+        return null;
+    }
+
+    public ReviewsTabGenerator getReviewsTabGenerator() {
+        return null;
+    }
+
+    public TracksTabGenerator getTracksTabGenerator() {
+        return null;
+    }
+
+    public UsersTabGenerator getUsersTabGenerator() {
+        return null;
+    }
+
+    public VenuesTabGenerator getVenuesTabGenerator() {
+        return null;
+    }
+
+    // =========================================================================
     // TAB REQUEST HANDLING
 
     public final EntityViewType mappingEmptyTabGet(

@@ -4,14 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.VenuesTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
@@ -24,10 +16,7 @@ import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.CityView;
 
 @Controller
-public class CityController extends EntityController<CityView> implements
-        AboutTabGenerating, BandsTabGenerating, EventsTabGenerating,
-        NewsTabGenerating, PhotosTabGenerating,
-        RecommendationsTabGenerating, UsersTabGenerating, VenuesTabGenerating {
+public class CityController extends EntityController<CityView> {
 
     @Autowired
     private CityAboutTabGenerator aboutTabGenerator;

@@ -4,14 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.EventsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecordsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.TracksTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
@@ -27,10 +19,7 @@ import de.metalcon.middleware.view.entity.impl.BandView;
  * controller handling band requests
  */
 @Controller
-public class BandController extends EntityController<BandView> implements
-        AboutTabGenerating, EventsTabGenerating, NewsTabGenerating,
-        PhotosTabGenerating, RecommendationsTabGenerating,
-        RecordsTabGenerating, TracksTabGenerating, UsersTabGenerating {
+public class BandController extends EntityController<BandView> {
 
     @Autowired
     private BandAboutTabGenerator aboutTabGenerator;

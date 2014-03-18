@@ -4,12 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import de.metalcon.middleware.controller.entity.EntityController;
-import de.metalcon.middleware.controller.entity.generating.impl.AboutTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.BandsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.NewsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.PhotosTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.RecommendationsTabGenerating;
-import de.metalcon.middleware.controller.entity.generating.impl.UsersTabGenerating;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
@@ -20,9 +14,7 @@ import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.EventView;
 
 @Controller
-public class EventController extends EntityController<EventView> implements
-        AboutTabGenerating, BandsTabGenerating, NewsTabGenerating,
-        PhotosTabGenerating, RecommendationsTabGenerating, UsersTabGenerating {
+public class EventController extends EntityController<EventView> {
 
     @Autowired
     private EventAboutTabGenerator aboutTabGenerator;
