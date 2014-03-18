@@ -1,6 +1,7 @@
 package de.metalcon.middleware.controller.entity;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -346,10 +347,26 @@ public abstract class EntityController<EntityViewType extends EntityView >
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable Map<String, String> pathVars)
-            throws RedirectException, NoSuchRequestHandlingMethodException {
-        RequestParameters params =
-                new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.NEWS);
+            throws RedirectException, NoSuchRequestHandlingMethodException,
+            URISyntaxException {
+        String requestUri = request.getRequestURI();
+
+        int fileExtensionPos = requestUri.lastIndexOf(".");
+        String fileExtension, redirectPath;
+        if (fileExtensionPos != -1) {
+            fileExtension = requestUri.substring(fileExtensionPos);
+            redirectPath = requestUri.substring(0, fileExtensionPos);
+        } else {
+            fileExtension = "";
+            redirectPath = requestUri;
+        }
+
+        if (!redirectPath.endsWith("/")) {
+            redirectPath += "/";
+        }
+        redirectPath += "news" + fileExtension;
+
+        throw new RedirectException(redirectPath);
     }
 
     /**
