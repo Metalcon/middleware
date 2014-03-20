@@ -1,12 +1,15 @@
+@BOOTSTRAP_VERSION: "3.1.1";
+@FONTAWESOME_VERSION: "4.0.3";
+
 // variables and mixins are imported now to be overridden in our own files. bootstrap will not include those files again.
-@import "../libs/bootstrap/3.1.1/less/variables.less";
-@import "../libs/bootstrap/3.1.1/less/mixins.less";
+@import "../libs/bootstrap/@{BOOTSTRAP_VERSION}/less/variables.less";
+@import "../libs/bootstrap/@{BOOTSTRAP_VERSION}/less/mixins.less";
 
 @import "variables.less"; // here should be all variables
 @import "mixins.less"; // here should be all functions
 
-@import "../libs/bootstrap/3.1.1/less/bootstrap.less";
-@import "../libs/fontawesome/4.0.3/less/font-awesome.less";
+@import "../libs/bootstrap/@{BOOTSTRAP_VERSION}/less/bootstrap.less";
+@import "../libs/fontawesome/@{FONTAWESOME_VERSION}/less/font-awesome.less";
 
 body {
   padding: @navbar-height 0;

@@ -170,8 +170,19 @@
 </#macro>
 
 <#--
- # <pjaxr-namespace> should not have whitespaces in it (or new lines)
+ # <pjaxr-namespace>, declares which namespace we are in currently
  #-->
 <#macro pjaxrNamespace>
   <pjaxr-namespace><#nested></pjaxr-namespace>
 </#macro>
+ 
+ 
+<#--
+ # frontend lib versions
+ #-->
+
+<#global BOOTSTRAP_VERSION = '3.1.1'>
+<#global FONTAWESOME_VERSION = '4.0.3'>
+<#global JQUERY_VERSION = '2.1.0'>
+<#global JQUERY_PJAXR_VERSION = '1.2.0rc1'>
+<#global LESS_VERSION = '1.7.0'>

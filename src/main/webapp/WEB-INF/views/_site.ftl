@@ -85,26 +85,26 @@
       <@mtl.lessStylesheet href=stylesheet/>
     </#list>
     
-    <script src="<@spring.url "/resources/libs/jquery/2.1.0/jquery.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/jquery-pjaxr/1.1.0/jquery-pjaxr.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/jquery/"+JQUERY_VERSION+"/jquery.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/jquery-pjaxr/"+JQUERY_PJAXR_VERSION+"/jquery.pjaxr.js"/>"></script>
     
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/affix.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/alert.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/button.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/carousel.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/collapse.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/dropdown.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/modal.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/tooltip.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/popover.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/scrollspy.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/tab.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/transition.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/affix.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/alert.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/button.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/carousel.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/collapse.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/dropdown.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/modal.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/tooltip.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/popover.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/scrollspy.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/tab.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/transition.js"/>"></script>
     
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
   
     <!--TODO only in develop and has to be last -->
-    <script src="<@spring.url "/resources/libs/less/1.7.0/less.min.js"/>" type="text/javascript"></script>
+    <script src="<@spring.url "/resources/libs/less/"+LESS_VERSION+"/less.min.js"/>" type="text/javascript"></script>
   </@mtl.head>
   <@mtl.body>
     <@site_block>
