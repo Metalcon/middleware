@@ -44,7 +44,7 @@ public class NewsServer implements NewsFeed {
         // TODO: initialization. Replace with the real graphity service.
         dispatcher.registerServiceProvider("graphity", new ZmqService(
                 "tcp://127.0.0.1:60125"));
-        dispatcher.setDefaultTimeout(100);
+        //dispatcher.setDefaultTimeout(100);
 
     }
 

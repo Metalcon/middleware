@@ -21,15 +21,15 @@ public abstract class MetalconController {
     @Autowired
     private UserSessionFactory userSessionFactory;
 
-    public MetalconView handleRequest(
-            MetalconView view,
-            RequestParameters params) {
-
+    public void handleRequest(MetalconView view, RequestParameters params) {
         UserSession user = prepareUserSession(params);
         view.setId(user.getMuid() + "");
         user.incPageCount();
         view.setPc(user.getPageCount() + "");
-        return view;
+    }
+
+    public void handleGet(MetalconView view, RequestParameters params) {
+        handleRequest(view, params);
     }
 
     /**

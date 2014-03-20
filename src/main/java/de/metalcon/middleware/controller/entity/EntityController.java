@@ -222,7 +222,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
      *             couldn't be resolved.
      */
     @SuppressWarnings("fallthrough")
-    protected EntityViewType handleGet(
+    protected void handleGet(
             EntityViewType view,
             RequestParameters params,
             EntityTabType entityTabType) throws RedirectException,
@@ -279,18 +279,8 @@ public abstract class EntityController<EntityViewType extends EntityView >
         view.setPjaxrMatching(pjaxrObj.getMatchingCount());
         view.setPjaxrNamespace(pjaxrNamespace);
 
-        @SuppressWarnings("unchecked")
-        EntityViewType viewAfterTabController =
-                (EntityViewType) entityTabController.handleGet(view, params,
-                        this);
-        view = viewAfterTabController;
-
-        @SuppressWarnings("unchecked")
-        EntityViewType viewAfterSuper =
-                (EntityViewType) super.handleRequest(view, params);
-        view = viewAfterSuper;
-
-        return view;
+        entityTabController.handleGet(view, params, this);
+        super.handleGet(view, params);
     }
 
     // =========================================================================
@@ -389,7 +379,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.ABOUT);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.ABOUT);
+        return view;
     }
 
     public final EntityViewType mappingBandsTabGet(
@@ -399,7 +391,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.BANDS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.BANDS);
+        return view;
     }
 
     public final EntityViewType mappingEventsTabGet(
@@ -409,7 +403,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.EVENTS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.EVENTS);
+        return view;
     }
 
     public final EntityViewType mappingNewsTabGet(
@@ -419,7 +415,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.NEWS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.NEWS);
+        return view;
     }
 
     public final EntityViewType mappingNewsTabPost(
@@ -431,9 +429,8 @@ public abstract class EntityController<EntityViewType extends EntityView >
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
         // TODO
-        @SuppressWarnings("unchecked")
-        EntityViewType view =
-                (EntityViewType) newsTabController.createNewsItem(params, this);
+        EntityViewType view = createView();
+        newsTabController.createNewsItem(params, this);
         return view;
     }
 
@@ -444,7 +441,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.PHOTOS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.PHOTOS);
+        return view;
     }
 
     public final EntityViewType mappingRecommendationsTabGet(
@@ -454,7 +453,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.RECOMMENDATIONS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.RECOMMENDATIONS);
+        return view;
     }
 
     public final EntityViewType mappingRecordsTabGet(
@@ -464,7 +465,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.RECORDS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.RECORDS);
+        return view;
     }
 
     public final EntityViewType mappingReviewsTabGet(
@@ -474,7 +477,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.REVIEWS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.REVIEWS);
+        return view;
     }
 
     public final EntityViewType mappingTracksTabGet(
@@ -484,7 +489,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.TRACKS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.TRACKS);
+        return view;
     }
 
     public final EntityViewType mappingUsersTabGet(
@@ -494,7 +501,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.USERS);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.USERS);
+        return view;
     }
 
     public final EntityViewType mappingVenuesTabGet(
@@ -504,7 +513,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
             throws RedirectException, NoSuchRequestHandlingMethodException {
         RequestParameters params =
                 new RequestParameters(request, response, pathVars);
-        return handleGet(createView(), params, EntityTabType.VENUES);
+        EntityViewType view = createView();
+        handleGet(view, params, EntityTabType.VENUES);
+        return view;
     }
 
 }
