@@ -35,7 +35,7 @@ public class LoginController extends MetalconController {
             NoSuchRequestHandlingMethodException {
 
         /**
-         * assume for now the login is always successfull
+         * assume for now the login is always successful
          */
         //FIXME: need to integrate proper login
 

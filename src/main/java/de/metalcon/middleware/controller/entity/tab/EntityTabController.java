@@ -18,11 +18,10 @@ public abstract class EntityTabController {
         return entityTabType;
     }
 
-    public EntityView handleGet(
+    public void handleGet(
             EntityView view,
             RequestParameters params,
             EntityController<?> entityController) {
-        return view;
     }
 
 }
