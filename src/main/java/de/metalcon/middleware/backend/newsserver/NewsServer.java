@@ -22,15 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
-import api.newsfeed.NewsFeed;
-
+// import api.newsfeed.NewsFeed;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.metalcon.middleware.domain.Muid;
 
 @Component
-public class NewsServer implements NewsFeed {
+public class NewsServer /* implements NewsFeed */{
 
     private static ObjectMapper mapper = new ObjectMapper();
 
@@ -148,7 +147,6 @@ public class NewsServer implements NewsFeed {
                 + ownUpdates.toString();
     }
 
-    @Override
     public void createUser(
             String userId,
             String displayName,
@@ -157,7 +155,6 @@ public class NewsServer implements NewsFeed {
 
     }
 
-    @Override
     public void createStatusUpdate(
             long timestamp,
             String user,
@@ -166,13 +163,11 @@ public class NewsServer implements NewsFeed {
 
     }
 
-    @Override
     public void createFriendship(String followingId, String followedId) {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public Map<String, Object> readStatusUpdates(
             String posterId,
             String userId,
@@ -182,19 +177,16 @@ public class NewsServer implements NewsFeed {
         return null;
     }
 
-    @Override
     public void deleteUser(String userId) {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public boolean removeFriendship(String followingId, String followedId) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean deleteStatusUpdate(String user, String statusUpdateId) {
         // TODO Auto-generated method stub
         return false;

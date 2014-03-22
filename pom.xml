@@ -152,7 +152,7 @@
     <dependency>
       <groupId>net.hh</groupId>
       <artifactId>RequestDispatcher</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>0.0.1</version>
     </dependency>
     <!-- TODO: remove me -->
     <!-- Apache HTTP -->
