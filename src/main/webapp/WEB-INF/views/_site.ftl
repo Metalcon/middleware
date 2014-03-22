@@ -19,7 +19,6 @@
 <#macro page_block>
   <@mtl.page>
     <#nested>
-    <a href="/instrument/Guitar-19/about">Guitar</a>
   </@mtl.page>
 </#macro>
 

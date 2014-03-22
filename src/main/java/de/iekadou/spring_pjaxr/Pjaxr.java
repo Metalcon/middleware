@@ -8,12 +8,11 @@ public class Pjaxr {
     private String previousNamespace = "";
     private String matchingNamespace = "";
     private int matchingCount = 0;
-    
-    //switch case:
-    final public static int NEEDED_IN_SITE = 0;
-    final public static int NEEDED_IN_PAGE = 1;
-    final public static int NEEDED_IN_CONTENT = 2;
-    final public static int NEEDED_IN_INNER_CONTENT = 3;
+
+    public boolean pjaxr_site = true;
+    public boolean pjaxr_page = true;
+    public boolean pjaxr_content = true;
+    public boolean pjaxr_inner_content = true;
     
     public Pjaxr(HttpServletRequest request, String currentNamespace) {
         this.currentNamespace = currentNamespace;
@@ -30,11 +29,18 @@ public class Pjaxr {
                         // +1 for better recoginzable Values and the ability to decide
                         // if pjaxr should be used or not with testing against 0
                         this.matchingCount = level + 1;
+                    } else {
+                        break;
                     }
                 }
             }
             this.matchingNamespace = matchedNamespace;
         }
+
+        this.pjaxr_site = this.matchingCount <= 0;
+        this.pjaxr_page = this.matchingCount <= 1;
+        this.pjaxr_content = this.matchingCount <= 2;
+        this.pjaxr_inner_content = this.matchingCount <= 3;
     }
 
     public String getMatchingNamespace() {
