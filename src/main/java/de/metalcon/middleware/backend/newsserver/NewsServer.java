@@ -73,7 +73,7 @@ public class NewsServer /* implements NewsFeed */{
                 });
 
         // FIXME: Here is the blocking. Put to another position. Not clear how to collect the processed answers. Since this should be in the metalcon controller. But on the other side in the callbacks one should be able to use outside data. Will all of this be achieved with DTO's ? 
-        dispatcher.gatherResults();
+        dispatcher.gatherResults(100);
 
         String answer = response.get(0);
 
@@ -121,7 +121,6 @@ public class NewsServer /* implements NewsFeed */{
             Muid user_id,
             Muid poster_id,
             Boolean ownUpdates) {
-        fetchNewsFromServer(user_id, poster_id, ownUpdates);
         return fetchNewsFromServer(user_id, poster_id, ownUpdates);
     }
 
