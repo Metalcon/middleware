@@ -1,18 +1,13 @@
-package de.iekadou.pjaxr;
+package com.iekadou.pjaxr;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class Pjaxr {
 
-    private String currentNamespace;
-    private String previousNamespace = "";
-    private String matchingNamespace = "";
-    private int matchingCount = 0;
-
-    public boolean pjaxr_site = true;
-    public boolean pjaxr_page = true;
-    public boolean pjaxr_content = true;
-    public boolean pjaxr_inner_content = true;
+    protected String currentNamespace;
+    protected String previousNamespace = "";
+    protected String matchingNamespace = "";
+    protected int matchingCount = 0;
     
     public Pjaxr(HttpServletRequest request, String currentNamespace) {
         this.currentNamespace = currentNamespace;
@@ -36,11 +31,6 @@ public class Pjaxr {
             }
             this.matchingNamespace = matchedNamespace;
         }
-
-        this.pjaxr_site = this.matchingCount <= 0;
-        this.pjaxr_page = this.matchingCount <= 1;
-        this.pjaxr_content = this.matchingCount <= 2;
-        this.pjaxr_inner_content = this.matchingCount <= 3;
     }
 
     public String getMatchingNamespace() {
