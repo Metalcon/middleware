@@ -1,7 +1,6 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 
-<@pjaxrHead title="${viewTitle}" metaTags=metaTags>
-</@pjaxrHead>
+<@pjaxrHead title="${viewTitle}" metaTags=metaTags></@pjaxrHead>
 <@pjaxrBody>
   <@siteBlock>
     <@pageBlock>
