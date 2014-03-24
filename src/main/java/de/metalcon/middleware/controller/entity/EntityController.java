@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import de.iekadou.spring_pjaxr.Pjaxr;
+import de.iekadou.pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;

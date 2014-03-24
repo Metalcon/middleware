@@ -48,7 +48,7 @@
   <#include "entity/_entity.ftl">
 </#if>
 
-<#if (view.pjaxrMatching == 0)>
+<#if pjaxrSite>
   <#include "/_site.ftl">
 <#else>
   <#include "/_pjaxr.ftl">

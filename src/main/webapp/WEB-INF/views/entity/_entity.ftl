@@ -57,7 +57,7 @@
  # if pjaxrNamespace matching the current entity already, tabs don't have to 
  # be updated
  #-->
-<#if (pjaxrMatching &lt; 3)>
+<#if pjaxrContent>
   <#macro content_block>
     <@mtl.content>
       <ol class="breadcrumb">

@@ -1,4 +1,4 @@
-package de.iekadou.spring_pjaxr;
+package de.iekadou.pjaxr;
 
 import javax.servlet.http.HttpServletRequest;
 

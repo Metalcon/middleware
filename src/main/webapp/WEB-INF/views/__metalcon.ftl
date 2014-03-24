@@ -12,10 +12,15 @@
 <#import "/spring.ftl" as spring>
 <#setting locale="de_DE">
 <#if view?? && view.pjaxrMatching??>
-  <#global pjaxrMatching=view.pjaxrMatching>
+  <#assign pjaxrMatching=view.pjaxrMatching>
 <#else>
-  <#global pjaxrMatching=0>
+  <#assign pjaxrMatching=0>
 </#if>
+
+<#global pjaxrSite = (pjaxrMatching &lt;= 0)>
+<#global pjaxrPage = (pjaxrMatching &lt;= 1)>
+<#global pjaxrContent = (pjaxrMatching &lt;= 2)>
+<#global pjaxrInnerContent = (pjaxrMatching &lt;= 3)>
 
 <#--
  # Convenience macro to create a <html> tag. Saves us from writing XHTML-
@@ -90,7 +95,7 @@
 </#macro>
 
 <#macro site>
-  <#if pjaxrMatching &lt; 1>
+  <#if pjaxrSite>
     <div id="site">
       <#nested>
     </div>
@@ -100,7 +105,7 @@
 </#macro>
 
 <#macro page>
-  <#if pjaxrMatching &lt; 2>
+  <#if pjaxrPage>
     <div id="page" class="container">
       <div class="row">
         <#nested>
@@ -113,7 +118,7 @@
 </#macro>
 
 <#macro content>
-  <#if pjaxrMatching &lt; 3>
+  <#if pjaxrContent>
     <div id="content" class="col-xs-12">
       <#nested>
     </div>
@@ -123,7 +128,7 @@
 </#macro>
 
 <#macro innerContent>
-  <#if pjaxrMatching &lt; 4>
+  <#if pjaxrInnerContent>
     <div id="inner_content">
       <#nested>
     </div>
