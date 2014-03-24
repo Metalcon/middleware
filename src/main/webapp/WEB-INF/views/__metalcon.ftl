@@ -1,5 +1,17 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 
+<#if view?? && view.pjaxrMatching??>
+  <#global pjaxrMatching=view.pjaxrMatching>
+<#else>
+  <#global pjaxrMatching=0>
+</#if>
+
+<#if view?? && view.pjaxrNamespace??>
+  <#global pjaxrNamespaceBlock=view.pjaxrNamespace>
+<#else>
+  <#global pjaxrNamespaceBlock="">
+</#if>
+
 <#--
  # __metalcon.ftl
  #
@@ -11,16 +23,6 @@
  
 <#import "/spring.ftl" as spring>
 <#setting locale="de_DE">
-<#if view?? && view.pjaxrMatching??>
-  <#assign pjaxrMatching=view.pjaxrMatching>
-<#else>
-  <#assign pjaxrMatching=0>
-</#if>
-
-<#global pjaxrSite = (pjaxrMatching &lt;= 0)>
-<#global pjaxrPage = (pjaxrMatching &lt;= 1)>
-<#global pjaxrContent = (pjaxrMatching &lt;= 2)>
-<#global pjaxrInnerContent = (pjaxrMatching &lt;= 3)>
 
 <#--
  # Convenience macro to create a <html> tag. Saves us from writing XHTML-
@@ -89,7 +91,7 @@
  #   </@mtl.body>
  #-->
 <#macro body>
-<body<#if view?? && view.pjaxrNamespace??> data-pjaxr-namespace="${view.pjaxrNamespace}"</#if>>
+<body data-pjaxr-namespace="${pjaxrNamespaceBlock}">
   <#nested>
 </body>
 </#macro>
@@ -103,6 +105,7 @@
     <#nested>
   </#if>
 </#macro>
+<#global site=site>
 
 <#macro page>
   <#if pjaxrPage>
@@ -116,6 +119,7 @@
     <#nested>
   </#if>
 </#macro>
+<#global page=page>
 
 <#macro content>
   <#if pjaxrContent>
@@ -126,6 +130,7 @@
     <#nested>
   </#if>
 </#macro>
+<#global content=content>
 
 <#macro innerContent>
   <#if pjaxrInnerContent>
@@ -136,6 +141,7 @@
     <#nested>
   </#if>
 </#macro>
+<#global innerContent=innerContent>
 
 <#--
  # To be used in views that are not implemented yet.
@@ -162,6 +168,7 @@
   <#nested>
 </pjaxr-body>
 </#macro>
+<#global pjaxrBody=pjaxrBody>
 
 <#macro pjaxrHead title metaTags=[]>
 <pjaxr-head>
@@ -174,6 +181,7 @@
   <#nested>
 </pjaxr-head>
 </#macro>
+<#global pjaxrHead=pjaxrHead>
 
 <#--
  # <pjaxr-namespace>, declares which namespace we are in currently
@@ -181,6 +189,7 @@
 <#macro pjaxrNamespace>
   <pjaxr-namespace><#nested></pjaxr-namespace>
 </#macro>
+<#global pjaxrNamespace=pjaxrNamespace>
  
  
 <#--

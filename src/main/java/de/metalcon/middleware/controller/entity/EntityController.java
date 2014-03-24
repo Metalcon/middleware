@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
@@ -42,6 +41,7 @@ import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
+import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;

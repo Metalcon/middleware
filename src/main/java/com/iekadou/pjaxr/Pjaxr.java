@@ -8,10 +8,10 @@ public class Pjaxr {
     protected String previousNamespace = "";
     protected String matchingNamespace = "";
     protected int matchingCount = 0;
-    
+
     public Pjaxr(HttpServletRequest request, String currentNamespace) {
         this.currentNamespace = currentNamespace;
-        
+
         if (request.getHeader("X-PJAX") != null && request.getHeader("X-PJAX-NAMESPACE") != null) {
             this.previousNamespace = request.getHeader("X-PJAX-NAMESPACE"); 
             String[] prevNamespaces = this.previousNamespace.split("\\.");

@@ -16,14 +16,8 @@
                                 {"name": "viewport", 
                                  "content": "width=device-width, initial-scale=1"}]>
 
-<#macro page_block>
-  <@mtl.page>
-    <#nested>
-  </@mtl.page>
-</#macro>
-
-<#macro site_block>
-  <@mtl.site>
+<#macro siteBlock>
+  <@site>
     <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -65,7 +59,7 @@
         </div>
       </div>
     </footer>
-  </@mtl.site>
+  </@site>
 </#macro>
 
 <@mtl.html>
@@ -73,10 +67,9 @@
   <#--
    # Include more specific view template. These are expected to set the
    # following variables:
-   # view_title - String containing the title to be displayed in <title>-tag.
-   # view_content - HTML string to contain body content.
+   # viewTitle - String containing the title to be displayed in <title>-tag.
    #-->
-  <@mtl.head title="${view_title}" metaTags=metaTags>
+  <@mtl.head title="${viewTitle}" metaTags=metaTags>
     <#list stylesheets as stylesheet>
       <@mtl.stylesheet href=stylesheet/>
     </#list>
@@ -106,12 +99,14 @@
     <script src="<@spring.url "/resources/libs/less/"+LESS_VERSION+"/less.min.js"/>" type="text/javascript"></script>
   </@mtl.head>
   <@mtl.body>
-    <@site_block>
-      <@page_block>
-        <@content_block>
-          <@inner_content_block></@inner_content_block>
-        </@content_block>
-      </@page_block>
-    </@site_block>
+    <@siteBlock>
+      <@pageBlock>
+        <@contentBlock>
+          <@innerContentBlock>
+            ${innerContent}
+          </@innerContentBlock>
+        </@contentBlock>
+      </@pageBlock>
+    </@siteBlock>
   </@mtl.body>
 </@mtl.html>
