@@ -1,5 +1,17 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 
+<#if view?? && view.pjaxrMatching??>
+  <#global pjaxrMatching=view.pjaxrMatching>
+<#else>
+  <#global pjaxrMatching=0>
+</#if>
+
+<#if view?? && view.pjaxrNamespace??>
+  <#global pjaxrNamespaceBlock=view.pjaxrNamespace>
+<#else>
+  <#global pjaxrNamespaceBlock="">
+</#if>
+
 <#--
  # __metalcon.ftl
  #
@@ -11,11 +23,6 @@
  
 <#import "/spring.ftl" as spring>
 <#setting locale="de_DE">
-<#if view?? && view.pjaxrMatching??>
-  <#global pjaxrMatching=view.pjaxrMatching>
-<#else>
-  <#global pjaxrMatching=0>
-</#if>
 
 <#--
  # Convenience macro to create a <html> tag. Saves us from writing XHTML-
@@ -84,13 +91,13 @@
  #   </@mtl.body>
  #-->
 <#macro body>
-<body<#if view?? && view.pjaxrNamespace??> data-pjaxr-namespace="${view.pjaxrNamespace}"</#if>>
+<body data-pjaxr-namespace="${pjaxrNamespaceBlock}">
   <#nested>
 </body>
 </#macro>
 
 <#macro site>
-  <#if pjaxrMatching &lt; 1>
+  <#if pjaxrSite>
     <div id="site">
       <#nested>
     </div>
@@ -98,21 +105,24 @@
     <#nested>
   </#if>
 </#macro>
+<#global site=site>
 
 <#macro page>
-  <#if pjaxrMatching &lt; 2>
+  <#if pjaxrPage>
     <div id="page" class="container">
       <div class="row">
         <#nested>
-        </div>
+        <a href="/instrument/Guitar-19/about">Guitar</a> | <a href="/music/Ensiferum-12/about">Ensiferum-12</a> | <a href="/music/Ensiferum-22/about">Ensiferum-22</a>
+      </div>
     </div>
   <#else>
     <#nested>
   </#if>
 </#macro>
+<#global page=page>
 
 <#macro content>
-  <#if pjaxrMatching &lt; 3>
+  <#if pjaxrContent>
     <div id="content" class="col-xs-12">
       <#nested>
     </div>
@@ -120,9 +130,10 @@
     <#nested>
   </#if>
 </#macro>
+<#global content=content>
 
 <#macro innerContent>
-  <#if pjaxrMatching &lt; 4>
+  <#if pjaxrInnerContent>
     <div id="inner_content">
       <#nested>
     </div>
@@ -130,6 +141,7 @@
     <#nested>
   </#if>
 </#macro>
+<#global innerContent=innerContent>
 
 <#--
  # To be used in views that are not implemented yet.
@@ -149,29 +161,11 @@
 </#macro>
 
 <#--
- #  Pjaxr utilities
- # -->
-<#macro pjaxrBody>
-<pjaxr-body>
-  <#nested>
-</pjaxr-body>
-</#macro>
-
-<#macro pjaxrHead title metaTags=[]>
-<pjaxr-head>
-  <title>${title?html}</title>
-  <#if metaTags??>
-    <#list metaTags as metaTag>
-        <meta<#list metaTag?keys as key> ${key}="${metaTag[key]}"</#list> />
-    </#list>
-  </#if>
-  <#nested>
-</pjaxr-head>
-</#macro>
-
-<#--
- # <pjaxr-namespace> should not have whitespaces in it (or new lines)
+ # frontend lib versions
  #-->
-<#macro pjaxrNamespace>
-  <pjaxr-namespace><#nested></pjaxr-namespace>
-</#macro>
+
+<#global BOOTSTRAP_VERSION = '3.1.1'>
+<#global FONTAWESOME_VERSION = '4.0.3'>
+<#global JQUERY_VERSION = '2.1.0'>
+<#global JQUERY_PJAXR_VERSION = '1.2.0rc1'>
+<#global LESS_VERSION = '1.7.0'>

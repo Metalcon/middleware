@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import de.iekadou.spring_pjaxr.Pjaxr;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
@@ -42,6 +41,7 @@ import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
+import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
@@ -236,45 +236,39 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 getMetalconNamespace() + "." + getEntityType().toString() + "."
                         + muid + "." + entityTabType.toString().toLowerCase();
 
-        Pjaxr pjaxrObj = new Pjaxr(params.getRequest(), pjaxrNamespace);
+        MetalconPjaxr pjaxrObj = new MetalconPjaxr(params.getRequest(), pjaxrNamespace);
 
         Entity entity = entityManager.getEntity(muid, getEntityType());
 
         view.setMuid(entity.getMuid());
 
-        switch (pjaxrObj.getMatchingCount()) {
-            case Pjaxr.NEEDED_IN_SITE:
-            case Pjaxr.NEEDED_IN_PAGE:
-            case Pjaxr.NEEDED_IN_CONTENT:
-                // create tab previews if content
-                Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-                        new HashMap<EntityTabType, EntityTabPreview>();
-                for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
-                        .entrySet()) {
-                    EntityTabType entityTabPreviewType = entry.getKey();
-                    EntityTabGenerator<?, ?> entityTabPreviewGenerator =
-                            entry.getValue();
-                    if (entityTabPreviewGenerator != null) {
-                        EntityTabPreview entityTabPreview =
-                                entityTabPreviewGenerator
-                                        .generateTabPreview(entity);
-                        entityTabPreviews.put(entityTabPreviewType,
-                                entityTabPreview);
-                    }
+        if (pjaxrObj.pjaxr_content) {
+            // create tab previews if content
+            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+                    new HashMap<EntityTabType, EntityTabPreview>();
+            for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
+                    .entrySet()) {
+                EntityTabType entityTabPreviewType = entry.getKey();
+                EntityTabGenerator<?, ?> entityTabPreviewGenerator =
+                        entry.getValue();
+                if (entityTabPreviewGenerator != null) {
+                    EntityTabPreview entityTabPreview =
+                            entityTabPreviewGenerator
+                                    .generateTabPreview(entity);
+                    entityTabPreviews.put(entityTabPreviewType,
+                            entityTabPreview);
                 }
-                view.setEntityTabPreviews(entityTabPreviews);
-
-            case Pjaxr.NEEDED_IN_INNER_CONTENT:
-                // create empty tab content and fill it with data from entity
-                EntityTabGenerator<?, ?> entityTabGenerator =
-                        getEntityTabGenerator(entityTabType);
-
-                EntityTabContent entityTabContent =
-                        entityTabGenerator.generateTabContent(entity);
-                view.setEntityTabContent(entityTabContent);
-
-            default:
-                break;
+            }
+            view.setEntityTabPreviews(entityTabPreviews);
+        }
+        if (pjaxrObj.pjaxr_inner_content) {
+            // create empty tab content and fill it with data from entity
+            EntityTabGenerator<?, ?> entityTabGenerator =
+                    getEntityTabGenerator(entityTabType);
+    
+            EntityTabContent entityTabContent =
+                    entityTabGenerator.generateTabContent(entity);
+            view.setEntityTabContent(entityTabContent);
         }
         view.setPjaxrMatching(pjaxrObj.getMatchingCount());
         view.setPjaxrNamespace(pjaxrNamespace);

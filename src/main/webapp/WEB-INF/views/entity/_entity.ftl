@@ -3,11 +3,11 @@
 
 
 <#--
- # Will include the current TabContent to "inner_content" if available.
+ # Will include the current TabContent to "innerContent" if available.
  # @example
  #   <#includeTabContent/>
  #-->
-<#assign inner_content = "">
+<#assign innerContent = "">
 <#if view?? && view.entityTabContent??>
   <#assign tabContent = view.entityTabContent>
   <#assign tab = tabContent>
@@ -51,15 +51,15 @@
 <#include "impl/__" + view.entityType?lower_case + ".ftl">
 
 <#assign stylesheets = stylesheets + ["entity.css"]>
-<#assign view_title = entity_title>
+<#assign viewTitle = entity_title>
 
 <#-- 
  # if pjaxrNamespace matching the current entity already, tabs don't have to 
  # be updated
  #-->
-<#if (pjaxrMatching &lt; 3)>
-  <#macro content_block>
-    <@mtl.content>
+<#if pjaxrContent>
+  <#macro contentBlock>
+    <@content>
       <ol class="breadcrumb">
         <li><a href="#">Home</a></li>
         <li><a href="#">Metallica</a></li>
@@ -67,7 +67,7 @@
       </ol>
       <div class="row">
         <div class="col-xs-8">
-          <h1>${entity_title}</h1>
+          <h1>${viewTitle}</h1>
           <#nested>
         </div>
         <div id="tabs" class="col-xs-4">
@@ -78,18 +78,12 @@
           </ul>
         </div>
       </div>
-    </@mtl.content>
+    </@content>
   </#macro>
 <#else>
-  <#macro content_block>
-    <@mtl.content>
+  <#macro contentBlock>
+    <@content>
       <#nested>
-    </@mtl.content>
+    </@content>
   </#macro>
 </#if>
-
-<#macro inner_content_block>
-  <@mtl.innerContent>
-    ${inner_content}
-  </@mtl.innerContent>
-</#macro>

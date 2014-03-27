@@ -16,15 +16,8 @@
                                 {"name": "viewport", 
                                  "content": "width=device-width, initial-scale=1"}]>
 
-<#macro page_block>
-  <@mtl.page>
-    <#nested>
-    <a href="/instrument/Guitar-19/about">Guitar</a>
-  </@mtl.page>
-</#macro>
-
-<#macro site_block>
-  <@mtl.site>
+<#macro siteBlock>
+  <@site>
     <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -66,7 +59,7 @@
         </div>
       </div>
     </footer>
-  </@mtl.site>
+  </@site>
 </#macro>
 
 <@mtl.html>
@@ -74,10 +67,9 @@
   <#--
    # Include more specific view template. These are expected to set the
    # following variables:
-   # view_title - String containing the title to be displayed in <title>-tag.
-   # view_content - HTML string to contain body content.
+   # viewTitle - String containing the title to be displayed in <title>-tag.
    #-->
-  <@mtl.head title="${view_title}" metaTags=metaTags>
+  <@mtl.head title="${viewTitle}" metaTags=metaTags>
     <#list stylesheets as stylesheet>
       <@mtl.stylesheet href=stylesheet/>
     </#list>
@@ -85,34 +77,36 @@
       <@mtl.lessStylesheet href=stylesheet/>
     </#list>
     
-    <script src="<@spring.url "/resources/libs/jquery/2.1.0/jquery.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/jquery-pjaxr/1.1.0/jquery-pjaxr.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/jquery/"+JQUERY_VERSION+"/jquery.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/jquery-pjaxr/"+JQUERY_PJAXR_VERSION+"/jquery.pjaxr.js"/>"></script>
     
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/affix.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/alert.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/button.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/carousel.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/collapse.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/dropdown.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/modal.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/tooltip.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/popover.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/scrollspy.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/tab.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/3.1.1/js/transition.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/affix.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/alert.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/button.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/carousel.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/collapse.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/dropdown.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/modal.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/tooltip.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/popover.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/scrollspy.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/tab.js"/>"></script>
+    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/transition.js"/>"></script>
     
     <script src="<@spring.url "/resources/js/main.js"/>"></script>
   
     <!--TODO only in develop and has to be last -->
-    <script src="<@spring.url "/resources/libs/less/1.7.0/less.min.js"/>" type="text/javascript"></script>
+    <script src="<@spring.url "/resources/libs/less/"+LESS_VERSION+"/less.min.js"/>" type="text/javascript"></script>
   </@mtl.head>
   <@mtl.body>
-    <@site_block>
-      <@page_block>
-        <@content_block>
-          <@inner_content_block></@inner_content_block>
-        </@content_block>
-      </@page_block>
-    </@site_block>
+    <@siteBlock>
+      <@pageBlock>
+        <@contentBlock>
+          <@innerContentBlock>
+            ${innerContent}
+          </@innerContentBlock>
+        </@contentBlock>
+      </@pageBlock>
+    </@siteBlock>
   </@mtl.body>
 </@mtl.html>

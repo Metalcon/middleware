@@ -1,23 +1,17 @@
-package de.iekadou.spring_pjaxr;
+package com.iekadou.pjaxr;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class Pjaxr {
 
-    private String currentNamespace;
-    private String previousNamespace = "";
-    private String matchingNamespace = "";
-    private int matchingCount = 0;
-    
-    //switch case:
-    final public static int NEEDED_IN_SITE = 0;
-    final public static int NEEDED_IN_PAGE = 1;
-    final public static int NEEDED_IN_CONTENT = 2;
-    final public static int NEEDED_IN_INNER_CONTENT = 3;
-    
+    protected String currentNamespace;
+    protected String previousNamespace = "";
+    protected String matchingNamespace = "";
+    protected int matchingCount = 0;
+
     public Pjaxr(HttpServletRequest request, String currentNamespace) {
         this.currentNamespace = currentNamespace;
-        
+
         if (request.getHeader("X-PJAX") != null && request.getHeader("X-PJAX-NAMESPACE") != null) {
             this.previousNamespace = request.getHeader("X-PJAX-NAMESPACE"); 
             String[] prevNamespaces = this.previousNamespace.split("\\.");
@@ -30,6 +24,8 @@ public class Pjaxr {
                         // +1 for better recoginzable Values and the ability to decide
                         // if pjaxr should be used or not with testing against 0
                         this.matchingCount = level + 1;
+                    } else {
+                        break;
                     }
                 }
             }

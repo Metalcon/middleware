@@ -63,6 +63,10 @@ public abstract class MetalconView implements View {
         return pjaxrNamespace;
     }
 
+    public int getPjaxrMatching() {
+        return pjaxrMatching;
+    }
+
     public String getId() {
         return userId;
     }
@@ -81,10 +85,6 @@ public abstract class MetalconView implements View {
 
     public void setPjaxrNamespace(String pjaxrNamespace) {
         this.pjaxrNamespace = pjaxrNamespace;
-    }
-
-    public int getPjaxrMatching() {
-        return pjaxrMatching;
     }
 
     public void setPjaxrMatching(int pjaxrMatching) {

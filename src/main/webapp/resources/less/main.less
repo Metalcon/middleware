@@ -1,15 +1,41 @@
+@BOOTSTRAP_VERSION: "3.1.1";
+@FONTAWESOME_VERSION: "4.0.3";
+
 // variables and mixins are imported now to be overridden in our own files. bootstrap will not include those files again.
-@import "../libs/bootstrap/3.1.1/less/variables.less";
-@import "../libs/bootstrap/3.1.1/less/mixins.less";
+@import "../libs/bootstrap/@{BOOTSTRAP_VERSION}/less/variables.less";
+@import "../libs/bootstrap/@{BOOTSTRAP_VERSION}/less/mixins.less";
 
 @import "variables.less"; // here should be all variables
 @import "mixins.less"; // here should be all functions
 
-@import "../libs/bootstrap/3.1.1/less/bootstrap.less";
-@import "../libs/fontawesome/4.0.3/less/font-awesome.less";
+@import "../libs/bootstrap/@{BOOTSTRAP_VERSION}/less/bootstrap.less";
+@import "../libs/fontawesome/@{FONTAWESOME_VERSION}/less/font-awesome.less";
 
 body {
   padding: @navbar-height 0;
+}
+
+#page {
+  background-color: white;
+  position: relative;
+  &:before, &:after {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 10px;
+    display: block;
+  }
+  &:before {
+    left: -10px;
+    background-image: url('../img/border-white-left.png');
+    background-repeat: repeat-x;
+  }
+  &:after {
+    right: -10px;
+    background-image: url('../img/border-white-right.png');
+    background-repeat: repeat-x;
+  }
+  
 }
 
 #footer {
@@ -19,4 +45,16 @@ body {
   margin: 0;
   border-radius: 0;
   height: @navbar-height;
+  &:before {
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: -1px;
+    height: 20px;
+    width: 105%;
+    background-image: url('../img/border-footer-top.png');
+    background-position: top center;
+    background-repeat: repeat-x;
+    border-top: 0;
+  }
 }
