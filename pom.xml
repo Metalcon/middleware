@@ -32,6 +32,14 @@
         <role>developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>renepickhardt</id>
+      <name>Rene Pickhardt</name>
+      <email>rene@rene-pickhardt.de</email>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
   </developers>
 
   <repositories>
@@ -45,7 +53,8 @@
     <tomcat.deploy-plugin.path>/middleware</tomcat.deploy-plugin.path>
     
     <metalcon.api.version>0.0.1-SNAPSHOT</metalcon.api.version>
-    
+    <music.streaming.server.api.version>0.0.1</music.streaming.server.api.version>
+  
     <!-- Spring -->
     <springframework.version>4.0.2.RELEASE</springframework.version>
     <springsecurity.version>3.2.0.RELEASE</springsecurity.version>
@@ -89,6 +98,13 @@
       <artifactId>api</artifactId>
       <version>${metalcon.api.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>music-streaming-server-api</artifactId>
+      <version>${music.streaming.server.api.version}</version>
+    </dependency>
+
 
     <!-- Spring -->
     <dependency>
@@ -152,7 +168,7 @@
     <dependency>
       <groupId>net.hh</groupId>
       <artifactId>RequestDispatcher</artifactId>
-      <version>0.0.1</version>
+      <version>1.0.1</version>
     </dependency>
     <!-- TODO: remove me -->
     <!-- Apache HTTP -->
