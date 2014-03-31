@@ -7,12 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.hh.RequestDispatcher.Callback;
-import net.hh.RequestDispatcher.Dispatcher;
-import net.hh.RequestDispatcher.Service.ZmqService;
-import net.hh.RequestDispatcher.TransferClasses.TestService.TestReply;
-import net.hh.RequestDispatcher.TransferClasses.TestService.TestRequest;
-
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.StringBody;
@@ -34,15 +28,15 @@ public class NewsServer /* implements NewsFeed */{
     private static ObjectMapper mapper = new ObjectMapper();
 
     // TODO: not thread save! need to use spring annotation for ThreadBeans
-    private static Dispatcher dispatcher = new Dispatcher();
+    //private static Dispatcher dispatcher = new Dispatcher();
 
     @Autowired
     private BeanFactory beanFactory;
 
     public NewsServer() {
         // TODO: initialization. Replace with the real graphity service.
-        dispatcher.registerServiceProvider("graphity", new ZmqService(
-                "tcp://127.0.0.1:60125"));
+        //        dispatcher.registerServiceProvider("graphity", new ZmqService(
+        //                "tcp://127.0.0.1:60125"));
         //dispatcher.setDefaultTimeout(100);
 
     }
@@ -56,24 +50,26 @@ public class NewsServer /* implements NewsFeed */{
         List<Map<String, Object>> modelNews =
                 new LinkedList<Map<String, Object>>();
 
-        dispatcher.execute("graphity", new TestRequest(
-                "fetch newsfeed. this string currently has no meaning"),
-                new Callback<TestReply>(new TestReply()) {
+        //        dispatcher.execute("graphity", new TestRequest(
+        //                "fetch newsfeed. this string currently has no meaning"),
+        //                new Callback<TestReply>(new TestReply()) {
+        //
+        //                    @Override
+        //                    public void onTimeOut(String errorMessage) {
+        //                        response.add("{\"items\":[{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"hey\",\"id\":\"1394529863852\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2014-03-11T10:24:24Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"asdf\",\"id\":\"1387393615465\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-18T20:06:55Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"nice\",\"id\":\"1386331367991\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:48Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"auf gehts. 2010 fi.... auch im stehen.\",\"id\":\"1386331359345\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:39Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330847185\",\"id\":\"1386330847185\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:54:07Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330828215\",\"id\":\"1386330828215\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:53:48Z\"}]}");
+        //                    }
+        //
+        //                    @Override
+        //                    public void onSuccess(final TestReply secondReply) {
+        //                        response.add("{\"items\":[{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"hey\",\"id\":\"1394529863852\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2014-03-11T10:24:24Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"asdf\",\"id\":\"1387393615465\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-18T20:06:55Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"nice\",\"id\":\"1386331367991\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:48Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"auf gehts. 2010 fi.... auch im stehen.\",\"id\":\"1386331359345\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:39Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330847185\",\"id\":\"1386330847185\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:54:07Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330828215\",\"id\":\"1386330828215\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:53:48Z\"}]}");
+        //
+        //                    }
+        //                });
+        //
+        //        // FIXME: Here is the blocking. Put to another position. Not clear how to collect the processed answers. Since this should be in the metalcon controller. But on the other side in the callbacks one should be able to use outside data. Will all of this be achieved with DTO's ? 
+        //        dispatcher.gatherResults(100);
 
-                    @Override
-                    public void onTimeOut(String errorMessage) {
-                        response.add("{\"items\":[{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"hey\",\"id\":\"1394529863852\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2014-03-11T10:24:24Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"asdf\",\"id\":\"1387393615465\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-18T20:06:55Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"nice\",\"id\":\"1386331367991\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:48Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"auf gehts. 2010 fi.... auch im stehen.\",\"id\":\"1386331359345\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:39Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330847185\",\"id\":\"1386330847185\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:54:07Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330828215\",\"id\":\"1386330828215\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:53:48Z\"}]}");
-                    }
-
-                    @Override
-                    public void onSuccess(final TestReply secondReply) {
-                        response.add("{\"items\":[{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"hey\",\"id\":\"1394529863852\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2014-03-11T10:24:24Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"asdf\",\"id\":\"1387393615465\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-18T20:06:55Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"nice\",\"id\":\"1386331367991\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:48Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"auf gehts. 2010 fi.... auch im stehen.\",\"id\":\"1386331359345\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:39Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330847185\",\"id\":\"1386330847185\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:54:07Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330828215\",\"id\":\"1386330828215\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:53:48Z\"}]}");
-
-                    }
-                });
-
-        // FIXME: Here is the blocking. Put to another position. Not clear how to collect the processed answers. Since this should be in the metalcon controller. But on the other side in the callbacks one should be able to use outside data. Will all of this be achieved with DTO's ? 
-        dispatcher.gatherResults(100);
+        response.add("{\"items\":[{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"hey\",\"id\":\"1394529863852\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2014-03-11T10:24:24Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"asdf\",\"id\":\"1387393615465\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-18T20:06:55Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"nice\",\"id\":\"1386331367991\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:48Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"auf gehts. 2010 fi.... auch im stehen.\",\"id\":\"1386331359345\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:39Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330847185\",\"id\":\"1386330847185\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:54:07Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330828215\",\"id\":\"1386330828215\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:53:48Z\"}]}");
 
         String answer = response.get(0);
 
