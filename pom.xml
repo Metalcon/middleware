@@ -32,6 +32,14 @@
         <role>developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>renepickhardt</id>
+      <name>Rene Pickhardt</name>
+      <email>rene@rene-pickhardt.de</email>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
   </developers>
 
   <repositories>
@@ -49,7 +57,7 @@
     <metalcon.request-dispatcher.version>1.1.0</metalcon.request-dispatcher.version>
     <!-- Metalcon Backend Components -->
     <metalcon.static-data-delivery-server-api.version>0.0.7</metalcon.static-data-delivery-server-api.version>
-    
+      <music.streaming.server.api.version>0.0.1</music.streaming.server.api.version>
     <!-- Spring -->
     <springframework.version>4.0.2.RELEASE</springframework.version>
     <springsecurity.version>3.2.0.RELEASE</springsecurity.version>
@@ -104,6 +112,13 @@
       <artifactId>static-data-delivery-server-api</artifactId>
       <version>${metalcon.static-data-delivery-server-api.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>music-streaming-server-api</artifactId>
+      <version>${music.streaming.server.api.version}</version>
+    </dependency>
+
 
     <!-- Spring -->
     <dependency>
@@ -163,7 +178,15 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- TODO: remove me: Apache HTTP -->
+
+    <!-- zmq bindings -->
+    <dependency>
+      <groupId>net.hh</groupId>
+      <artifactId>RequestDispatcher</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <!-- TODO: remove me -->
+    <!-- Apache HTTP -->
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
