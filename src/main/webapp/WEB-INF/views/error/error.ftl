@@ -1,15 +1,15 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
+<#import "/__html.ftl" as html>
+<@html.html>
   <#--
    # Be careful when editing this template. FreeMarker errors that occur while
    # parsing this template will not be displayed in the browser, since this
    # template is responsible for displaying them.
    #-->
-  <@mtl.head title="${statusCode} - ${statusMessage}">
-    <@mtl.stylesheet href="error.css"/>
-  </@mtl.head>
-  <@mtl.body>
+  <@html.head title="${statusCode} - ${statusMessage}">
+    <@html.stylesheet href="error.css"/>
+  </@html.head>
+  <@html.body>
     <#escape x as x?html>
       <h1>${statusCode} - ${statusMessage}</h1>
     </#escape>
@@ -24,5 +24,5 @@
           ?replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")}
       </p>
     </#if>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

@@ -7,4 +7,9 @@ package de.metalcon.middleware.view;
  */
 public class LoginView extends MetalconView {
 
+    @Override
+    public String getType() {
+        return "login";
+    }
+
 }

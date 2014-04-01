@@ -1,9 +1,10 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/spring.ftl" as spring>
 <#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
-  <@mtl.head title="Home - Metalcon"/>
-  <@mtl.body>
+<#import "/__html.ftl" as html>
+<@html.html>
+  <@html.head title="Home - Metalcon"/>
+  <@html.body>
     <h1>Metalcon Middleware</h1>
     <p>Welcome to the Metalcon Middleware!</p>
     <p>Find information under <a href="https://github.com/renepickhardt/metalcon/wiki/componentMiddleware">componentMiddleware (Github Wiki)</a>.</p>
@@ -109,5 +110,5 @@
     <h2>Model</h2>
     <p>You can append <code>.json</code> to any URL to view the model as
     json data instead of the view.</p>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

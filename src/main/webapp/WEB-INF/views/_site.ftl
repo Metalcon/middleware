@@ -1,23 +1,12 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/spring.ftl" as spring>
-<#import "/__metalcon.ftl" as mtl>
+<#import "/__pjaxr.ftl" as pjaxr>
 
-<#--
- # This is the default metalcon page template. Every "page" on metalcon uses
- # this view. Inside it, it includes more specific views.
- #-->
+<#assign viewPc><a id="view_pc" class="navbar-brand" href="#">pagecounter: ${view.pc!"null"}</a></#assign>
+<#assign viewId><a id="view_id" class="navbar-brand" href="#">userid: ${view.id!"null"}</a></#assign>
+<@pjaxr.addAdditionalBlocks [viewPc,viewId]/>
 
-<#assign lessStylesheets = lessStylesheets + ["main.less"]>
-
-<#assign metaTags = metaTags + [{"http-equiv": "content-type", 
-                                 "content": "application/xhtml+xml; charset=UTF-8"},
-                                {"http-equiv": "X-UA-Compatible", 
-                                 "content": "IE=edge"},
-                                {"name": "viewport", 
-                                 "content": "width=device-width, initial-scale=1"}]>
-
-<#macro siteBlock>
-  <@site>
+<#macro site>
+  <div id="site">
     <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -28,8 +17,8 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="<@spring.url "/"/>">Metalcon</a>
-          ${view_pc}
-          ${view_id}
+          ${viewPc}
+          ${viewId}
         </div>
         <form class="collapse navbar-collapse navbar-form navbar-nav" role="form">
           <div class="form-group">
@@ -59,54 +48,7 @@
         </div>
       </div>
     </footer>
-  </@site>
+  </div>
 </#macro>
 
-<@mtl.html>
-  
-  <#--
-   # Include more specific view template. These are expected to set the
-   # following variables:
-   # viewTitle - String containing the title to be displayed in <title>-tag.
-   #-->
-  <@mtl.head title="${viewTitle}" metaTags=metaTags>
-    <#list stylesheets as stylesheet>
-      <@mtl.stylesheet href=stylesheet/>
-    </#list>
-    <#list lessStylesheets as stylesheet>
-      <@mtl.lessStylesheet href=stylesheet/>
-    </#list>
-    
-    <script src="<@spring.url "/resources/libs/jquery/"+JQUERY_VERSION+"/jquery.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/jquery-pjaxr/"+JQUERY_PJAXR_VERSION+"/jquery.pjaxr.js"/>"></script>
-    
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/affix.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/alert.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/button.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/carousel.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/collapse.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/dropdown.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/modal.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/tooltip.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/popover.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/scrollspy.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/tab.js"/>"></script>
-    <script src="<@spring.url "/resources/libs/bootstrap/"+BOOTSTRAP_VERSION+"/js/transition.js"/>"></script>
-    
-    <script src="<@spring.url "/resources/js/main.js"/>"></script>
-  
-    <!--TODO only in develop and has to be last -->
-    <script src="<@spring.url "/resources/libs/less/"+LESS_VERSION+"/less.min.js"/>" type="text/javascript"></script>
-  </@mtl.head>
-  <@mtl.body>
-    <@siteBlock>
-      <@pageBlock>
-        <@contentBlock>
-          <@innerContentBlock>
-            ${innerContent}
-          </@innerContentBlock>
-        </@contentBlock>
-      </@pageBlock>
-    </@siteBlock>
-  </@mtl.body>
-</@mtl.html>
+<#include "_page.ftl">

@@ -221,7 +221,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
-    @SuppressWarnings("fallthrough")
     protected void handleGet(
             EntityViewType view,
             RequestParameters params,
@@ -236,7 +235,8 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 getMetalconNamespace() + "." + getEntityType().toString() + "."
                         + muid + "." + entityTabType.toString().toLowerCase();
 
-        MetalconPjaxr pjaxrObj = new MetalconPjaxr(params.getRequest(), pjaxrNamespace);
+        MetalconPjaxr pjaxrObj =
+                new MetalconPjaxr(params.getRequest(), pjaxrNamespace);
 
         Entity entity = entityManager.getEntity(muid, getEntityType());
 
@@ -265,7 +265,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
             // create empty tab content and fill it with data from entity
             EntityTabGenerator<?, ?> entityTabGenerator =
                     getEntityTabGenerator(entityTabType);
-    
+
             EntityTabContent entityTabContent =
                     entityTabGenerator.generateTabContent(entity);
             view.setEntityTabContent(entityTabContent);
