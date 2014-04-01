@@ -46,13 +46,14 @@
     
     <!-- Metalcon -->
     <metalcon.api.version>0.1.1</metalcon.api.version>
+    <metalcon.muid.version>0.2.0-SNAPSHOT</metalcon.muid.version>
     <metalcon.request-dispatcher.version>1.1.0</metalcon.request-dispatcher.version>
     <!-- Metalcon Backend Components -->
     <metalcon.static-data-delivery-server-api.version>0.0.7</metalcon.static-data-delivery-server-api.version>
     
     <!-- Spring -->
     <springframework.version>4.0.2.RELEASE</springframework.version>
-    <springsecurity.version>3.2.0.RELEASE</springsecurity.version>
+    <springsecurity.version>3.2.3.RELEASE</springsecurity.version>
     <springmvc-router.version>1.2.0</springmvc-router.version>
     
     <hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
@@ -92,6 +93,11 @@
       <groupId>de.metalcon</groupId>
       <artifactId>api</artifactId>
       <version>${metalcon.api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>muid</artifactId>
+      <version>${metalcon.muid.version}</version>
     </dependency>
     <dependency>
       <groupId>net.hh</groupId>

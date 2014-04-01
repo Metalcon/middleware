@@ -1,14 +1,25 @@
 package de.metalcon.middleware.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
+
+import net.hh.request_dispatcher.Callback;
+import net.hh.request_dispatcher.Dispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.metalcon.api.responses.Response;
+import de.metalcon.api.responses.errors.InternalServerErrorResponse;
+import de.metalcon.api.responses.errors.UsageErrorResponse;
+import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.GlobalConstants;
 import de.metalcon.middleware.core.UserSession;
 import de.metalcon.middleware.core.UserSessionFactory;
 import de.metalcon.middleware.domain.Muid;
 import de.metalcon.middleware.view.MetalconView;
+import de.metalcon.sdd.api.requests.SddReadRequest;
+import de.metalcon.sdd.api.responses.SddSucessfulReadResponse;
 
 public abstract class MetalconController {
 
@@ -19,13 +30,49 @@ public abstract class MetalconController {
     }
 
     @Autowired
+    private DispatcherFactory dispatcherFactory;
+
+    @Autowired
     private UserSessionFactory userSessionFactory;
+
+    protected Dispatcher dispatcher() {
+        return dispatcherFactory.getDispatcher();
+    }
 
     public void handleRequest(MetalconView view, RequestParameters params) {
         UserSession user = prepareUserSession(params);
         view.setId(user.getMuid() + "");
         user.incPageCount();
         view.setPc(user.getPageCount() + "");
+
+        SddReadRequest read = new SddReadRequest();
+        read.read(new de.metalcon.domain.Muid(7), "nested");
+        dispatcher().execute(read, new Callback<Response>() {
+
+            @Override
+            public void onSuccess(Response response) {
+                if (response instanceof UsageErrorResponse) {
+                    System.out.println(((UsageErrorResponse) response)
+                            .getErrorMessage());
+                } else if (response instanceof InternalServerErrorResponse) {
+                    System.out.println(((InternalServerErrorResponse) response)
+                            .getErrorMessage());
+                } else if (response instanceof SddSucessfulReadResponse) {
+                    for (Map.Entry<de.metalcon.domain.Muid, Map<String, String>> node : ((SddSucessfulReadResponse) response)
+                            .get().entrySet()) {
+                        System.out.println(node.getKey() + ":");
+                        for (Map.Entry<String, String> output : node.getValue()
+                                .entrySet()) {
+                            System.out.println("  " + output.getKey() + "="
+                                    + output.getValue());
+                        }
+                    }
+                }
+            }
+
+        });
+
+        dispatcher().gatherResults(700);
     }
 
     public void handleGet(MetalconView view, RequestParameters params) {
