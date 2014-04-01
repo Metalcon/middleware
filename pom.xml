@@ -45,16 +45,19 @@
   <repositories>
     <repository>
       <id>metalcon-depend</id>
-      <url>http://metalcon2.physik.uni-mainz.de:8080/mvn/</url>
+      <url>http://develop.metalcon.de:8080/mvn/</url>
     </repository>
   </repositories>
 
   <properties>
     <tomcat.deploy-plugin.path>/middleware</tomcat.deploy-plugin.path>
     
-    <metalcon.api.version>0.0.1-SNAPSHOT</metalcon.api.version>
-    <music.streaming.server.api.version>0.0.1</music.streaming.server.api.version>
-  
+    <!-- Metalcon -->
+    <metalcon.api.version>0.1.1</metalcon.api.version>
+    <metalcon.request-dispatcher.version>1.1.0</metalcon.request-dispatcher.version>
+    <!-- Metalcon Backend Components -->
+    <metalcon.static-data-delivery-server-api.version>0.0.7</metalcon.static-data-delivery-server-api.version>
+      <music.streaming.server.api.version>0.0.1</music.streaming.server.api.version>
     <!-- Spring -->
     <springframework.version>4.0.2.RELEASE</springframework.version>
     <springsecurity.version>3.2.0.RELEASE</springsecurity.version>
@@ -92,12 +95,30 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- metalcon -->
+    <!-- Metalcon -->
     <dependency>
       <groupId>de.metalcon</groupId>
       <artifactId>api</artifactId>
       <version>${metalcon.api.version}</version>
     </dependency>
+    <dependency>
+      <groupId>net.hh</groupId>
+      <artifactId>RequestDispatcher</artifactId>
+      <version>${metalcon.request-dispatcher.version}</version>
+    </dependency>
+    <!-- Metalcon Backend Components -->
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>static-data-delivery-server-api</artifactId>
+      <version>${metalcon.static-data-delivery-server-api.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>music-streaming-server-api</artifactId>
+      <version>${music.streaming.server.api.version}</version>
+    </dependency>
+
 
     <dependency>
       <groupId>de.metalcon</groupId>
@@ -169,6 +190,7 @@
       <version>${servlet.version}</version>
       <scope>provided</scope>
     </dependency>
+
 
     <!-- zmq bindings -->
     <dependency>
