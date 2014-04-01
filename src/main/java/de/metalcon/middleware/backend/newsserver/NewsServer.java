@@ -7,9 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.hh.RequestDispatcher.Dispatcher;
-import net.hh.RequestDispatcher.Service.ZmqService;
-
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.StringBody;
@@ -31,15 +28,15 @@ public class NewsServer /* implements NewsFeed */{
     private static ObjectMapper mapper = new ObjectMapper();
 
     // TODO: not thread save! need to use spring annotation for ThreadBeans
-    private static Dispatcher dispatcher = new Dispatcher();
+    //    private static Dispatcher dispatcher = new Dispatcher();
 
     @Autowired
     private BeanFactory beanFactory;
 
     public NewsServer() {
         // TODO: initialization. Replace with the real graphity service.
-        dispatcher.registerServiceProvider("graphity", new ZmqService(
-                "tcp://127.0.0.1:60125"));
+        //        dispatcher.registerServiceProvider("graphity", new ZmqService(
+        //                "tcp://127.0.0.1:60125"));
         //dispatcher.setDefaultTimeout(100);
 
     }

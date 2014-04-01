@@ -1,25 +1,23 @@
 package de.metalcon.middleware.controller.test;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.hh.RequestDispatcher.Callback;
-import net.hh.RequestDispatcher.Dispatcher;
-import net.hh.RequestDispatcher.Service.ZmqService;
-import net.hh.RequestDispatcher.TransferClasses.Request;
+import net.hh.request_dispatcher.Callback;
+import net.hh.request_dispatcher.Dispatcher;
+import net.hh.request_dispatcher.service_adapter.ZmqAdapter;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.zeromq.ZMQ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,8 +42,17 @@ public class TestUploadMusicController {
     }
 
     public TestUploadMusicController() {
-        dispatcher.registerServiceProvider("music", new ZmqService(
-                "tcp://127.0.0.1:6666"));
+        ZMQ.Context ctx = ZMQ.context(1);
+
+        dispatcher
+                .registerServiceAdapter(
+                        "music",
+                        new ZmqAdapter<MusicStreamingCreateRequest, MusicStreamingCreateResponse>(
+                                ctx, "tcp://127.0.0.1:6666") {
+                        });
+        dispatcher
+                .setDefaultService(MusicStreamingCreateRequest.class, "music");
+
     }
 
     public ModelAndView showForm() {
@@ -55,7 +62,7 @@ public class TestUploadMusicController {
         return new ModelAndView("test/music", model);
     }
 
-    public String postMp3(@RequestParam("formMessage") String formMessage)
+    public String postMp3(@RequestParam("file") MultipartFile file)
             throws IOException {
         // TODO: do magic call request dispatcher
 
@@ -63,33 +70,26 @@ public class TestUploadMusicController {
         List<Map<String, Object>> modelNews =
                 new LinkedList<Map<String, Object>>();
 
-        File mp3 = new File("/etc/musicStorageServer/test.mp3");
-        FileInputStream fis = new FileInputStream(mp3);
-        byte[] musicFile = IOUtils.toByteArray(fis);
+        byte[] musicFile = file.getBytes();
+
+        System.out.println(musicFile.length);
 
         CreateRequestData createRequestData =
                 new CreateRequestData(
                         new Muid((long) (Math.random() * 1000000)), musicFile,
-                        "");
-        dispatcher.execute("music", (Request) new MusicStreamingCreateRequest(
-                createRequestData), new Callback<MusicStreamingCreateResponse>(
-                new MusicStreamingCreateResponse(formMessage)) {
+                        "{}");
+        dispatcher.execute(new MusicStreamingCreateRequest(createRequestData),
+                new Callback<MusicStreamingCreateResponse>() {
 
-            @Override
-            public void onTimeOut(String errorMessage) {
-                response.add("timout!!!" + errorMessage);
-            }
-
-            @Override
-            public void
-                onSuccess(final MusicStreamingCreateResponse secondReply) {
-                response.add("success" + secondReply.toString());
-
-            }
-        });
+                    @Override
+                    public void onSuccess(MusicStreamingCreateResponse arg0) {
+                        System.out.println("received response!");
+                        response.add(arg0.getResponseString());
+                    }
+                });
 
         // FIXME: Here is the blocking. Put to another position. Not clear how to collect the processed answers. Since this should be in the metalcon controller. But on the other side in the callbacks one should be able to use outside data. Will all of this be achieved with DTO's ? 
-        dispatcher.gatherResults(100);
+        dispatcher.gatherResults();
 
         String answer = response.get(0);
         System.out.println(answer);
