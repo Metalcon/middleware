@@ -1,11 +1,11 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/__metalcon.ftl" as mtl>
+<#import "/__html.ftl" as html>
 <#import "/spring.ftl" as spring>
-<@mtl.html>
-  <@mtl.head title="Model">
-    <@mtl.stylesheet href="test/model.css"/>
-  </@mtl.head>
-  <@mtl.body>
+<@html.html>
+  <@html.head title="Model">
+    <@html.stylesheet href="test/model.css"/>
+  </@html.head>
+  <@html.body>
     <#escape x as x?html>
       <#assign blacklist = ["springMacroRequestContext", "Request", "Session",
                             "RequestParameters", "Application", "JspTaglibs"]>
@@ -88,5 +88,5 @@
     
       <@print_hash hash=.data_model rec=[]/>
     </#escape>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

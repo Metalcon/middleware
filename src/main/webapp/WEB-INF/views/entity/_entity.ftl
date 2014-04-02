@@ -34,13 +34,12 @@
 <#--
  # Will include the corrrect entityType subtemplate.
  # For example, if view.entityType is "BAND" this will include "impl/band.ftl"
- # These are expected to set the foloowing variables:
+ # These are expected to set the following variables:
  # entity_tabPreviews - HTML string containing the rendered tabPreviews. 
  #-->
 <#include "impl/__" + view.entityType?lower_case + ".ftl">
 
 <@mtl.addStylesheet "entity.css"/>
-<#assign viewTitle = entity_title>
 
 <#macro content>
   <div id="content" class="col-xs-12">
@@ -51,9 +50,7 @@
     </ol>
     <div class="row">
       <div class="col-xs-8">
-        <p>${pjaxr.matching}</p>
-        <p>${pjaxr.namespace}</p>
-        <h1>${viewTitle}</h1>
+        <h1>${entity_title}</h1>
         <#nested>
       </div>
       <div id="tabs" class="col-xs-4">
@@ -68,3 +65,5 @@
     </div>
   </div>
 </#macro>
+
+<#assign viewTitle = entity_title>
