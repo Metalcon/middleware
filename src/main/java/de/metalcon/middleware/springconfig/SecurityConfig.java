@@ -16,8 +16,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("password")
-                .roles("USER");
+        //@formatter:off
+        auth
+            .inMemoryAuthentication()
+                .withUser("user").password("password").roles("USER").and()
+                .withUser("admin").password("password").roles("USER", "ADMIN");
+        //@formatter:on
     }
 
     @Override
@@ -30,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .formLogin()
                 .loginPage("/login").permitAll();
-            ;
         //@formatter:on
     }
 }

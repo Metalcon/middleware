@@ -5,6 +5,7 @@
     <div id="page" class="container">
       <div class="row">
         <#nested>
+        <a href="/instrument/Guitar-19/about">Guitar</a> | <a href="/music/Ensiferum-12/about">Ensiferum-12</a> | <a href="/music/Ensiferum-22/about">Ensiferum-22</a>
       </div>
     </div>
   </#macro>
