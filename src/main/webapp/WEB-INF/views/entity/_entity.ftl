@@ -1,31 +1,35 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__metalcon.ftl" as mtl>
+<#import "/__pjaxr.ftl" as pjaxr>
 
-<#if !view.entityTabContent??>
-  <#stop "view.entityTabContent is missing.">
+<#if view.entityTabContent??>
+  <#assign tabContent = view.entityTabContent>
 </#if>
-<#if !view.entityTabPreviews??>
-  <#stop "view.entityTabPreviews is missing.">
+
+<#if view.entityTabPreviews??>
+  <#assign tabPreviews = view.entityTabPreviews>
 </#if>
 
 <#--
  # Will include the current TabContent to "innerContent".
  #-->
-<#assign tabContent = view.entityTabContent>
-<#include "tab/content/_tab_content.ftl">
+<#if tabContent??>
+  <#include "tab/content/_tab_content.ftl">
+</#if>
 
 <#--
  # Macro to include tabPreview given as tabPreviewName out tabPreviews.
  #-->
-<#assign tabPreviews = view.entityTabPreviews>
-<#macro includeTabPreview tabPreviewName>
-  <#assign tabPreview = tabPreviews[tabPreviewName]>
-  <#if tabPreview??>
-    <#include "tab/preview/_tab_preview.ftl">
-  <#else>
-    <#stop "tabPreview with name \"" + tabPreviewName + "\" doesn't exist.">
-  </#if>
-</#macro>
+<#if tabPreviews??>
+  <#macro includeTabPreview tabPreviewName>
+    <#assign tabPreview = tabPreviews[tabPreviewName]>
+    <#if tabPreview??>
+      <#include "tab/preview/_tab_preview.ftl">
+    <#else>
+      <#stop "tabPreview with name \"" + tabPreviewName + "\" doesn't exist.">
+    </#if>
+  </#macro>
+</#if>
 
 <#--
  # Will include the corrrect entityType subtemplate.
@@ -47,15 +51,19 @@
     </ol>
     <div class="row">
       <div class="col-xs-8">
+        <p>${pjaxr.matching}</p>
+        <p>${pjaxr.namespace}</p>
         <h1>${viewTitle}</h1>
         <#nested>
       </div>
       <div id="tabs" class="col-xs-4">
-        <ul>
-          <#list entity_tabPreviews as entity_tabPreview>
-            <@includeTabPreview entity_tabPreview/>
-          </#list>
-        </ul>
+        <#if tabPreviews??>
+          <ul>
+            <#list entity_tabPreviews as entity_tabPreview>
+              <@includeTabPreview entity_tabPreview/>
+            </#list>
+          </ul>
+        </#if>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
 <#import "/__pjaxr.ftl" as pjaxr>
 
 <#macro siteRender>
-  <#if pjxr.site>
+  <#if pjaxr.site>
     <@site>
       <#nested>
     </@site>
@@ -12,7 +12,7 @@
 </#macro>
 
 <#macro pageRender>
-  <#if pjxr.page>
+  <#if pjaxr.page>
     <@page>
       <#nested>
     </@page>
@@ -22,7 +22,7 @@
 </#macro>
 
 <#macro contentRender>
-  <#if pjxr.content>
+  <#if pjaxr.content>
     <@content>
       <#nested>
     </@content>
@@ -32,7 +32,7 @@
 </#macro>
 
 <#macro innerContentRender>
-  <#if pjxr.innerContent>
+  <#if pjaxr.innerContent>
     <@innerContent>
       <#nested>
     </@innerContent>

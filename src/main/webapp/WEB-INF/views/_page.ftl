@@ -10,7 +10,6 @@
 
 <#-- START: variables set by includes -->
 <#assign viewTitle = "">
-<#assign tabPreviews = []>
 <#-- END: variables set by includes -->
 
 <#if view.type == "entity">
