@@ -1,41 +1,27 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__pjaxr.ftl" as pjaxr>
 
-<#macro siteRender>
-  <#if pjaxr.site>
-    <@site>
+<#--
+ # Renders a block only if it was requested for pjaxr, else only its contents.
+ #
+ # @param block
+ #        Name of the block to be rendered. This needs to be the same as the
+ #        name of the macro that renders the block, possible ones at the moment
+ #        are: "site", "page", "content", "innerContent".
+ #
+ # @example
+ #   <@render "site">
+ #     Contents
+ #   </@render>
+ #-->
+<#macro render block>
+  <#-- if block= "site", checks pjaxr.site -->
+  <#if pjaxr[block]>
+    <#-- if block= "site", calls @site -->
+    <#assign macro = .vars[block]>
+    <@macro>
       <#nested>
-    </@site>
-  <#else>
-    <#nested>
-  </#if>
-</#macro>
-
-<#macro pageRender>
-  <#if pjaxr.page>
-    <@page>
-      <#nested>
-    </@page>
-  <#else>
-    <#nested>
-  </#if>
-</#macro>
-
-<#macro contentRender>
-  <#if pjaxr.content>
-    <@content>
-      <#nested>
-    </@content>
-  <#else>
-    <#nested>
-  </#if>
-</#macro>
-
-<#macro innerContentRender>
-  <#if pjaxr.innerContent>
-    <@innerContent>
-      <#nested>
-    </@innerContent>
+    </@macro>
   <#else>
     <#nested>
   </#if>
@@ -48,13 +34,13 @@
   <@mtl.printMetaTags/>
 </pjaxr-head>
 <pjaxr-body>
-  <@siteRender>
-    <@pageRender>
-      <@contentRender>
-        <@innerContentRender/>
-      </@contentRender>
-    </@pageRender>
-  </@siteRender>
+  <@render "site">
+    <@render "page">
+      <@render "content">
+        <@render "innerContent"/>
+      </@render>
+    </@render>
+  </@render>
   <#list pjaxr.additionalBlocks as additionalBlock>
     ${additionalBlock}
   </#list>

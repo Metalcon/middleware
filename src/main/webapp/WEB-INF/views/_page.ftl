@@ -1,12 +1,14 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 
-<#macro page>
-  <div id="page" class="container">
-    <div class="row">
-      <#nested>
+<#if pjaxr.page>
+  <#macro page>
+    <div id="page" class="container">
+      <div class="row">
+        <#nested>
+      </div>
     </div>
-  </div>
-</#macro>
+  </#macro>
+</#if>
 
 <#-- START: variables set by includes -->
 <#assign viewTitle = "">

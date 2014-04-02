@@ -2,25 +2,17 @@
 <#import "/__metalcon.ftl" as mtl>
 <#import "/__pjaxr.ftl" as pjaxr>
 
-<#if view.entityTabContent??>
-  <#assign tabContent = view.entityTabContent>
-</#if>
+<#include "impl/__" + view.entityType?lower_case + ".ftl">
 
-<#if view.entityTabPreviews??>
+<#assign viewTitle = entity_title>
+
+<#if pjaxr.content>
+  <#if !view.entityTabPreviews??>
+    <#stop "view.entityTabPreviews is missing but needed to render content.">
+  </#if>
+  
   <#assign tabPreviews = view.entityTabPreviews>
-</#if>
-
-<#--
- # Will include the current TabContent to "innerContent".
- #-->
-<#if tabContent??>
-  <#include "tab/content/_tab_content.ftl">
-</#if>
-
-<#--
- # Macro to include tabPreview given as tabPreviewName out tabPreviews.
- #-->
-<#if tabPreviews??>
+  
   <#macro includeTabPreview tabPreviewName>
     <#assign tabPreview = tabPreviews[tabPreviewName]>
     <#if tabPreview??>
@@ -29,41 +21,45 @@
       <#stop "tabPreview with name \"" + tabPreviewName + "\" doesn't exist.">
     </#if>
   </#macro>
-</#if>
+  
+  <@mtl.addStylesheet "entity.css"/>
 
-<#--
- # Will include the corrrect entityType subtemplate.
- # For example, if view.entityType is "BAND" this will include "impl/band.ftl"
- # These are expected to set the following variables:
- # entity_tabPreviews - HTML string containing the rendered tabPreviews. 
- #-->
-<#include "impl/__" + view.entityType?lower_case + ".ftl">
-
-<@mtl.addStylesheet "entity.css"/>
-
-<#macro content>
-  <div id="content" class="col-xs-12">
-    <ol class="breadcrumb">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Metallica</a></li>
-      <li class="active">News</li>
-    </ol>
-    <div class="row">
-      <div class="col-xs-8">
-        <h1>${entity_title}</h1>
-        <#nested>
-      </div>
-      <div id="tabs" class="col-xs-4">
-        <#if tabPreviews??>
-          <ul>
-            <#list entity_tabPreviews as entity_tabPreview>
-              <@includeTabPreview entity_tabPreview/>
-            </#list>
-          </ul>
-        </#if>
+  <#macro content>
+    <div id="content" class="col-xs-12">
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Metallica</a></li>
+        <li class="active">News</li>
+      </ol>
+      <div class="row">
+        <div class="col-xs-8">
+          <h1>${entity_title}</h1>
+          <#nested>
+        </div>
+        <div id="tabs" class="col-xs-4">
+          <#if tabPreviews??>
+            <ul>
+              <#list entity_tabPreviews as entity_tabPreview>
+                <@includeTabPreview entity_tabPreview/>
+              </#list>
+            </ul>
+          </#if>
+        </div>
       </div>
     </div>
-  </div>
-</#macro>
+  </#macro>
+</#if>
 
-<#assign viewTitle = entity_title>
+<#if pjaxr.innerContent>
+  <#if !view.entityTabContent??>
+    <#stop "view.entityTabContent is missing but needed to render innerContent.">
+  </#if>
+  
+  <#assign tabContent = view.entityTabContent>
+  
+  <#macro innerContent>
+    <div id="inner_content">
+      <#include "tab/content/_tab_content.ftl">
+    </div>
+  </#macro>
+</#if>
