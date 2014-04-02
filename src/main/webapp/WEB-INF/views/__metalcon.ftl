@@ -12,6 +12,11 @@
  
 <#setting locale="de_DE">
 
+<#--
+ # Load Spring Security JSP Taglib.
+ #-->
+<#assign security = JspTaglibs["http://www.springframework.org/security/tags"]>
+
 <#-- TODOC: Stylesheets -->
 <#assign stylesheets = []>
 <#macro addStylesheet href>

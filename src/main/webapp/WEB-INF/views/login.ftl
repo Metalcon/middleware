@@ -1,15 +1,10 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
+<#import "/metalcon.ftl" as mtl>
 <#import "/spring.ftl" as spring>
 
 <#if pjaxr.content>
   <#macro content>
     <form action="<@spring.url "/login"/>" method="post">
-      <#if param?? && param.error??>
-        <p>Invalid username and password.</p>
-      </#if>
-      <#if param?? && param.logout??>
-        <p>You have been logged out.</p>
-      </#if>
       <p>
         <label for="username">Username</label>
         <input type="text" id="username" name="username"/>
@@ -18,9 +13,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password"/>
       </p>
-      <#if _crsf??>
-        <input type="hidden" name="${_csrf.parameterName}" value="${_crsf.token}"/>
-      </#if>
+      <@mtl.security.csrfInput/>
       <button type="submit">Log in</button>
     </form>
   </#macro>
