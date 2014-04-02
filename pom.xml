@@ -54,10 +54,11 @@
     
     <!-- Metalcon -->
     <metalcon.api.version>0.1.1</metalcon.api.version>
+    <metalcon.muid.version>0.2.0-SNAPSHOT</metalcon.muid.version>
     <metalcon.request-dispatcher.version>1.1.0</metalcon.request-dispatcher.version>
     <!-- Metalcon Backend Components -->
     <metalcon.static-data-delivery-server-api.version>0.0.7</metalcon.static-data-delivery-server-api.version>
-      <music.streaming.server.api.version>0.0.1</music.streaming.server.api.version>
+    <metalcon.music-streaming-server-api.version>0.0.1</metalcon.music-streaming-server-api.version>
     <!-- Spring -->
     <springframework.version>4.0.2.RELEASE</springframework.version>
     <springsecurity.version>3.2.0.RELEASE</springsecurity.version>
@@ -102,6 +103,11 @@
       <version>${metalcon.api.version}</version>
     </dependency>
     <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>muid</artifactId>
+      <version>${metalcon.muid.version}</version>
+    </dependency>
+    <dependency>
       <groupId>net.hh</groupId>
       <artifactId>RequestDispatcher</artifactId>
       <version>${metalcon.request-dispatcher.version}</version>
@@ -112,26 +118,11 @@
       <artifactId>static-data-delivery-server-api</artifactId>
       <version>${metalcon.static-data-delivery-server-api.version}</version>
     </dependency>
-
     <dependency>
       <groupId>de.metalcon</groupId>
       <artifactId>music-streaming-server-api</artifactId>
-      <version>${music.streaming.server.api.version}</version>
+      <version>${metalcon.music-streaming-server-api.version}</version>
     </dependency>
-
-
-    <dependency>
-      <groupId>de.metalcon</groupId>
-      <artifactId>muid</artifactId>
-      <version>0.2.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.metalcon</groupId>
-      <artifactId>music-streaming-server-api</artifactId>
-      <version>${music.streaming.server.api.version}</version>
-    </dependency>
-
 
     <!-- Spring -->
     <dependency>
@@ -191,13 +182,6 @@
       <scope>provided</scope>
     </dependency>
 
-
-    <!-- zmq bindings -->
-    <dependency>
-      <groupId>net.hh</groupId>
-      <artifactId>RequestDispatcher</artifactId>
-      <version>1.1.0</version>
-    </dependency>
     <!-- TODO: remove me -->
     <!-- Apache HTTP -->
     <dependency>
@@ -210,8 +194,6 @@
         <artifactId>commons-fileupload</artifactId>
         <version>1.3.1</version>
     </dependency>
-            
-
 
     <!-- Template -->
     <dependency>
