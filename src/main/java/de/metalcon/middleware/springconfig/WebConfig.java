@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+import de.metalcon.middleware.core.GlobalConstants;
 import de.metalcon.middleware.core.JsonViewResolver;
 
 @Configuration
@@ -27,8 +28,8 @@ public class WebConfig extends RouterConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations(
-                "/resources/");
+        registry.addResourceHandler(GlobalConstants.RESOURCE_PATH_ANT)
+                .addResourceLocations(GlobalConstants.RESOURCE_PATH);
     }
 
     @Override

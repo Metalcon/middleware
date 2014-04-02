@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
+import de.metalcon.middleware.core.GlobalConstants;
+
 @Configuration
 @EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,8 +22,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated().and().formLogin()
+        //@formatter:off
+        http
+            .authorizeRequests()
+                .antMatchers(GlobalConstants.RESOURCE_PATH_ANT).permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
                 .loginPage("/login").permitAll();
+            ;
+        //@formatter:on
     }
-
 }
