@@ -61,6 +61,7 @@ public class WebConfig extends RouterConfigurationSupport {
 
     public FreeMarkerViewResolver freeMarkerViewResolver() {
         FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
+        viewResolver.setViewClass(Html5FormattetedFreeMarkerView.class);
         viewResolver.setContentType(MediaType.TEXT_HTML_VALUE);
         viewResolver.setCache(true);
         viewResolver.setPrefix("");
