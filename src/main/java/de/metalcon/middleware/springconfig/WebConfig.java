@@ -29,7 +29,8 @@ public class WebConfig extends RouterConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(GlobalConstants.RESOURCE_PATH_ANT)
-                .addResourceLocations(GlobalConstants.RESOURCE_PATH);
+                .addResourceLocations(GlobalConstants.RESOURCE_PATH)
+                .setCachePeriod(31556926);
     }
 
     @Override
