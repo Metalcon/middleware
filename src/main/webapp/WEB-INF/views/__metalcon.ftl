@@ -52,4 +52,5 @@
   <#list metaTags as metaTag>
     <meta ${metaTag["attr"]}="${metaTag["key"]}" content="${metaTag["value"]}"/>
   </#list>
+  <@security.csrfMetaTags/>
 </#macro>
