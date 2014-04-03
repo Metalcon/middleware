@@ -5,7 +5,7 @@
 
 <@mtl.addLessStylesheet "main.less"/>
 
-<@mtl.addMetaTag "http-equiv" "content-type" "application/xhtml+xml; charset=UTF-8"/>
+<@mtl.addMetaTag "http-equiv" "content-type" "text/html; charset=UTF-8"/>
 <@mtl.addMetaTag "http-equiv" "X-UA-Compatible" "IE=edge"/>
 <@mtl.addMetaTag "name" "viewport" "width=device-width, initial-scale=1"/>
 
