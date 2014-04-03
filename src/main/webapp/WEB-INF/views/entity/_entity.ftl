@@ -6,7 +6,12 @@
 
 <#assign viewTitle = entity_title>
 
-<#if pjaxr.content>
+<#-- CONTENT -->
+<#if !pjaxr.content>
+  <#macro content>
+    <#nested>
+  </#macro>
+<#else>
   <#if !view.entityTabPreviews??>
     <#stop "view.entityTabPreviews is missing but needed to render content.">
   </#if>
@@ -37,20 +42,23 @@
           <#nested>
         </div>
         <div id="tabs" class="col-xs-4">
-          <#if tabPreviews??>
-            <ul>
-              <#list entity_tabPreviews as entity_tabPreview>
-                <@includeTabPreview entity_tabPreview/>
-              </#list>
-            </ul>
-          </#if>
+          <ul>
+            <#list entity_tabPreviews as entity_tabPreview>
+              <@includeTabPreview entity_tabPreview/>
+            </#list>
+          </ul>
         </div>
       </div>
     </div>
   </#macro>
 </#if>
 
-<#if pjaxr.innerContent>
+<#-- INNER_CONTENT -->
+<#if !pjaxr.innerContent>
+  <#macro innerContent>
+    <#nested>
+  </#macro>
+<#else>
   <#if !view.entityTabContent??>
     <#stop "view.entityTabContent is missing but needed to render innerContent.">
   </#if>
@@ -60,6 +68,7 @@
   <#macro innerContent>
     <div id="inner_content">
       <#include "tab/content/_tab_content.ftl">
+      <#nested>
     </div>
   </#macro>
 </#if>

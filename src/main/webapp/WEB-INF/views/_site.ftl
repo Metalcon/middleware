@@ -1,11 +1,17 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
+<#import "/spring.ftl" as spring>
 <#import "/__pjaxr.ftl" as pjaxr>
 
 <#assign viewPc><a id="view_pc" class="navbar-brand" href="#">pagecounter: ${view.pc!"null"}</a></#assign>
 <#assign viewId><a id="view_id" class="navbar-brand" href="#">userid: ${view.id!"null"}</a></#assign>
 <@pjaxr.addAdditionalBlocks [viewPc,viewId]/>
 
-<#if pjaxr.site>
+<#-- SITE -->
+<#if !pjaxr.site>
+  <#macro site>
+    <#nested>
+  </#macro>
+<#else>
   <#macro site>
     <div id="site">
       <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">

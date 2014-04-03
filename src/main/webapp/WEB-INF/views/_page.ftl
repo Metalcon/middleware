@@ -1,6 +1,11 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 
-<#if pjaxr.page>
+<#-- PAGE -->
+<#if !pjaxr.page>
+  <#macro page>
+    <#nested>
+  </#macro>
+<#else>
   <#macro page>
     <div id="page" class="container">
       <div class="row">
