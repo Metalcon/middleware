@@ -242,7 +242,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         view.setMuid(entity.getMuid());
 
-        if (pjaxrObj.pjaxr_content) {
+        if (pjaxrObj.isPjaxrContent()) {
             // create tab previews if content
             Map<EntityTabType, EntityTabPreview> entityTabPreviews =
                     new HashMap<EntityTabType, EntityTabPreview>();
@@ -261,7 +261,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
             }
             view.setEntityTabPreviews(entityTabPreviews);
         }
-        if (pjaxrObj.pjaxr_inner_content) {
+        if (pjaxrObj.isPjaxrInnerContent()) {
             // create empty tab content and fill it with data from entity
             EntityTabGenerator<?, ?> entityTabGenerator =
                     getEntityTabGenerator(entityTabType);
@@ -277,8 +277,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         super.handleGet(view, params);
     }
 
-    // =========================================================================
-    // TAB GENERATORS
+    //// TAB GENERATORS ////////////////////////////////////////////////////////
 
     public AboutTabGenerator getAboutTabGenerator() {
         return null;
@@ -324,8 +323,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         return null;
     }
 
-    // =========================================================================
-    // TAB REQUEST HANDLING
+    //// MAPPINGS //////////////////////////////////////////////////////////////
 
     public final EntityViewType mappingEmptyTabGet(
             HttpServletRequest request,

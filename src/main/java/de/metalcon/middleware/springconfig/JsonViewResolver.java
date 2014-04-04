@@ -1,4 +1,4 @@
-package de.metalcon.middleware.core;
+package de.metalcon.middleware.springconfig;
 
 import java.util.Locale;
 

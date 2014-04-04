@@ -21,7 +21,6 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 import de.metalcon.middleware.core.GlobalConstants;
-import de.metalcon.middleware.core.JsonViewResolver;
 
 @Configuration
 @ComponentScan("de.metalcon.middleware")

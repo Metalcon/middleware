@@ -5,16 +5,39 @@ import javax.servlet.http.HttpServletRequest;
 import com.iekadou.pjaxr.Pjaxr;
 
 public class MetalconPjaxr extends Pjaxr {
-    public boolean pjaxr_site = true;
-    public boolean pjaxr_page = true;
-    public boolean pjaxr_content = true;
-    public boolean pjaxr_inner_content = true;
 
-    public MetalconPjaxr(HttpServletRequest request, String currentNamespace) {
+    private boolean pjaxrSite = true;
+
+    private boolean pjaxrPage = true;
+
+    private boolean pjaxrContent = true;
+
+    private boolean pjaxrInnerContent = true;
+
+    public MetalconPjaxr(
+            HttpServletRequest request,
+            String currentNamespace) {
         super(request, currentNamespace);
-        this.pjaxr_site = this.matchingCount <= 0;
-        this.pjaxr_page = this.matchingCount <= 1;
-        this.pjaxr_content = this.matchingCount <= 2;
-        this.pjaxr_inner_content = this.matchingCount <= 3;
+        pjaxrSite = matchingCount <= 0;
+        pjaxrPage = matchingCount <= 1;
+        pjaxrContent = matchingCount <= 2;
+        pjaxrInnerContent = matchingCount <= 3;
     }
+
+    public boolean isPjaxrSite() {
+        return pjaxrSite;
+    }
+
+    public boolean isPjaxrPage() {
+        return pjaxrPage;
+    }
+
+    public boolean isPjaxrContent() {
+        return pjaxrContent;
+    }
+
+    public boolean isPjaxrInnerContent() {
+        return pjaxrInnerContent;
+    }
+
 }
