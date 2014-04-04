@@ -1,8 +1,6 @@
 package de.metalcon.middleware.springconfig;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -44,30 +42,19 @@ public class Html5FormattetedFreeMarkerView extends FormattetedFreeMarkerView {
                     + "--quiet y "
                     + "--tidy-mark n";
             String call =
-                      tidyCmd
-                    + " " + options
-                    + " -o " + outputFile.toString()
-                    + " -f " + errorsFile.toString()
-                    + " " + inputFile.toString();
+                      tidyCmd + " "
+                    + options + " "
+                    + "-o " + outputFile.toString() + " "
+                    + "-f " + errorsFile.toString() + " "
+                    + inputFile.toString();
             //@formatter:on
 
-            PrintWriter writer = new PrintWriter(inputFile.toString(), "UTF-8");
-            writer.println(template);
-            writer.close();
+            Files.write(inputFile, template.getBytes());
 
             Runtime.getRuntime().exec(call).waitFor();
 
-            StringBuilder output = new StringBuilder();
-            for (String line : Files.readAllLines(outputFile,
-                    Charset.defaultCharset())) {
-                output.append(line);
-                output.append("\n");
-            }
-
-            for (String line : Files.readAllLines(errorsFile,
-                    Charset.defaultCharset())) {
-                System.err.println(line);
-            }
+            String output = new String(Files.readAllBytes(outputFile));
+            System.err.print(new String(Files.readAllBytes(errorsFile)));
 
             inputFile.toFile().delete();
             outputFile.toFile().delete();
