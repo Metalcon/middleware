@@ -29,6 +29,7 @@ import de.metalcon.musicstreamingserver.api.responses.MusicStreamingCreateRespon
 @Controller
 public class TestUploadMusicController {
 
+    @SuppressWarnings("unused")
     private static ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
@@ -67,6 +68,7 @@ public class TestUploadMusicController {
         // TODO: do magic call request dispatcher
 
         final List<String> response = new ArrayList<String>();
+        @SuppressWarnings("unused")
         List<Map<String, Object>> modelNews =
                 new LinkedList<Map<String, Object>>();
 
