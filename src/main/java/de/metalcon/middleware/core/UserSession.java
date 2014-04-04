@@ -7,28 +7,9 @@ import de.metalcon.middleware.domain.Muid;
  */
 public class UserSession {
 
-    private int id = -1;
-
-    private int pagecount = 0;
-
-    Muid muid;
+    private Muid muid;
 
     private boolean loggedIn;
-
-    public int getId() {
-        if (id < 0) {
-            id = (int) (Math.random() * 100);
-        }
-        return id;
-    }
-
-    public int getPageCount() {
-        return pagecount;
-    }
-
-    public void incPageCount() {
-        pagecount++;
-    }
 
     public void setMuid(Muid muid) {
         this.muid = muid;
@@ -45,4 +26,26 @@ public class UserSession {
     public boolean isLoggedIn() {
         return loggedIn;
     }
+
+    //// LEGACY TESTING CODE ///////////////////////////////////////////////////
+
+    private int id = -1;
+
+    private int pagecount = 0;
+
+    public int getId() {
+        if (id < 0) {
+            id = (int) (Math.random() * 100);
+        }
+        return id;
+    }
+
+    public int getPageCount() {
+        return pagecount;
+    }
+
+    public void incPageCount() {
+        pagecount++;
+    }
+
 }
