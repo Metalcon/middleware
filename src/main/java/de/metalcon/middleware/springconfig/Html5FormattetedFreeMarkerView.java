@@ -8,11 +8,14 @@ public class Html5FormattetedFreeMarkerView extends FormattetedFreeMarkerView {
 
     @Override
     protected String formatTemplate(String template) {
-        if (!template.contains("<html")) {
+        if (!template.contains("<!DOCTYPE html>")) {
             return template;
         }
 
         try {
+            // TODO: don't call tidy with Files path arguments but rather
+            // writing to stdin, and reading from stdout and stderr.
+
             Path tmpDir = Files.createTempDirectory("tidy");
             Path inputFile = tmpDir.resolve("in");
             Path outputFile = tmpDir.resolve("out");
@@ -20,7 +23,7 @@ public class Html5FormattetedFreeMarkerView extends FormattetedFreeMarkerView {
 
             String tidyCmd = "tidy";
             //@formatter:off
-            String options =
+            String tidyOptions =
                       "-i -utf8 "
                     + "--coerce-endtags n "
                     + "--drop-empty-elements n "
@@ -41,9 +44,9 @@ public class Html5FormattetedFreeMarkerView extends FormattetedFreeMarkerView {
                     + "--force-output y "
                     + "--quiet y "
                     + "--tidy-mark n";
-            String call =
+            String tidyCall =
                       tidyCmd + " "
-                    + options + " "
+                    + tidyOptions + " "
                     + "-o " + outputFile.toString() + " "
                     + "-f " + errorsFile.toString() + " "
                     + inputFile.toString();
@@ -51,7 +54,7 @@ public class Html5FormattetedFreeMarkerView extends FormattetedFreeMarkerView {
 
             Files.write(inputFile, template.getBytes());
 
-            Runtime.getRuntime().exec(call).waitFor();
+            Runtime.getRuntime().exec(tidyCall).waitFor();
 
             String output = new String(Files.readAllBytes(outputFile));
             System.err.print(new String(Files.readAllBytes(errorsFile)));
@@ -61,9 +64,10 @@ public class Html5FormattetedFreeMarkerView extends FormattetedFreeMarkerView {
             errorsFile.toFile().delete();
             tmpDir.toFile().delete();
 
-            return output.toString();
+            return output;
         } catch (IOException | InterruptedException e) {
-            // If we can't tidy output then we don't :)
+            // Use unformatted output as fallback, as formatting shouldn't
+            // change semantics of output.
             return template;
         }
     }
