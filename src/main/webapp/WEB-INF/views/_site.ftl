@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/spring.ftl" as spring>
+<#import "/__metalcon.ftl" as mtl>
 <#import "/__pjaxr.ftl" as pjaxr>
 
 <#assign viewPc><a id="view_pc" class="navbar-brand" href="#">pagecounter: ${view.pc!"null"}</a></#assign>
@@ -23,7 +23,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<@spring.url "/"/>">Metalcon</a>
+            <a class="navbar-brand" href="<@mtl.url "/"/>">Metalcon</a>
             ${viewPc}
             ${viewId}
           </div>
@@ -32,14 +32,15 @@
               <input type="text" placeholder="Search..." class="form-control">
             </div>
           </form>
-          <form class="collapse navbar-collapse navbar-form navbar-right" role="form" action="/login" method="POST">
+          <form action="<@mtl.url "/login"/>" method="post" class="collapse navbar-collapse navbar-form navbar-right" role="form">
             <div class="form-group">
-              <input type="text" placeholder="email" id="email" name="email" class="form-control">
+              <input type="text" placeholder="email" id ="username" name="username" class="form-control"/>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="password" id="password" name="password" class="form-control">
+              <input type="password" placeholder="password" id="password" name="password" class="form-control"/>
             </div>
             <button type="submit" class="btn btn-success">Sign in</button>
+            <@mtl.csrfInput/>
           </form>
         </div>
       </div>

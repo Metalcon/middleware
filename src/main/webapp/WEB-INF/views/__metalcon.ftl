@@ -12,10 +12,6 @@
  
 <#setting locale="de_DE">
 
-<#--
- # Load Spring Security JSP Taglib.
- #-->
-<#assign security = JspTaglibs["http://www.springframework.org/security/tags"]>
 
 <#-- TODOC: Stylesheets -->
 <#assign stylesheets = []>
@@ -52,5 +48,24 @@
   <#list metaTags as metaTag>
     <meta ${metaTag["attr"]}="${metaTag["key"]}" content="${metaTag["value"]}"/>
   </#list>
+  <@csrfMetaTags/>
+</#macro>
+
+
+<#-- TODOC: url -->
+<#macro url relativeUrl extra...><#if extra?? && extra?size!=0>${springMacroRequestContext.getContextUrl(relativeUrl,extra)}<#else>${springMacroRequestContext.getContextUrl(relativeUrl)}</#if></#macro>
+
+
+<#--
+ # Load Spring Security JSP Taglib.
+ #-->
+<#assign security = JspTaglibs["http://www.springframework.org/security/tags"]>
+
+<#-- TODOC: crsfInput -->
+<#macro csrfInput>
+  <@security.csrfInput/>
+</#macro>
+<#-- TODOC: crsfMetaTags -->
+<#macro csrfMetaTags>
   <@security.csrfMetaTags/>
 </#macro>

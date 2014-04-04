@@ -1,5 +1,5 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/spring.ftl" as spring>
+<#import "/__metalcon.ftl" as mtl>
 
 <#--
  # Frontend lib versions.
@@ -15,10 +15,10 @@
  # boilerplate code everytime.
  #-->
 <#macro html>
-<!DOCTYPE html>
-<html lang="de">
-  <#nested>
-</html>
+  <!DOCTYPE html>
+  <html lang="de">
+    <#nested>
+  </html>
 </#macro>
 
 <#--
@@ -28,31 +28,31 @@
  #        A string to be used for the <title> tag.
  #-->
 <#macro head title>
-<head>
-  <title>${title?html}</title>
-  <#nested>
-</head>
+  <head>
+    <title>${title?html}</title>
+    <#nested>
+  </head>
 </#macro>
 
 <#--
  # Convenience macro to include a CSS-file. Use inside <head> tag.
  #-->
 <#macro stylesheet href>
-<link rel="stylesheet" type="text/css" href="<@spring.url "/resources/css/${href}"/>"/>
+  <link rel="stylesheet" type="text/css" href="<@mtl.url "/resources/css/${href}"/>"/>
 </#macro>
 
 <#--
  # Convenience macro to include a LESS-file. Use inside <head> tag.
  #-->
 <#macro lessStylesheet href>
-<link rel="stylesheet/less" type="text/css" href="<@spring.url "/resources/less/${href}"/>"/>
+  <link rel="stylesheet/less" type="text/css" href="<@mtl.url "/resources/less/${href}"/>"/>
 </#macro>
 
 <#--
  # Convenience macro to create a <body> tag.
  #-->
 <#macro body pjaxrNamespace="">
-<body data-pjaxr-namespace="${pjaxrNamespace}">
-  <#nested>
-</body>
+  <body data-pjaxr-namespace="${pjaxrNamespace}">
+    <#nested>
+  </body>
 </#macro>
