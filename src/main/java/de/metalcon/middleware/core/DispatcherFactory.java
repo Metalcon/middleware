@@ -23,14 +23,12 @@ public class DispatcherFactory {
     @Bean(
             destroyMethod = "close")
     public ZMQ.Context zmqContext() {
-        System.out.println("zmqContext");
         return ZMQ.context(1);
     }
 
     @Bean(
             destroyMethod = "close")
     public ZmqAdapter<SddRequest, Response> sddAdapter() {
-        System.out.println("sddAdapter");
         ZmqAdapter<SddRequest, Response> sddAdapter =
                 new ZmqAdapter<SddRequest, Response>(zmqContext(), SDD_ENDPOINT);
         return sddAdapter;
@@ -40,7 +38,6 @@ public class DispatcherFactory {
             destroyMethod = "close")
     @Scope("thread")
     public Dispatcher getDispatcher() {
-        System.out.println("dispatcher");
         Dispatcher dispatcher = new Dispatcher();
 
         // StaticDataDelivery
