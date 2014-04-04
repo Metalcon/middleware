@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.domain.entity.impl.Band;

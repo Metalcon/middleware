@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.backend.newsserver.NewsServer;
 import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.tab.EntityTabController;
-import de.metalcon.middleware.domain.Muid;
 import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 

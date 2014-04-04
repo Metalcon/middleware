@@ -1,6 +1,6 @@
 package de.metalcon.middleware.core;
 
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.domain.Muid;
 
 /**
  * user session holding all relevant data from user and his social network

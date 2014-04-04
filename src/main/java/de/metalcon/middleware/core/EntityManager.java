@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
 
@@ -51,9 +51,10 @@ public class EntityManager {
      *             If the identifier does not have the expected type.
      */
     public Entity getEntity(Muid muid, EntityType expectedType) {
-        if (muid.getEntityType() != expectedType) {
-            throw new IllegalArgumentException("entity type is not "
-                    + expectedType + " but " + muid.getEntityType());
+        EntityType muidType = EntityType.fromMuidType(muid.getMuidType());
+        if (!muidType.equals(expectedType)) {
+            throw new IllegalArgumentException("EntityType is not \""
+                    + expectedType + "\" but \"" + muidType + "\".");
         }
         return getEntity(muid);
     }

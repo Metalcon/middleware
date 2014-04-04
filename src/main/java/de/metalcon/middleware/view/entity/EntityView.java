@@ -3,7 +3,7 @@ package de.metalcon.middleware.view.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.MetalconView;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;

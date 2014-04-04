@@ -1,5 +1,6 @@
 package de.metalcon.middleware.domain;
 
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.EntityType;
 
 /**
@@ -28,7 +29,8 @@ public abstract class Identity {
      * @param muid
      *            object identifier
      */
-    public Identity(Muid muid) {
+    public Identity(
+            Muid muid) {
         setMuid(muid);
     }
 
