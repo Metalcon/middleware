@@ -7,9 +7,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import de.metalcon.domain.Muid;
+import de.metalcon.exceptions.ServiceOverloadedException;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.domain.entity.impl.Band;
 import de.metalcon.middleware.domain.entity.impl.City;
 import de.metalcon.middleware.domain.entity.impl.Event;
@@ -30,19 +32,42 @@ public class TestData {
     @Autowired
     private EntityUrlMapppingManager entityUrlMappingManager;
 
+    public Muid heidenfestMuid;
+
+    public Muid guitarMuid;
+
+    public Muid blackMetalMuid;
+
+    public Muid koblenzMuid;
+
+    public Muid wackenMuid;
+
+    public Muid druckkammerMuid;
+
+    public Muid ahtiMuid;
+
+    public Muid victorySongsMuid;
+
+    public Muid ensiferum2Muid;
+
+    public Muid ensiferumMuid;
+
+    public Muid jamesHetfieldMuid;
+
     @PostConstruct
-    private void init() {
-        Muid jamesHetfieldMuid = new Muid(11);
-        Muid ensiferumMuid = new Muid(12);
-        Muid ensiferum2Muid = new Muid(22);
-        Muid victorySongsMuid = new Muid(13);
-        Muid ahtiMuid = new Muid(14);
-        Muid druckkammerMuid = new Muid(15);
-        Muid wackenMuid = new Muid(16);
-        Muid koblenzMuid = new Muid(17);
-        Muid blackMetalMuid = new Muid(18);
-        Muid guitarMuid = new Muid(19);
-        Muid heidenfestMuid = new Muid(10);
+    private void init() throws ServiceOverloadedException {
+        jamesHetfieldMuid = Muid.create(EntityType.toMuidType(EntityType.USER));
+        ensiferumMuid = Muid.create(EntityType.toMuidType(EntityType.BAND));
+        ensiferum2Muid = Muid.create(EntityType.toMuidType(EntityType.BAND));
+        victorySongsMuid =
+                Muid.create(EntityType.toMuidType(EntityType.RECORD));
+        ahtiMuid = Muid.create(EntityType.toMuidType(EntityType.TRACK));
+        druckkammerMuid = Muid.create(EntityType.toMuidType(EntityType.VENUE));
+        wackenMuid = Muid.create(EntityType.toMuidType(EntityType.EVENT));
+        koblenzMuid = Muid.create(EntityType.toMuidType(EntityType.CITY));
+        blackMetalMuid = Muid.create(EntityType.toMuidType(EntityType.GENRE));
+        guitarMuid = Muid.create(EntityType.toMuidType(EntityType.INSTRUMENT));
+        heidenfestMuid = Muid.create(EntityType.toMuidType(EntityType.TOUR));
 
         User jamesHetfield = new User(jamesHetfieldMuid, "James", "Hetfield");
         Band ensiferum = new Band(ensiferumMuid, "Ensiferum");

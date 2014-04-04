@@ -1,9 +1,9 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
-  <@mtl.head title="Band"/>
-  <@mtl.body>
+<#import "/__html.ftl" as html>
+<@html.html>
+  <@html.head title="Band"/>
+  <@html.body>
     <#escape x as x?html>
     </#escape>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

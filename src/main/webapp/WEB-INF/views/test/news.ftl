@@ -1,11 +1,11 @@
 <#ftl encoding="UTF-8" strict_syntax=true strip_whitespace=true>
-<#import "/__metalcon.ftl" as mtl>
+<#import "/__html.ftl" as html>
 <#import "/spring.ftl" as spring>
-<@mtl.html>
-  <@mtl.head title="News ${userId} - Metalcon Middleware">
-    <@mtl.stylesheet href="test/news.css"/>
-  </@mtl.head>
-  <@mtl.body>
+<@html.html>
+  <@html.head title="News ${userId} - Metalcon Middleware">
+    <@html.stylesheet href="test/news.css"/>
+  </@html.head>
+  <@html.body>
     <#escape x as x?html>
       <h1>Metalcon Newsstream</h1>
       <ul class="info">
@@ -38,5 +38,5 @@
         </#list>
       </ul>
     </#escape>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

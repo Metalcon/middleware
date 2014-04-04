@@ -1,6 +1,6 @@
 package de.metalcon.middleware.domain.entity.impl;
 
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
 

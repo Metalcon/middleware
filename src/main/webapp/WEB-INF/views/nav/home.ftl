@@ -1,9 +1,10 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/spring.ftl" as spring>
 <#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
-  <@mtl.head title="Home - Metalcon"/>
-  <@mtl.body>
+<#import "/__html.ftl" as html>
+<@html.html>
+  <@html.head title="Home - Metalcon"/>
+  <@html.body>
     <h1>Metalcon Middleware</h1>
     <p>Welcome to the Metalcon Middleware!</p>
     <p>Find information under <a href="https://github.com/renepickhardt/metalcon/wiki/componentMiddleware">componentMiddleware (Github Wiki)</a>.</p>
@@ -16,22 +17,22 @@
         <strong>Band</strong>
         <ul>
           <li><a href="<@spring.url "/music/Ensiferum"/>"><code>/music/Ensiferum</code></a></li>
-          <li><a href="<@spring.url "/music/Ensiferum-12"/>"><code>/music/Ensiferum-12</code></a></li>
-          <li><a href="<@spring.url "/music/Ensiferum-22"/>"><code>/music/Ensiferum-22</code></a></li>
+          <li><a href="<@spring.url "/music/Ensiferum-" + ensiferumMuid/>"><code>/music/Ensiferum-${ensiferumMuid}</code></a></li>
+          <li><a href="<@spring.url "/music/Ensiferum-" + ensiferum2Muid/>"><code>/music/Ensiferum-${ensiferum2Muid}</code></a></li>
         </ul>
       </li>
       <li>
         <strong>City</strong>
         <ul>
           <li><a href="<@spring.url "/city/Koblenz"/>"><code>/city/Koblenz</code></a></li>
-          <li><a href="<@spring.url "/city/Koblenz-17"/>"><code>/city/Koblenz-17</code></a></li>
+          <li><a href="<@spring.url "/city/Koblenz-" + koblenzMuid/>"><code>/city/Koblenz-${koblenzMuid}</code></a></li>
         </ul>
       </li>
       <li>
         <strong>Event</strong>
         <ul>
           <li><a href="<@spring.url "/event/Wacken"/>"><code>/event/Wacken</code></a></li>
-          <li><a href="<@spring.url "/event/Wacken-16"/>"><code>/event/Wacken-16</code></a></li>
+          <li><a href="<@spring.url "/event/Wacken-" + wackenMuid/>"><code>/event/Wacken-${wackenMuid}</code></a></li>
           <li><a href="<@spring.url "/event/2014-08-31-Wacken"/>"><code>/event/2014-08-31-Wacken</code></a></li>
         </ul>
       </li>
@@ -39,21 +40,21 @@
         <strong>Genre</strong>
         <ul>
           <li><a href="<@spring.url "/genre/Black-Metal"/>"><code>/genre/Black-Metal</code></a></li>
-          <li><a href="<@spring.url "/genre/Black-Metal-18"/>"><code>/genre/Black-Metal-18</code></a></li>
+          <li><a href="<@spring.url "/genre/Black-Metal-" + blackMetalMuid/>"><code>/genre/Black-Metal-${blackMetalMuid}</code></a></li>
         </ul>
       </li>
       <li>
         <strong>Instrument</strong>
         <ul>
           <li><a href="<@spring.url "/instrument/Guitar"/>"><code>/instrument/Guitar</code></a></li>
-          <li><a href="<@spring.url "/instrument/Guitar-19"/>"><code>/instrument/Guitar-19</code></a></li>
+          <li><a href="<@spring.url "/instrument/Guitar-" + guitarMuid/>"><code>/instrument/Guitar-${guitarMuid}</code></a></li>
         </ul>
       </li>
       <li>
         <strong>Record</strong>
         <ul>
           <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs"/>"><code>/music/Ensiferum/Victory-Songs</code></a></li>
-          <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs-13"/>"><code>/music/Ensiferum/Victory-Songs-13</code></a></li>
+          <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs-" + victorySongsMuid/>"><code>/music/Ensiferum/Victory-Songs-${victorySongsMuid}</code></a></li>
           <li><a href="<@spring.url "/music/Ensiferum/2007-Victory-Songs"/>"><code>/music/Ensiferum/2007-Victory-Songs</code></a></li>
         </ul>
       </li>
@@ -61,14 +62,14 @@
         <strong>Tour</strong>
         <ul>
           <li><a href="<@spring.url "/tour/Heidenfest"/>"><code>/tour/Heidenfest</code></a></li>
-          <li><a href="<@spring.url "/tour/Heidenfest-10"/>"><code>/tour/Heidenfest-10</code></a></li>
+          <li><a href="<@spring.url "/tour/Heidenfest-" + heidenfestMuid/>"><code>/tour/Heidenfest-${heidenfestMuid}</code></a></li>
         </ul>
       </li>
       <li>
         <strong>Track</strong>
         <ul>
           <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs/Ahti"/>"><code>/music/Ensiferum/Victory-Songs/Ahti</code></a></li>
-          <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs/Ahti-14"/>"><code>/music/Ensiferum/Victory-Songs/Ahti-14</code></a></li>
+          <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs/Ahti-" + ahtiMuid/>"><code>/music/Ensiferum/Victory-Songs/Ahti-${ahtiMuid}</code></a></li>
           <li><a href="<@spring.url "/music/Ensiferum/Victory-Songs/04-Ahti"/>"><code>/music/Ensiferum/Victory-Songs/04-Ahti</code></a></li>
         </ul>
       </li>
@@ -76,14 +77,14 @@
         <strong>User</strong>
         <ul>
           <li><a href="<@spring.url "/user/James-Hetfield"/>"><code>/user/James-Hetfield</code></a></li>
-          <li><a href="<@spring.url "/user/James-Hetfield-11"/>"><code>/user/James-Hetfield-11</code></a></li>
+          <li><a href="<@spring.url "/user/James-Hetfield-" + jamesHetfieldMuid/>"><code>/user/James-Hetfield-${jamesHetfieldMuid}</code></a></li>
         </ul>
       </li>
       <li>
         <strong>Venue</strong>
         <ul>
           <li><a href="<@spring.url "/venue/Druckluftkammer"/>"><code>/venue/Druckluftkammer</code></a></li>
-          <li><a href="<@spring.url "/venue/Druckluftkammer-15"/>"><code>/venue/Druckluftkammer-15</code></a></li>
+          <li><a href="<@spring.url "/venue/Druckluftkammer-" + druckkammerMuid/>"><code>/venue/Druckluftkammer-${druckkammerMuid}</code></a></li>
           <li><a href="<@spring.url "/venue/Druckluftkammer-Koblenz"/>"><code>/venue/Druckluftkammer-Koblenz</code></a></li>
         </ul>
       </li>
@@ -109,5 +110,5 @@
     <h2>Model</h2>
     <p>You can append <code>.json</code> to any URL to view the model as
     json data instead of the view.</p>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

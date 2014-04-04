@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.SimpleThreadScope;
 
 @Configuration
-public class Springconfig {
+public class SpringConfig {
 
     @Bean
     public CustomScopeConfigurer customScopeConfigurer() {

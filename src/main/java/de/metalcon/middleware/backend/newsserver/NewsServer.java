@@ -20,7 +20,7 @@ import org.springframework.ui.ModelMap;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.metalcon.middleware.domain.Muid;
+import de.metalcon.domain.Muid;
 
 @Component
 public class NewsServer /* implements NewsFeed */{

@@ -1,8 +1,8 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
-  <@mtl.head title="Home - Metalcon Middleware"/>
-  <@mtl.body>
+<#import "/__html.ftl" as html>
+<@html.html>
+  <@html.head title="Home - Metalcon Middleware"/>
+  <@html.body>
     <#escape x as x?html>
       <ul>
         <#list bands as band>
@@ -10,5 +10,5 @@
         </#list>
       </ul>
     </#escape>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

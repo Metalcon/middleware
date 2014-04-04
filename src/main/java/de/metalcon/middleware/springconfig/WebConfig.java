@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+import de.metalcon.middleware.core.GlobalConstants;
 import de.metalcon.middleware.core.JsonViewResolver;
 
 @Configuration
@@ -28,8 +29,9 @@ public class WebConfig extends RouterConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations(
-                "/resources/");
+        registry.addResourceHandler(GlobalConstants.RESOURCE_PATH_ANT)
+                .addResourceLocations(GlobalConstants.RESOURCE_PATH)
+                .setCachePeriod(31556926);
     }
 
     @Override
@@ -67,6 +69,7 @@ public class WebConfig extends RouterConfigurationSupport {
 
     public FreeMarkerViewResolver freeMarkerViewResolver() {
         FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
+        viewResolver.setViewClass(Html5FormattetedFreeMarkerView.class);
         viewResolver.setContentType(MediaType.TEXT_HTML_VALUE);
         viewResolver.setCache(true);
         viewResolver.setPrefix("");

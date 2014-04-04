@@ -1,10 +1,10 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
-<#import "/__metalcon.ftl" as mtl>
-<@mtl.html>
-  <@mtl.head title="404 - Not found">
-    <@mtl.stylesheet href="error.css"/>
-  </@mtl.head>
-  <@mtl.body>
+<#import "/__html.ftl" as html>
+<@html.html>
+  <@html.head title="404 - Not found">
+    <@html.stylesheet href="error.css"/>
+  </@html.head>
+  <@html.body>
     <#escape x as x?html>
       <h1>404 - Not Found</h1>
       <p>
@@ -12,5 +12,5 @@
         <span class="mono">${requestUri}</span>.
       </p>
     </#escape>
-  </@mtl.body>
-</@mtl.html>
+  </@html.body>
+</@html.html>

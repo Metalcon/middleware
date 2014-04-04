@@ -1,7 +1,7 @@
 package de.metalcon.middleware.domain.entity;
 
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.Identity;
-import de.metalcon.middleware.domain.Muid;
 
 /**
  * basic class for Metalcon entities having an own page
@@ -28,7 +28,9 @@ public abstract class Entity extends Identity {
      * @param name
      *            human readable name
      */
-    public Entity(Muid muid, String name) {
+    public Entity(
+            Muid muid,
+            String name) {
         super(muid);
         setName(name);
     }
