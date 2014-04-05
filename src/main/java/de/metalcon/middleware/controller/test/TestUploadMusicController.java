@@ -8,7 +8,6 @@ import java.util.Map;
 
 import net.hh.request_dispatcher.Callback;
 import net.hh.request_dispatcher.Dispatcher;
-import net.hh.request_dispatcher.service_adapter.ZmqAdapter;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.zeromq.ZMQ;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.metalcon.domain.Muid;
-import de.metalcon.musicstreamingserver.api.requests.MusicStreamingCreateRequest;
-import de.metalcon.musicstreamingserver.api.requests.registration.CreateRequestData;
-import de.metalcon.musicstreamingserver.api.responses.MusicStreamingCreateResponse;
+import de.metalcon.middleware.core.DispatcherFactory;
+import de.metalcon.musicstreamingserver.api.requests.create.MusicStreamingCreateRequest;
+import de.metalcon.musicstreamingserver.api.responses.create.MusicStreamingCreateResponse;
 
 @Controller
 public class TestUploadMusicController {
@@ -35,25 +33,17 @@ public class TestUploadMusicController {
     @Autowired
     private BeanFactory beanFactory;
 
-    // TODO: not thread save! need to use spring annotation for ThreadBeans
-    private static Dispatcher dispatcher = new Dispatcher();
+    @Autowired
+    private DispatcherFactory dispatcherFactory;
+
+    //    // TODO: not thread save! need to use spring annotation for ThreadBeans
+    //    private static Dispatcher dispatcher = new Dispatcher();
 
     public ModelAndView handle() {
         return new ModelAndView("music");
     }
 
     public TestUploadMusicController() {
-        ZMQ.Context ctx = ZMQ.context(1);
-
-        dispatcher
-                .registerServiceAdapter(
-                        "music",
-                        new ZmqAdapter<MusicStreamingCreateRequest, MusicStreamingCreateResponse>(
-                                ctx, "tcp://127.0.0.1:6666") {
-                        });
-        dispatcher
-                .setDefaultService(MusicStreamingCreateRequest.class, "music");
-
     }
 
     public ModelAndView showForm() {
@@ -76,11 +66,10 @@ public class TestUploadMusicController {
 
         System.out.println(musicFile.length);
 
-        CreateRequestData createRequestData =
-                new CreateRequestData(
-                        new Muid((long) (Math.random() * 1000000)), musicFile,
-                        "{}");
-        dispatcher.execute(new MusicStreamingCreateRequest(createRequestData),
+        Dispatcher dispatcher = dispatcherFactory.getDispatcher();
+
+        dispatcher.execute(new MusicStreamingCreateRequest(new Muid(
+                (long) (Math.random() * 1000000)), musicFile, "{}"),
                 new Callback<MusicStreamingCreateResponse>() {
 
                     @Override

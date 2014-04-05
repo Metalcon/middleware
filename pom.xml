@@ -58,7 +58,7 @@
     <metalcon.request-dispatcher.version>1.1.0</metalcon.request-dispatcher.version>
     <!-- Metalcon Backend Components -->
     <metalcon.static-data-delivery-server-api.version>0.0.7</metalcon.static-data-delivery-server-api.version>
-    <metalcon.music-streaming-server-api.version>0.0.1</metalcon.music-streaming-server-api.version>
+    <metalcon.music-streaming-server-api.version>0.1.0-SNAPSHOT</metalcon.music-streaming-server-api.version>
     <!-- Spring -->
     <springframework.version>4.0.2.RELEASE</springframework.version>
     <springsecurity.version>3.2.3.RELEASE</springsecurity.version>
