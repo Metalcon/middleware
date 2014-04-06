@@ -1,10 +1,12 @@
 package de.metalcon.middleware.controller.nav;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import de.metalcon.middleware.controller.MetalconController;
+import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.test.TestData;
 
 @Controller
@@ -13,8 +15,10 @@ public class HomeController extends MetalconController {
     @Autowired
     TestData testData;
 
-    public ModelAndView handleHome() {
+    public ModelAndView
+        mappingHome(@AuthenticationPrincipal UserLogin userLogin) {
         ModelAndView mv = new ModelAndView("nav/home");
+        mv.addObject("userLogin", userLogin);
         //@formatter:off
         mv.addObject("jamesHetfieldMuid", testData.jamesHetfieldMuid.toString());
         mv.addObject("ensiferumMuid",     testData.ensiferumMuid.toString());
