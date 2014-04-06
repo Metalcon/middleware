@@ -22,6 +22,7 @@ import de.metalcon.sdd.api.requests.SddWriteRequest;
 @Configuration
 public class DispatcherFactory {
 
+    //TODO: why are this fields public
     public static final String SDD_SERVICE = "staticDataDeliveryServer";
 
     public static final String MUSIC_STREAMING_SERVER_SERVICE =

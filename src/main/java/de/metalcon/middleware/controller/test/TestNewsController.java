@@ -23,9 +23,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.metalcon.middleware.core.request.JsonRequest;
-import de.metalcon.middleware.core.request.RequestTransaction;
-
 @Controller
 public class TestNewsController {
 
@@ -43,16 +40,17 @@ public class TestNewsController {
             @PathVariable("posterId") String posterId,
             @PathVariable("ownUpdates") Boolean ownUpdates)
             throws JsonParseException, JsonMappingException, IOException {
-        RequestTransaction tx = beanFactory.getBean(RequestTransaction.class);
-        tx.request(new JsonRequest(
-                "http://localhost:8080/Graphity-Server-0.1/read?" + "user_id="
-                        + userId + "&poster_id=" + posterId + "&num_items=10"
-                        + "&own_updates=" + (ownUpdates ? "1" : "0")));
+        //        RequestTransaction tx = beanFactory.getBean(RequestTransaction.class);
+        //        tx.request(new JsonRequest(
+        //                "http://localhost:8080/Graphity-Server-0.1/read?" + "user_id="
+        //                        + userId + "&poster_id=" + posterId + "&num_items=10"
+        //                        + "&own_updates=" + (ownUpdates ? "1" : "0")));
 
         List<Map<String, Object>> modelNews =
                 new LinkedList<Map<String, Object>>();
 
-        String answer = (String) tx.recieve();
+        String answer =
+                "{\"items\":[{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"hey\",\"id\":\"1394529863852\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2014-03-11T10:24:24Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"asdf\",\"id\":\"1387393615465\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-18T20:06:55Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"nice\",\"id\":\"1386331367991\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:48Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"auf gehts. 2010 fi.... auch im stehen.\",\"id\":\"1386331359345\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T13:02:39Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330847185\",\"id\":\"1386330847185\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:54:07Z\"},{\"verb\":\"read\",\"actor\":{\"objectType\":\"person\",\"id\":\"3\",\"displayName\":\"anotherUser\"},\"object\":{\"message\":\"entry !!1386330828215\",\"id\":\"1386330828215\",\"type\":\"Plain\",\"objectType\":\"article\"},\"published\":\"2013-12-06T12:53:48Z\"}]}";//(String) tx.recieve();
         JsonNode root = mapper.readValue(answer, JsonNode.class);
         for (JsonNode item : root.path("items")) {
             JsonNode verb = item.get("verb");
