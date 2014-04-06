@@ -68,7 +68,7 @@ public class TestUploadMusicController {
 
         Dispatcher dispatcher = dispatcherFactory.getDispatcher();
 
-        dispatcher.execute(new MusicStreamingCreateRequest(new Muid(
+        dispatcher.execute(new MusicStreamingCreateRequest(Muid.createFromID(
                 (long) (Math.random() * 1000000)), musicFile, "{}"),
                 new Callback<MusicStreamingCreateResponse>() {
 

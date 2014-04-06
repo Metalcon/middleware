@@ -27,13 +27,13 @@ public class UserLoginService implements UserDetailsService {
 
         switch (username) {
             case "user":
-                muid = new Muid(1337L);
+                muid = Muid.createFromID(1337L);
                 password =
                         "$2a$10$nIjbnkK63WSdVe3QCQXxsODBZnIIYYJqWuaNQAd8bXHWSIzPX57cO";
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 break;
             case "admin":
-                muid = new Muid(42L);
+                muid = Muid.createFromID(42L);
                 password =
                         "$2a$10$zAaRJ8ZZJIRnPChdbGg1ceT9jgxo93UQUkbLzHQfODMYG4cBbLgEe";
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
