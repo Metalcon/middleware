@@ -51,7 +51,7 @@ public class EntityManager {
      *             If the identifier does not have the expected type.
      */
     public Entity getEntity(final Muid muid, final EntityType expectedType) {
-        EntityType muidType = EntityType.fromUidType(muid.getMuidType());
+        EntityType muidType = EntityType.fromUidType(muid.getType());
         if (!muidType.equals(expectedType)) {
             throw new IllegalArgumentException("EntityType is not \""
                     + expectedType + "\" but \"" + muidType + "\".");
