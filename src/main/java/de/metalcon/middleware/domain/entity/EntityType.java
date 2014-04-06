@@ -1,6 +1,6 @@
 package de.metalcon.middleware.domain.entity;
 
-import de.metalcon.domain.MuidType;
+import de.metalcon.domain.UidType;
 
 /**
  * enumeration of all entity types<br>
@@ -83,8 +83,9 @@ public enum EntityType {
         return identifier;
     }
 
-    public static EntityType fromMuidType(MuidType muidType) {
-        switch (muidType) {
+    public static EntityType fromUidType(UidType uidType) {
+        switch (uidType) {
+        
         //@formatter:off
             case BAND:       return EntityType.BAND;
             case CITY:       return EntityType.CITY;
@@ -98,28 +99,28 @@ public enum EntityType {
             case VENUE:      return EntityType.VENUE;
             //@formatter:on
             default:
-                throw new IllegalArgumentException("Given MuidType \""
-                        + muidType + "\" is not convertible to EntityType.");
+                throw new IllegalArgumentException("Given UidType \""
+                        + uidType + "\" is not convertible to EntityType.");
         }
     }
 
-    public static MuidType toMuidType(EntityType entityType) {
+    public static UidType toUidType(EntityType entityType) {
         switch (entityType) {
         //@formatter:off
-            case BAND:       return MuidType.BAND;
-            case CITY:       return MuidType.CITY;
-            case EVENT:      return MuidType.EVENT;
-            case GENRE:      return MuidType.GENRE;
-            case INSTRUMENT: return MuidType.INSTRUMENT;
-            case RECORD:     return MuidType.RECORD;
-            case TOUR:       return MuidType.TOUR;
-            case TRACK:      return MuidType.TRACK;
-            case USER:       return MuidType.USER;
-            case VENUE:      return MuidType.VENUE;
+            case BAND:       return UidType.BAND;
+            case CITY:       return UidType.CITY;
+            case EVENT:      return UidType.EVENT;
+            case GENRE:      return UidType.GENRE;
+            case INSTRUMENT: return UidType.INSTRUMENT;
+            case RECORD:     return UidType.RECORD;
+            case TOUR:       return UidType.TOUR;
+            case TRACK:      return UidType.TRACK;
+            case USER:       return UidType.USER;
+            case VENUE:      return UidType.VENUE;
             //@formatter:on
             default:
                 throw new IllegalStateException(
-                        "Unimplemented EntityType to MuidType conversion for: \""
+                        "Unimplemented EntityType to UidType conversion for: \""
                                 + entityType + "\".");
         }
     }
