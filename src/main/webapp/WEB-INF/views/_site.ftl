@@ -32,16 +32,26 @@
               <input type="text" placeholder="Search..." class="form-control">
             </div>
           </form>
-          <form action="<@mtl.url "/login"/>" method="post" class="collapse navbar-collapse navbar-form navbar-right" role="form">
-            <div class="form-group">
-              <input type="text" placeholder="email" id ="username" name="username" class="form-control"/>
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="password" id="password" name="password" class="form-control"/>
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-            <@mtl.csrfInput/>
-          </form>
+          <#if !view.userLogin??>
+            <form action="<@mtl.url "/login"/>" method="post" class="collapse navbar-collapse navbar-form navbar-right" role="form">
+              <div class="form-group">
+                <input type="text" placeholder="email" id ="username" name="username" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <input type="password" placeholder="password" id="password" name="password" class="form-control"/>
+              </div>
+              <button type="submit" class="btn btn-success">Sign in</button>
+              <@mtl.csrfInput/>
+            </form>
+          <#else>
+            <p style="color: white;">
+              Hallo, ${view.userLogin.username}!
+            </p>
+            <form action="<@mtl.url "/logout"/>" method="post" class="collapse navbar-collapse navbar-form navbar-right" role="form">
+              <button type="submit" class="btn btn-success">Logout</button>
+              <@mtl.csrfInput/>
+            </form>
+          </#if>
         </div>
       </div>
       <#nested>

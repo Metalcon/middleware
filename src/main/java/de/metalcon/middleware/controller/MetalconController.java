@@ -1,11 +1,13 @@
 package de.metalcon.middleware.controller;
 
-import net.hh.request_dispatcher.Dispatcher;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.metalcon.middleware.core.DispatcherFactory;
-import de.metalcon.middleware.core.UserSessionFactory;
+import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.view.MetalconView;
 import de.metalcon.middleware.view.ViewFactory;
 
@@ -18,24 +20,35 @@ public abstract class MetalconController {
     }
 
     @Autowired
-    private DispatcherFactory dispatcherFactory;
-
-    @Autowired
-    private UserSessionFactory userSessionFactory;
+    private Request.Factory requestFactory;
 
     @Autowired
     protected ViewFactory viewFactory;
 
-    protected Dispatcher dispatcher() {
-        return dispatcherFactory.getDispatcher();
+    protected Request createRequest(
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            Map<String, String> pathVars,
+            MetalconView view,
+            UserLogin userLogin) {
+        Request request = requestFactory.request();
+        request.setHttpServletRequest(httpServletRequest);
+        request.setHttpServletResponse(httpServletResponse);
+        request.setPathVars(pathVars);
+        request.setView(view);
+        request.setUserLogin(userLogin);
+        return request;
     }
 
-    protected void handleRequest(MetalconView view, RequestParameters params) {
+    protected void handleRequest(Request request) {
+        MetalconView view = request.getView();
+        view.setUserSession(request.getUserSession());
+        view.setUserLogin(request.getUserLogin());
         //UserSession user = prepareUserSession(params);
         //        view.setId(user.getMuid() + "");
         //        user.incPageCount();
         //        view.setPc(user.getPageCount() + "");
-
+        //
         //        SddReadRequest read = new SddReadRequest();
         //        read.read(new de.metalcon.domain.Muid(7), "nested");
         //        dispatcher().execute(read, new Callback<Response>() {
@@ -66,8 +79,8 @@ public abstract class MetalconController {
         //        dispatcher().gatherResults(700);
     }
 
-    protected void handleGet(MetalconView view, RequestParameters params) {
-        handleRequest(view, params);
+    protected void handleGet(Request request) {
+        handleRequest(request);
     }
 
     /**

@@ -9,7 +9,8 @@ public class UserSessionFactory {
 
     @Bean
     @Scope("session")
-    public UserSession getUserSession() {
+    public UserSession userSession() {
         return new UserSession();
     }
+
 }

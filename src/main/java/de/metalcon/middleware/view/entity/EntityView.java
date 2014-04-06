@@ -34,7 +34,7 @@ public abstract class EntityView extends MetalconView {
 
     public EntityView(
             EntityType entityType) {
-        super();
+        super("entity");
         this.entityType = entityType;
         muid = null;
         entityTabContent = null;
@@ -46,11 +46,6 @@ public abstract class EntityView extends MetalconView {
      */
     public EntityType getEntityType() {
         return entityType;
-    }
-
-    @Override
-    public String getType() {
-        return "entity";
     }
 
     /**
