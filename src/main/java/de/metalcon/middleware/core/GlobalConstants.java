@@ -6,7 +6,18 @@ package de.metalcon.middleware.core;
  */
 public class GlobalConstants {
 
-    public static final String GLOBAL_SESSION_COOKIE = "GLOBAL_SESSION";
+    /**
+     * Can't set the cookie name with this one yet.
+     */
+    public static final String SESSION_COOKIE_NAME = "JSESSIONID";
+
+    public static final String REMEMBERME_COOKIE_NAME = "REMEMBERME";
+
+    public static final int REMEMBERME_VALIDITY_SECONDS = 60 * 60 * 24 * 30 * 6; // 6 Months
+
+    public static final String REMEMBERME_KEY = "MetalconRememeberMe";
+
+    public static final String REMEMBERME_PARAMETER = "rememberme";
 
     public static final String RESOURCE_PATH = "/resources/";
 

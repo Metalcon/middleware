@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 
 import de.metalcon.middleware.core.GlobalConstants;
 import de.metalcon.middleware.core.UserLoginService;
@@ -54,7 +57,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
                 .and()
             .logout()
-                .logoutUrl("/logout").permitAll();
+                .deleteCookies(GlobalConstants.SESSION_COOKIE_NAME)
+                .logoutUrl("/logout").permitAll()
+                .and()
+            .rememberMe()
+                .rememberMeServices(rememberMeServices())
+                .tokenValiditySeconds(GlobalConstants.REMEMBERME_VALIDITY_SECONDS)
+                .key(GlobalConstants.REMEMBERME_KEY);
         //@formatter:on
     }
 
@@ -67,5 +76,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public UserDetailsService userDetailsService() {
         return new UserLoginService();
+    }
+
+    @Bean
+    public RememberMeServices rememberMeServices() {
+        PersistentTokenBasedRememberMeServices rememberMeServices =
+                new PersistentTokenBasedRememberMeServices(
+                        GlobalConstants.REMEMBERME_KEY, userDetailsService(),
+                        new InMemoryTokenRepositoryImpl());
+        rememberMeServices
+                .setCookieName(GlobalConstants.REMEMBERME_COOKIE_NAME);
+        rememberMeServices.setParameter(GlobalConstants.REMEMBERME_PARAMETER);
+        rememberMeServices
+                .setTokenValiditySeconds(GlobalConstants.REMEMBERME_VALIDITY_SECONDS);
+        return rememberMeServices;
     }
 }

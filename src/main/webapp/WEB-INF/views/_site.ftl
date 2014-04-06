@@ -40,13 +40,16 @@
               <div class="form-group">
                 <input type="password" placeholder="password" id="password" name="password" class="form-control"/>
               </div>
+              <div class="form-group">
+                <input type="checkbox" id="rememberme" name="rememberme" class="form-control"/> <label for="rememberme" style="color: white;">Remember Me</label>
+              </div>
               <button type="submit" class="btn btn-success">Sign in</button>
               <@mtl.csrfInput/>
             </form>
           <#else>
-            <p style="color: white;">
+            <span style="color: white;">
               Hallo, ${view.userLogin.username}!
-            </p>
+            </span>
             <form action="<@mtl.url "/logout"/>" method="post" class="collapse navbar-collapse navbar-form navbar-right" role="form">
               <button type="submit" class="btn btn-success">Logout</button>
               <@mtl.csrfInput/>
