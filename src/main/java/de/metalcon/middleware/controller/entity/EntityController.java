@@ -3,11 +3,16 @@ package de.metalcon.middleware.controller.entity;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.hh.request_dispatcher.Callback;
+import net.hh.request_dispatcher.Dispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +45,7 @@ import de.metalcon.middleware.controller.entity.tab.impl.ReviewsTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.TracksTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
+import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.EntityUrlMapppingManager;
 import de.metalcon.middleware.core.MetalconPjaxr;
@@ -51,6 +57,8 @@ import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
+import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
+import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
 
 /**
  * basic controller for entity requests
@@ -193,12 +201,31 @@ public abstract class EntityController<EntityViewType extends EntityView >
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
+    @Autowired
+    private DispatcherFactory dispatcherFactory;
+
     public Muid getMuidAndCheck404(
             EntityTabType entityTabType,
             RequestParameters params) throws RedirectException,
             NoSuchRequestHandlingMethodException {
-        // resolve MUID to entity (data model object)
-        Muid muid =
+        //resolve MUID to entity (data model object)
+        Dispatcher dispatcher = dispatcherFactory.getDispatcher();
+        UrlMappingResolveRequest req = null;
+        req = null;// TODO: need to fix urlMappingApi to new MUID verion new UrlMappingResolveRequest(params.getPathVars(), type);
+        final List<Muid> muids = new LinkedList<Muid>();
+        dispatcher.execute(req, new Callback<MuidResolvedResponse>() {
+
+            @Override
+            public void onSuccess(MuidResolvedResponse arg0) {
+                muids.add(arg0.getMuid());
+            }
+        });
+        dispatcher.gatherResults(20);
+
+        Muid muid = muids.get(0);
+
+        //TODO: delte next statment once the new version of the urlmapper is running
+        muid =
                 entityUrlMappingManager.getMuid(getEntityType(),
                         params.getPathVars());
 
