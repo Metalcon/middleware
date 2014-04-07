@@ -45,6 +45,7 @@ public abstract class EntityTabGenerator<EntityTabContentType extends EntityTabC
         EntityTabContentType tabContent =
                 (EntityTabContentType) entityTabContentFactory
                         .createTabContent(getEntityTabType());
+        tabContent.setEntityName(entity.getName());
         return tabContent;
     }
 

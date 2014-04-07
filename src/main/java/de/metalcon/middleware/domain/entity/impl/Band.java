@@ -6,6 +6,8 @@ import de.metalcon.middleware.domain.entity.EntityType;
 
 public class Band extends Entity {
 
+    private String freeBaseId;
+
     @Override
     public EntityType getEntityType() {
         return EntityType.BAND;
@@ -15,6 +17,14 @@ public class Band extends Entity {
             Muid muid,
             String name) {
         super(muid, name);
+    }
+
+    public String getFreeBaseId() {
+        return freeBaseId;
+    }
+
+    public void setFreeBaseId(String freeBaseId) {
+        this.freeBaseId = freeBaseId;
     }
 
 }

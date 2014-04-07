@@ -198,6 +198,32 @@ public abstract class EntityController<EntityViewType extends EntityView >
         }
 
         return muid;
+
+        //        Muid muid;
+        //        try {
+        //            Dispatcher dispatcher = dispatcherFactory.getDispatcher();
+        //            UrlMappingResolveRequest req = null;
+        //            req = null;// TODO: need to fix urlMappingApi to new MUID verion new UrlMappingResolveRequest(params.getPathVars(), type);
+        //            final List<Muid> muids = new LinkedList<Muid>();
+        //            dispatcher.execute(req, new Callback<MuidResolvedResponse>() {
+        //
+        //                @Override
+        //                public void onSuccess(MuidResolvedResponse arg0) {
+        //                    muids.add(arg0.getMuid());
+        //                }
+        //            });
+        //            dispatcher.gatherResults(20);
+        //
+        //            muid = muids.get(0);
+        //
+        //        } catch (Exception e) {//TODO: remove try catch block once the new version of the urlmapper is running and delete the catch
+        //            muid =
+        //                    entityUrlMappingManager.getMuid(getEntityType(),
+        //                            params.getPathVars());
+        //        }
+        //        if (entityTabsGenerators.get(entityTabType) == null || muid == null) {
+        //            throw new NoSuchRequestHandlingMethodException(params.getRequest());
+        //        }
     }
 
     //// TAB CONTROLLERS ///////////////////////////////////////////////////////

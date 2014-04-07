@@ -1,5 +1,9 @@
 package de.metalcon.middleware.test;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
@@ -115,6 +119,41 @@ public class TestData {
         entityUrlMappingManager.registerMuid(blackMetalMuid);
         entityUrlMappingManager.registerMuid(guitarMuid);
         entityUrlMappingManager.registerMuid(heidenfestMuid);
+
+        try {
+            BufferedReader br =
+                    new BufferedReader(
+                            new FileReader(
+                                    new File(
+                                            "/media/mssd/datasets/metalcon/BandBandNewSimilar.csv")));
+
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split("\t");
+                Integer from = Integer.parseInt(values[1]);
+                Integer to = Integer.parseInt(values[2]);
+                Float score = Float.parseFloat(values[3]);
+            }
+            br =
+                    new BufferedReader(
+                            new FileReader(
+                                    new File(
+                                            "/media/mssd/datasets/metalcon/Band_Freebase_matched.csv")));
+            line = "";
+            while ((line = br.readLine()) != null) {
+                Muid tmp = Muid.create(EntityType.toUidType(EntityType.BAND));
+                String[] values = line.split("\t");
+                Band tmpBand = new Band(tmp, values[1]);
+                tmpBand.setName(values[1]);
+                tmpBand.setFreeBaseId(values[2]);
+                entityManager.putEntity(tmpBand);
+                entityUrlMappingManager.registerMuid(tmp);
+            }
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
