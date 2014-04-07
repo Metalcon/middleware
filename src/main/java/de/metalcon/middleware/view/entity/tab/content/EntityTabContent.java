@@ -24,8 +24,12 @@ public abstract class EntityTabContent {
         return entityTabType;
     }
 
-    public void setName(String name) {
+    public void setEntityName(String name) {
         entityName = name;
+    }
+
+    public String getEntityName() {
+        return entityName;
     }
 
 }

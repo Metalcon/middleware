@@ -2,7 +2,9 @@ package de.metalcon.middleware.controller.entity.impl.band;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.metalcon.middleware.controller.RequestParameters;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.EventsTabGenerator;
@@ -13,7 +15,9 @@ import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerat
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.view.entity.impl.BandView;
+import de.metalcon.middleware.view.entity.tab.EntityTabType;
 
 /**
  * controller handling band requests
@@ -87,6 +91,17 @@ public class BandController extends EntityController<BandView> {
     @Override
     public UsersTabGenerator getUsersTabGenerator() {
         return usersTabGenerator;
+    }
+
+    @Override
+    protected void handleGet(
+            BandView view,
+            RequestParameters params,
+            EntityTabType entityTabType) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        super.handleGet(view, params, entityTabType);
+        // TODO: here we need access to the entity 
+        view.setFreebaseId("testID");
     }
 
 }
