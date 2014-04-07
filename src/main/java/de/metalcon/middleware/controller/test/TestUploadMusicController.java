@@ -66,10 +66,11 @@ public class TestUploadMusicController {
 
         System.out.println(musicFile.length);
 
-        Dispatcher dispatcher = dispatcherFactory.getDispatcher();
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
-        dispatcher.execute(new MusicStreamingCreateRequest(Muid.createFromID(
-                (long) (Math.random() * 1000000)), musicFile, "{}"),
+        dispatcher.execute(
+                new MusicStreamingCreateRequest(Muid.createFromID((long) (Math
+                        .random() * 1000000)), musicFile, "{}"),
                 new Callback<MusicStreamingCreateResponse>() {
 
                     @Override

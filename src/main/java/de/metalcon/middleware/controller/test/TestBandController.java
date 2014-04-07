@@ -20,7 +20,6 @@ public class TestBandController {
 
         List<String> jsonAnswers = new LinkedList<String>();
 
-        Object answer;
         jsonAnswers.add("test");
         jsonAnswers.add("test1");
 
