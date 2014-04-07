@@ -77,6 +77,7 @@ public abstract class MetalconController {
         //        });
         //
         //        dispatcher().gatherResults(700);
+        request.getDispatcher().gatherResults(7);
     }
 
     protected void handleGet(Request request) {

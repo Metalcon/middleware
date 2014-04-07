@@ -176,7 +176,7 @@ public class EntityUrlMapppingManager {
         return mappings.iterator().next();
     }
 
-    private static String toUrlText(String text) {
+    public static String toUrlText(String text) {
         String urlText = text;
         // Remove non letter characters.
         // (http://stackoverflow.com/questions/1611979/remove-all-non-word-characters-from-a-string-in-java-leaving-accented-charact)
@@ -235,8 +235,8 @@ public class EntityUrlMapppingManager {
      *            Muid the mapping refers to.
      */
     private void logMapping(String mapping, Muid muid) {
-        logger.info("Mapped \"" + mapping + "\" to Entity \"" + muid.toString()
-                + "\"");
+        //        logger.info("Mapped \"" + mapping + "\" to Entity \"" + muid.toString()
+        //                + "\"");
     }
 
     private static String getPathVar(Map<String, String> pathVars, String var) {
