@@ -101,6 +101,11 @@
     <!-- Metalcon -->
     <dependency>
       <groupId>de.metalcon</groupId>
+      <artifactId>YoutubeServer</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>de.metalcon</groupId>
       <artifactId>api</artifactId>
       <version>${metalcon.api.version}</version>
     </dependency>

@@ -48,24 +48,30 @@ public class BandRecommendationsTabGenerator extends
                     SddSucessfulReadResponse tmp =
                             (SddSucessfulReadResponse) arg0;
                     String s = tmp.get(entity.getMuid(), "detailed");
+                    System.out.println(s);
                     ObjectMapper mapper = new ObjectMapper();
                     try {
                         JsonNode root = mapper.readValue(s, JsonNode.class);
                         for (JsonNode node : root.path("recBands")) {
                             String name = node.get("name").textValue();
-                            System.out.println(name);
+                            //                            System.out.println(name);
                             Muid band =
                                     Muid.createFromID(node.get("id").asLong());
                             String mapping =
                                     "/music/"
                                             + EntityUrlMapppingManager
                                                     .toUrlText(name);
-                            System.out.println(band);
-                            System.out.println(mapping);
+                            //                            System.out.println(band);
+                            //                            System.out.println(mapping);
                             tabContent.addRecommendedBand(new String[] {
                                 mapping, name
                             });
-                            System.out.println(band);
+                            //                           System.out.println(band);
+                        }
+                        for (JsonNode node : root.path("myRecords")) {
+                            String name = node.get("name").textValue();
+                            System.out.println(name);
+                            tabContent.addRecord(name);
                         }
                     } catch (IOException e) {
                         // TODO Auto-generated catch block

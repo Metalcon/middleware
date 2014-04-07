@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import de.metalcon.api.responses.Response;
 import de.metalcon.api.responses.errors.UsageErrorResponse;
 import de.metalcon.domain.Muid;
+import de.metalcon.domain.UidType;
 import de.metalcon.exceptions.ServiceOverloadedException;
 import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.EntityManager;
@@ -49,7 +50,7 @@ public class SddInitializer {
 
         Map<String, String[]> bands = new HashMap<String, String[]>();
 
-        Map<String, Muid> index = new HashMap<String, Muid>();
+        Map<String, Muid> bandIndex = new HashMap<String, Muid>();
 
         BufferedReader br =
                 new BufferedReader(
@@ -60,7 +61,7 @@ public class SddInitializer {
         while ((line = br.readLine()) != null) {
             Muid tmp = Muid.create(EntityType.toUidType(EntityType.BAND));
             String[] values = line.split("\t");
-            index.put(values[0], tmp);
+            bandIndex.put(values[0], tmp);
             String name = values[1];
             System.out.println(tmp + " " + name);
             String freebaseId = values[2];
@@ -106,7 +107,7 @@ public class SddInitializer {
         while ((line = br.readLine()) != null) {
             String[] values = line.split("\t");
             Float score = Float.parseFloat(values[3]);
-            Muid toid = index.get(values[2]);
+            Muid toid = bandIndex.get(values[2]);
             if (toid == null) {
                 //            System.out.println("fail: " + toid);
                 continue;
@@ -114,7 +115,7 @@ public class SddInitializer {
             List<Muid> toIds = new LinkedList<Muid>();
             toIds.add(toid);
 
-            Muid from = index.get(values[1]);
+            Muid from = bandIndex.get(values[1]);
             if (from == null) {
                 //             System.out.println("fail from: " + from);
                 continue;
@@ -141,6 +142,104 @@ public class SddInitializer {
 
         dispatcher.gatherResults();
 
-    }
+        br =
+                new BufferedReader(new FileReader(new File(
+                        "/media/mssd/datasets/metalcon/Track.csv")));
 
+        //3444  Amon Amarth Twilight Of The Thunder God Twilight of the Thunder God 1623    446
+        //oid   band    record  song    fanCount    ownerCount
+        //0     1       2       3       4           5
+        line = "";
+        System.out.println("import tracks");
+        request = new SddWriteRequest();
+        HashMap<String, Muid> recordIndex = new HashMap<String, Muid>();
+        HashMap<String, Muid> trackIndex = new HashMap<String, Muid>();
+
+        HashMap<Muid, List<Muid>> bandRecords = new HashMap<Muid, List<Muid>>();
+        HashMap<Muid, List<Muid>> recordTracks =
+                new HashMap<Muid, List<Muid>>();
+
+        int cnt = 1;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split("\t");
+            if (values.length != 6) {
+                continue;
+            }
+            Muid bandMuid = bandIndex.get(values[0]);
+            if (bandMuid == null) {
+                continue;
+            }
+            cnt++;
+            if (cnt % 20000 == 0) {
+                try {
+                    System.out.println("sleep to ..." + cnt);
+                    Thread.sleep(999);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            Muid recordMuid = recordIndex.get(bandMuid.toString() + values[2]);
+            if (recordMuid == null) {
+                recordMuid = Muid.create(UidType.RECORD);
+                recordIndex.put(bandMuid.toString() + values[2], recordMuid);
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("name", values[2]);
+                request.setProperties(recordMuid, map);
+                List<Muid> toIds = bandRecords.get(bandMuid);
+                if (toIds == null) {
+                    toIds = new LinkedList<Muid>();
+                }
+                toIds.add(recordMuid);
+                bandRecords.put(bandMuid, toIds);
+                //TODO: doesn't seem to work                request.setRelation(bandMuid, "myRecords", recordMuid);
+            }
+            Muid trackMuid = trackIndex.get(recordMuid.toString() + values[3]);
+            if (trackMuid == null) {
+                trackMuid = Muid.create(UidType.TRACK);
+                trackIndex.put(recordMuid.toString() + values[3], trackMuid);
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("name", values[3]);
+                request.setProperties(trackMuid, map);
+                List<Muid> toIds = recordTracks.get(recordMuid);
+                if (toIds == null) {
+                    toIds = new LinkedList<Muid>();
+                }
+                toIds.add(trackMuid);
+                recordTracks.put(recordMuid, toIds);
+                //request.setRelation(recordMuid, "myTracks", trackMuid);
+            }
+        }
+        System.out.println("adding band record relations: "
+                + bandRecords.size());
+        for (Muid bandMuid : bandRecords.keySet()) {
+            request.addRelations(bandMuid, "myRecords",
+                    bandRecords.get(bandMuid));
+        }
+
+        System.out.println("adding track record relations: "
+                + recordTracks.size());
+        for (Muid recordMuid : recordTracks.keySet()) {
+            request.addRelations(recordMuid, "myTracks",
+                    recordTracks.get(recordMuid));
+        }
+
+        dispatcher.execute(request, new Callback<Response>() {
+
+            @Override
+            public void onSuccess(Response arg0) {
+                System.out.println("yeah: " + arg0.getClass());
+                if (arg0 instanceof UsageErrorResponse) {
+                    System.out.println(arg0.getStatusMessage());
+                    System.out.println(((UsageErrorResponse) arg0)
+                            .getErrorMessage());
+                    System.out.println(((UsageErrorResponse) arg0)
+                            .getSolution());
+                }
+            }
+        });
+
+        dispatcher.gatherResults();
+
+    }
 }

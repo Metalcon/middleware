@@ -10,6 +10,8 @@ public class RecommendationsTabContent extends EntityTabContent {
 
     private List<String[]> recommendedBands = null;
 
+    private List<String> myRecords = null;
+
     public RecommendationsTabContent() {
         super(EntityTabType.RECOMMENDATIONS);
     }
@@ -27,6 +29,21 @@ public class RecommendationsTabContent extends EntityTabContent {
             recommendedBands = new ArrayList<String[]>();
         }
         recommendedBands.add(recommendedBand);
+    }
+
+    public List<String> getMyRecords() {
+        return myRecords;
+    }
+
+    public void setMyRecords(List<String> myRecords) {
+        this.myRecords = myRecords;
+    }
+
+    public void addRecord(String record) {
+        if (myRecords == null) {
+            myRecords = new ArrayList<String>();
+        }
+        myRecords.add(record);
     }
 
 }
