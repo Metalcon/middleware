@@ -124,18 +124,18 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 getMuidAndCheck404(entityTabType, request.getPathVars(),
                         request.getHttpServletRequest());
 
+        Entity entity = entityManager.getEntity(muid, getEntityType());
+
+        @SuppressWarnings("unchecked")
+        EntityViewType view = (EntityViewType) request.getView();
+        view.setMuid(entity.getMuid());
+
         String pjaxrNamespace =
                 getMetalconNamespace() + "." + getEntityType().toString() + "."
                         + muid + "." + entityTabType.toString().toLowerCase();
         MetalconPjaxr pjaxr =
                 new MetalconPjaxr(request.getHttpServletRequest(),
                         pjaxrNamespace);
-
-        Entity entity = entityManager.getEntity(muid, getEntityType());
-
-        @SuppressWarnings("unchecked")
-        EntityViewType view = (EntityViewType) request.getView();
-        view.setMuid(entity.getMuid());
 
         if (pjaxr.isPjaxrContent()) {
             // create tab previews if content
