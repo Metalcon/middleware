@@ -59,7 +59,7 @@ public class DispatcherFactory {
     @Bean(
             destroyMethod = "close")
     @Scope("thread")
-    public Dispatcher getDispatcher() {
+    public Dispatcher dispatcher() {
         Dispatcher dispatcher = new Dispatcher();
 
         // StaticDataDelivery

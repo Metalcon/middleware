@@ -27,7 +27,7 @@ public class TestHomeController {
         bands.add("Bolt Thrower");
         bands.add("another test");
 
-        UserSession user = userSessionFactory.getUserSession();
+        UserSession user = userSessionFactory.userSession();
         bands.add("user id: " + user.getId());
         user.incPageCount();
         bands.add("page count: " + user.getPageCount());
