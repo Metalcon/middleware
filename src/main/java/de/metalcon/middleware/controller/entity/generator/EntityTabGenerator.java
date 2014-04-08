@@ -2,7 +2,7 @@ package de.metalcon.middleware.controller.entity.generator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.metalcon.middleware.domain.entity.Entity;
+import de.metalcon.domain.Muid;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContentFactory;
@@ -40,12 +40,11 @@ public abstract class EntityTabGenerator<EntityTabContentType extends EntityTabC
      * @param entity
      *            data model object to extract the data from
      */
-    public EntityTabContentType generateTabContent(Entity<?> entity) {
+    public EntityTabContentType generateTabContent(Muid muid) {
         @SuppressWarnings("unchecked")
         EntityTabContentType tabContent =
                 (EntityTabContentType) entityTabContentFactory
                         .createTabContent(getEntityTabType());
-        tabContent.setEntityName(entity.getName());
         return tabContent;
     }
 
@@ -55,7 +54,7 @@ public abstract class EntityTabGenerator<EntityTabContentType extends EntityTabC
      * @param entity
      *            data model object to extract the data from
      */
-    public EntityTabPreviewType generateTabPreview(Entity<?> entity) {
+    public EntityTabPreviewType generateTabPreview(Muid muid) {
         @SuppressWarnings("unchecked")
         EntityTabPreviewType tabPreview =
                 (EntityTabPreviewType) entityTabPreviewFactory

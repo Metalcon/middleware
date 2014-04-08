@@ -10,8 +10,6 @@ public abstract class EntityTabContent {
 
     private EntityTabType entityTabType;
 
-    private String entityName;
-
     public EntityTabContent(
             EntityTabType entityTabType) {
         this.entityTabType = entityTabType;
@@ -22,14 +20,6 @@ public abstract class EntityTabContent {
      */
     public EntityTabType getEntityTabType() {
         return entityTabType;
-    }
-
-    public void setEntityName(String name) {
-        entityName = name;
-    }
-
-    public String getEntityName() {
-        return entityName;
     }
 
 }

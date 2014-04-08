@@ -47,7 +47,7 @@ public class User extends Entity<UserUrlData> {
 
     @Override
     public UserUrlData getUrlData() {
-        return new UserUrlData(getMuid(), getFirstName(), getFirstName());
+        return new UserUrlData(getMuid(), getFirstName(), getLastName());
     }
 
 }
