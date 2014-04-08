@@ -69,7 +69,7 @@ public class DispatcherFactory {
     public ZmqAdapter<UrlMappingRequest, Response> urlMappingAdapter() {
         ZmqAdapter<UrlMappingRequest, Response> urlMappingAdapter =
                 new ZmqAdapter<UrlMappingRequest, Response>(zmqContext(),
-                        MUSIC_STREAMING_SERVER_ENDPOINT);
+                        URL_MAPPING_SERVER_ENDPOINT);
         return urlMappingAdapter;
     }
 

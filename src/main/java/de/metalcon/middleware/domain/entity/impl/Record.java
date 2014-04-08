@@ -3,8 +3,9 @@ package de.metalcon.middleware.domain.entity.impl;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.RecordUrlData;
 
-public class Record extends Entity {
+public class Record extends Entity<RecordUrlData> {
 
     @Override
     public EntityType getEntityType() {
@@ -37,6 +38,11 @@ public class Record extends Entity {
 
     public void setReleaseYear(Integer releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    @Override
+    public RecordUrlData getUrlData() {
+        return new RecordUrlData(getMuid(), getName(), null, getReleaseYear());
     }
 
 }

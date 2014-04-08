@@ -22,7 +22,7 @@ public abstract class NewsTabGenerator extends
     }
 
     @Override
-    public NewsTabContent generateTabContent(Entity entity) {
+    public NewsTabContent generateTabContent(Entity<?> entity) {
         NewsTabContent tabContent = super.generateTabContent(entity);
         tabContent.setNews(newsServer.getNews(entity.getMuid(),
                 entity.getMuid(), true));

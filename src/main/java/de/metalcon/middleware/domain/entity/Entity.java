@@ -2,13 +2,15 @@ package de.metalcon.middleware.domain.entity;
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.Identity;
+import de.metalcon.urlmappingserver.api.requests.registration.EntityUrlData;
 
 /**
  * basic class for Metalcon entities having an own page
  * 
  * @see EntityType
  */
-public abstract class Entity extends Identity {
+public abstract class Entity<EntityUrlDataType extends EntityUrlData > extends
+        Identity {
 
     /**
      * @return entity type
@@ -49,5 +51,7 @@ public abstract class Entity extends Identity {
     public final void setName(String name) {
         this.name = name;
     }
+
+    public abstract EntityUrlDataType getUrlData();
 
 }

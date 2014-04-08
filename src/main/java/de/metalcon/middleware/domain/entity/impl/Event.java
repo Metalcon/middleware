@@ -5,8 +5,9 @@ import java.util.Date;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.EventUrlData;
 
-public class Event extends Entity {
+public class Event extends Entity<EventUrlData> {
 
     @Override
     public EntityType getEntityType() {
@@ -50,6 +51,11 @@ public class Event extends Entity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public EventUrlData getUrlData() {
+        return new EventUrlData(getMuid());
     }
 
 }

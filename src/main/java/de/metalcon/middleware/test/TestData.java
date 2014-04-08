@@ -1,20 +1,21 @@
 package de.metalcon.middleware.test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
 
+import net.hh.request_dispatcher.Callback;
+import net.hh.request_dispatcher.Dispatcher;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import de.metalcon.api.responses.Response;
+import de.metalcon.api.responses.errors.ErrorResponse;
 import de.metalcon.domain.Muid;
 import de.metalcon.exceptions.ServiceOverloadedException;
+import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.EntityManager;
-import de.metalcon.middleware.core.EntityUrlMapppingManager;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.domain.entity.impl.Band;
 import de.metalcon.middleware.domain.entity.impl.City;
@@ -26,6 +27,7 @@ import de.metalcon.middleware.domain.entity.impl.Tour;
 import de.metalcon.middleware.domain.entity.impl.Track;
 import de.metalcon.middleware.domain.entity.impl.User;
 import de.metalcon.middleware.domain.entity.impl.Venue;
+import de.metalcon.urlmappingserver.api.requests.UrlMappingRegistrationRequest;
 
 @Component
 public class TestData {
@@ -34,7 +36,7 @@ public class TestData {
     private EntityManager entityManager;
 
     @Autowired
-    private EntityUrlMapppingManager entityUrlMappingManager;
+    private DispatcherFactory dispatcherFactory;
 
     public Muid heidenfestMuid;
 
@@ -108,52 +110,42 @@ public class TestData {
         cal.set(2014, 7, 31);
         wacken.setDate(cal.getTime());
 
-        entityUrlMappingManager.registerMuid(jamesHetfieldMuid);
-        entityUrlMappingManager.registerMuid(ensiferumMuid);
-        entityUrlMappingManager.registerMuid(ensiferum2Muid);
-        entityUrlMappingManager.registerMuid(victorySongsMuid);
-        entityUrlMappingManager.registerMuid(ahtiMuid);
-        entityUrlMappingManager.registerMuid(druckkammerMuid);
-        entityUrlMappingManager.registerMuid(wackenMuid);
-        entityUrlMappingManager.registerMuid(koblenzMuid);
-        entityUrlMappingManager.registerMuid(blackMetalMuid);
-        entityUrlMappingManager.registerMuid(guitarMuid);
-        entityUrlMappingManager.registerMuid(heidenfestMuid);
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
-        try {
-            BufferedReader br =
-                    new BufferedReader(
-                            new FileReader(
-                                    new File(
-                                            "/media/mssd/datasets/metalcon/BandBandNewSimilar.csv")));
+        UrlMappingRegistrationRequest[] reqs =
+                new UrlMappingRegistrationRequest[] {
+                    new UrlMappingRegistrationRequest(
+                            jamesHetfield.getUrlData()),
+                    new UrlMappingRegistrationRequest(ensiferum.getUrlData()),
+                    new UrlMappingRegistrationRequest(ensiferum2.getUrlData()),
+                    new UrlMappingRegistrationRequest(victorySongs.getUrlData()),
+                    new UrlMappingRegistrationRequest(ahti.getUrlData()),
+                    new UrlMappingRegistrationRequest(druckkammer.getUrlData()),
+                    new UrlMappingRegistrationRequest(wacken.getUrlData()),
+                    new UrlMappingRegistrationRequest(koblenz.getUrlData()),
+                    new UrlMappingRegistrationRequest(blackMetal.getUrlData()),
+                    new UrlMappingRegistrationRequest(guitar.getUrlData()),
+                    new UrlMappingRegistrationRequest(heidenfest.getUrlData())
+                };
 
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split("\t");
-                Integer from = Integer.parseInt(values[1]);
-                Integer to = Integer.parseInt(values[2]);
-                Float score = Float.parseFloat(values[3]);
-            }
-            br =
-                    new BufferedReader(
-                            new FileReader(
-                                    new File(
-                                            "/media/mssd/datasets/metalcon/Band_Freebase_matched.csv")));
-            line = "";
-            while ((line = br.readLine()) != null) {
-                Muid tmp = Muid.create(EntityType.toUidType(EntityType.BAND));
-                String[] values = line.split("\t");
-                Band tmpBand = new Band(tmp, values[1]);
-                tmpBand.setName(values[1]);
-                tmpBand.setFreeBaseId(values[2]);
-                entityManager.putEntity(tmpBand);
-                entityUrlMappingManager.registerMuid(tmp);
-            }
+        for (UrlMappingRegistrationRequest req : reqs) {
+            dispatcher.execute(req, new Callback<Response>() {
 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                @Override
+                public void onSuccess(Response response) {
+                    if (response instanceof ErrorResponse) {
+                        System.out.println(response.getStatusMessage());
+                        System.out.println(((ErrorResponse) response)
+                                .getErrorMessage());
+                        System.out.println(((ErrorResponse) response)
+                                .getSolution());
+                    }
+                }
+
+            });
         }
+
+        dispatcher.gatherResults();
     }
 
 }

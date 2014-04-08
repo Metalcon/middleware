@@ -9,11 +9,15 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.hh.request_dispatcher.Callback;
+import net.hh.request_dispatcher.Dispatcher;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import de.metalcon.api.responses.Response;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.MetalconController;
 import de.metalcon.middleware.controller.Request;
@@ -42,7 +46,6 @@ import de.metalcon.middleware.controller.entity.tab.impl.TracksTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.EntityManager;
-import de.metalcon.middleware.core.EntityUrlMapppingManager;
 import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.domain.entity.Entity;
@@ -53,6 +56,8 @@ import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
+import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
+import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
 
 /**
  * basic controller for entity requests
@@ -63,8 +68,8 @@ public abstract class EntityController<EntityViewType extends EntityView >
     @Autowired
     protected EntityViewFactory entityViewFactory;
 
-    @Autowired
-    protected EntityUrlMapppingManager entityUrlMappingManager;
+    //    @Autowired
+    //    protected EntityUrlMapppingManager entityUrlMappingManager;
 
     @Autowired
     private EntityManager entityManager;
@@ -122,9 +127,10 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         Muid muid =
                 getMuidAndCheck404(entityTabType, request.getPathVars(),
-                        request.getHttpServletRequest());
+                        request.getHttpServletRequest(),
+                        request.getDispatcher());
 
-        Entity entity = entityManager.getEntity(muid, getEntityType());
+        Entity<?> entity = entityManager.getEntity(muid, getEntityType());
 
         @SuppressWarnings("unchecked")
         EntityViewType view = (EntityViewType) request.getView();
@@ -188,10 +194,28 @@ public abstract class EntityController<EntityViewType extends EntityView >
     public Muid getMuidAndCheck404(
             EntityTabType entityTabType,
             Map<String, String> pathVars,
-            HttpServletRequest httpServletRequest) throws RedirectException,
+            HttpServletRequest httpServletRequest,
+            Dispatcher dispatcher) throws RedirectException,
             NoSuchRequestHandlingMethodException {
         // resolve MUID to entity (data model object)
-        Muid muid = entityUrlMappingManager.getMuid(getEntityType(), pathVars);
+        final Muid[] muidResponse = new Muid[1];
+        dispatcher.execute(
+                new UrlMappingResolveRequest(pathVars, EntityType
+                        .toUidType(getEntityType())), new Callback<Response>() {
+
+                    @Override
+                    public void onSuccess(Response response) {
+                        if (response instanceof MuidResolvedResponse) {
+                            muidResponse[0] =
+                                    ((MuidResolvedResponse) response).getMuid();
+                        } else {
+                            muidResponse[0] = null;
+                        }
+                    }
+
+                });
+        dispatcher.gatherResults(50);
+        Muid muid = muidResponse[0];
 
         if (entityTabsGenerators.get(entityTabType) == null || muid == null) {
             throw new NoSuchRequestHandlingMethodException(httpServletRequest);

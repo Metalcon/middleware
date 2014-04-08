@@ -3,8 +3,9 @@ package de.metalcon.middleware.domain.entity.impl;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.BandUrlData;
 
-public class Band extends Entity {
+public class Band extends Entity<BandUrlData> {
 
     private String freeBaseId;
 
@@ -25,6 +26,11 @@ public class Band extends Entity {
 
     public void setFreeBaseId(String freeBaseId) {
         this.freeBaseId = freeBaseId;
+    }
+
+    @Override
+    public BandUrlData getUrlData() {
+        return new BandUrlData(getMuid(), getName());
     }
 
 }

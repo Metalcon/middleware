@@ -40,7 +40,7 @@ public abstract class EntityTabGenerator<EntityTabContentType extends EntityTabC
      * @param entity
      *            data model object to extract the data from
      */
-    public EntityTabContentType generateTabContent(Entity entity) {
+    public EntityTabContentType generateTabContent(Entity<?> entity) {
         @SuppressWarnings("unchecked")
         EntityTabContentType tabContent =
                 (EntityTabContentType) entityTabContentFactory
@@ -55,7 +55,7 @@ public abstract class EntityTabGenerator<EntityTabContentType extends EntityTabC
      * @param entity
      *            data model object to extract the data from
      */
-    public EntityTabPreviewType generateTabPreview(Entity entity) {
+    public EntityTabPreviewType generateTabPreview(Entity<?> entity) {
         @SuppressWarnings("unchecked")
         EntityTabPreviewType tabPreview =
                 (EntityTabPreviewType) entityTabPreviewFactory

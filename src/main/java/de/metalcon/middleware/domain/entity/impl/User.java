@@ -3,8 +3,9 @@ package de.metalcon.middleware.domain.entity.impl;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.UserUrlData;
 
-public class User extends Entity {
+public class User extends Entity<UserUrlData> {
 
     @Override
     public EntityType getEntityType() {
@@ -42,6 +43,11 @@ public class User extends Entity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public UserUrlData getUrlData() {
+        return new UserUrlData(getMuid(), getFirstName(), getFirstName());
     }
 
 }
