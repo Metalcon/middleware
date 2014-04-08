@@ -110,7 +110,7 @@ public class TestData {
         cal.set(2014, 7, 31);
         wacken.setDate(cal.getTime());
 
-        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        Dispatcher dispatcher = dispatcherFactory.dispatcherNoBean();
 
         UrlMappingRegistrationRequest[] reqs =
                 new UrlMappingRegistrationRequest[] {

@@ -1,6 +1,5 @@
 package de.metalcon.middleware.controller.entity.tab;
 
-import de.metalcon.middleware.controller.Request;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 
@@ -17,8 +16,9 @@ public abstract class EntityTabController {
         return entityTabType;
     }
 
-    public void
-        handleGet(Request Request, EntityController<?> entityController) {
+    public void handleGet(
+            EntityController.Data data,
+            EntityController<?> entityController) {
     }
 
 }

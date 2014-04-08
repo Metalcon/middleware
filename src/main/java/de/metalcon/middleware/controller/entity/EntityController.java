@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 import de.metalcon.api.responses.Response;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.BaseController;
-import de.metalcon.middleware.controller.Request;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
@@ -62,6 +61,20 @@ import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
  */
 public abstract class EntityController<EntityViewType extends EntityView >
         extends BaseController {
+
+    public static class Data extends BaseController.Data {
+
+        private Muid muid;
+
+        public Muid getMuid() {
+            return muid;
+        }
+
+        public void setMuid(Muid muid) {
+            this.muid = muid;
+        }
+
+    }
 
     @Autowired
     protected EntityViewFactory entityViewFactory;
@@ -115,27 +128,26 @@ public abstract class EntityController<EntityViewType extends EntityView >
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
-    protected void handleGet(EntityTabType entityTabType)
+    protected void handleGet(Data data, EntityTabType entityTabType)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        Request request = requestFactory.request();
+        super.handleGet(data);
 
         EntityTabController entityTabController =
                 getEntityTabController(entityTabType);
 
         Muid muid =
-                getMuidAndCheck404(entityTabType, request.getPathVars(),
-                        request.getHttpServletRequest());
+                getMuidAndCheck404(entityTabType, data.getPathVars(),
+                        data.getHttpServletRequest());
 
         @SuppressWarnings("unchecked")
-        EntityViewType view = (EntityViewType) request.getView();
+        EntityViewType view = (EntityViewType) data.getView();
         view.setMuid(muid);
 
         String pjaxrNamespace =
                 getMetalconNamespace() + "." + getEntityType().toString() + "."
                         + muid + "." + entityTabType.toString().toLowerCase();
         MetalconPjaxr pjaxr =
-                new MetalconPjaxr(request.getHttpServletRequest(),
-                        pjaxrNamespace);
+                new MetalconPjaxr(data.getHttpServletRequest(), pjaxrNamespace);
 
         if (pjaxr.isPjaxrContent()) {
             // create tab previews if content
@@ -167,8 +179,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         view.setPjaxrMatching(pjaxr.getMatchingCount());
         view.setPjaxrNamespace(pjaxrNamespace);
 
-        entityTabController.handleGet(request, this);
-        super.handleGet();
+        entityTabController.handleGet(data, this);
     }
 
     /**
@@ -251,24 +262,24 @@ public abstract class EntityController<EntityViewType extends EntityView >
             @PathVariable Map<String, String> pathVars,
             @AuthenticationPrincipal UserLogin userLogin)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        Request request = requestFactory.request();
-        request.setHttpServletRequest(httpServletRequest);
-        request.setHttpServletResponse(httpServletResponse);
-        request.setPathVars(pathVars);
-        request.setUserLogin(userLogin);
+        Data data = new Data();
+        data.setHttpServletRequest(httpServletRequest);
+        data.setHttpServletResponse(httpServletResponse);
+        data.setPathVars(pathVars);
+        data.setUserLogin(userLogin);
 
         EntityTabType entityTabType =
                 getEntityTabTypeFromString(pathVars.get("pathTab"));
 
         if (entityTabType == null) {
             throw new NoSuchRequestHandlingMethodException(
-                    request.getHttpServletRequest());
+                    data.getHttpServletRequest());
         }
 
         EntityViewType view = createView();
-        request.setView(view);
+        data.setView(view);
 
-        handleGet(entityTabType);
+        handleGet(data, entityTabType);
 
         return view;
     }

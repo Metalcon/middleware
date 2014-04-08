@@ -73,12 +73,26 @@ public class DispatcherFactory {
         return urlMappingAdapter;
     }
 
-    @Bean(
-            destroyMethod = "close")
+    /**
+     * Thread scope doesn't support destoryMethod. This means on every instance
+     * we have to close the dispatcher ourselves, when we know its lifetime has
+     * ended.
+     */
+    @Bean
     @Scope("thread")
     public Dispatcher dispatcher() {
         Dispatcher dispatcher = new Dispatcher();
+        registerAdapters(dispatcher);
+        return dispatcher;
+    }
 
+    public Dispatcher dispatcherNoBean() {
+        Dispatcher dispatcher = new Dispatcher();
+        registerAdapters(dispatcher);
+        return dispatcher;
+    }
+
+    private void registerAdapters(Dispatcher dispatcher) {
         // StaticDataDelivery
         dispatcher.registerServiceAdapter(SDD_SERVICE, sddAdapter());
         dispatcher.setDefaultService(SddReadRequest.class, SDD_SERVICE);
@@ -106,7 +120,5 @@ public class DispatcherFactory {
                 URL_MAPPING_SERVICE);
         dispatcher.setDefaultService(UrlMappingRegistrationRequest.class,
                 URL_MAPPING_SERVICE);
-
-        return dispatcher;
     }
 }

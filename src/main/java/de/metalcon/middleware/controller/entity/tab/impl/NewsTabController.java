@@ -8,7 +8,6 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.backend.newsserver.NewsServer;
-import de.metalcon.middleware.controller.Request;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.tab.EntityTabController;
 import de.metalcon.middleware.exception.RedirectException;
@@ -25,13 +24,13 @@ public class NewsTabController extends EntityTabController {
     }
 
     public void createNewsItem(
-            Request request,
+            EntityController.Data data,
             EntityController<?> entityController)
             throws NoSuchRequestHandlingMethodException, RedirectException,
             IOException {
         Muid muid =
                 entityController.getMuidAndCheck404(getEntityTabType(),
-                        request.getPathVars(), request.getHttpServletRequest());
+                        data.getPathVars(), data.getHttpServletRequest());
 
         newsServer.postNews(muid.toString(), muid.toString(), true,
                 "TODO: get form messages");
