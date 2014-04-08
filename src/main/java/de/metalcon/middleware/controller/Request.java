@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Scope;
 
 import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.core.UserSession;
-import de.metalcon.middleware.view.MetalconView;
+import de.metalcon.middleware.view.BaseView;
 
 public class Request {
 
@@ -33,7 +33,7 @@ public class Request {
 
     private Map<String, String> pathVars;
 
-    private MetalconView view;
+    private BaseView view;
 
     @Autowired
     private UserSession userSession;
@@ -64,11 +64,11 @@ public class Request {
         this.pathVars = pathVars;
     }
 
-    public MetalconView getView() {
+    public BaseView getView() {
         return view;
     }
 
-    public void setView(MetalconView view) {
+    public void setView(BaseView view) {
         this.view = view;
     }
 

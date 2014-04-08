@@ -3,10 +3,10 @@ package de.metalcon.middleware.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.metalcon.middleware.core.DispatcherFactory;
-import de.metalcon.middleware.view.MetalconView;
+import de.metalcon.middleware.view.BaseView;
 import de.metalcon.middleware.view.ViewFactory;
 
-public abstract class MetalconController {
+public abstract class BaseController {
 
     private String metalconNamespace = "metalcon";
 
@@ -26,7 +26,7 @@ public abstract class MetalconController {
     protected void handleRequest() {
         Request request = requestFactory.request();
 
-        MetalconView view = request.getView();
+        BaseView view = request.getView();
         view.setUserSession(request.getUserSession());
         view.setUserLogin(request.getUserLogin());
     }

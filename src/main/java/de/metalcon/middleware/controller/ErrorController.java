@@ -15,7 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ErrorController extends MetalconController {
+public class ErrorController extends BaseController {
 
     public ModelAndView handleError(HttpServletRequest request) {
         Throwable exception = (Throwable) request.getAttribute(ERROR_EXCEPTION);

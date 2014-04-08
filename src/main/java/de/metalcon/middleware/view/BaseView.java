@@ -19,7 +19,7 @@ import de.metalcon.middleware.core.UserSession;
  * basic Metalcon view (_site)<br>
  * (holds PJAXR values)
  */
-public abstract class MetalconView implements View {
+public abstract class BaseView implements View {
 
     @Autowired
     private ViewResolver viewResolver;
@@ -36,7 +36,7 @@ public abstract class MetalconView implements View {
 
     protected UserLogin userLogin = null;
 
-    public MetalconView(
+    public BaseView(
             String name) {
         this.name = name;
     }

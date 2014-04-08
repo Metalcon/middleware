@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import de.metalcon.middleware.controller.MetalconController;
+import de.metalcon.middleware.controller.BaseController;
 import de.metalcon.middleware.test.TestData;
 
 @Controller
-public class HomeController extends MetalconController {
+public class HomeController extends BaseController {
 
     @Autowired
     TestData testData;

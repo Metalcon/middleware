@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import de.metalcon.api.responses.Response;
 import de.metalcon.domain.Muid;
-import de.metalcon.middleware.controller.MetalconController;
+import de.metalcon.middleware.controller.BaseController;
 import de.metalcon.middleware.controller.Request;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
@@ -61,7 +61,7 @@ import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
  * basic controller for entity requests
  */
 public abstract class EntityController<EntityViewType extends EntityView >
-        extends MetalconController {
+        extends BaseController {
 
     @Autowired
     protected EntityViewFactory entityViewFactory;

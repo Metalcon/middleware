@@ -11,7 +11,7 @@ import de.metalcon.middleware.view.LoginView;
 
 @Controller
 //@SessionAttributes("loginFormBean")
-public class LoginController extends MetalconController {
+public class LoginController extends BaseController {
 
     //    @Autowired
     //    private UserSessionFactory userSessionFactory;
