@@ -115,15 +115,16 @@ public abstract class EntityController<EntityViewType extends EntityView >
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
      */
-    protected void handleGet(Request request, EntityTabType entityTabType)
+    protected void handleGet(EntityTabType entityTabType)
             throws RedirectException, NoSuchRequestHandlingMethodException {
+        Request request = requestFactory.request();
+
         EntityTabController entityTabController =
                 getEntityTabController(entityTabType);
 
         Muid muid =
                 getMuidAndCheck404(entityTabType, request.getPathVars(),
-                        request.getHttpServletRequest(),
-                        request.getDispatcher());
+                        request.getHttpServletRequest());
 
         @SuppressWarnings("unchecked")
         EntityViewType view = (EntityViewType) request.getView();
@@ -167,7 +168,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         view.setPjaxrNamespace(pjaxrNamespace);
 
         entityTabController.handleGet(request, this);
-        super.handleGet(request);
+        super.handleGet();
     }
 
     /**
@@ -186,11 +187,11 @@ public abstract class EntityController<EntityViewType extends EntityView >
     public Muid getMuidAndCheck404(
             EntityTabType entityTabType,
             Map<String, String> pathVars,
-            HttpServletRequest httpServletRequest,
-            Dispatcher dispatcher) throws RedirectException,
+            HttpServletRequest httpServletRequest) throws RedirectException,
             NoSuchRequestHandlingMethodException {
-        // resolve MUID to entity (data model object)
         final Muid[] muidResponse = new Muid[1];
+
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
         dispatcher.execute(
                 new UrlMappingResolveRequest(pathVars, EntityType
                         .toUidType(getEntityType())), new Callback<Response>() {
@@ -207,6 +208,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
                 });
         dispatcher.gatherResults(50);
+
         Muid muid = muidResponse[0];
 
         if (entityTabsGenerators.get(entityTabType) == null || muid == null) {
@@ -249,10 +251,11 @@ public abstract class EntityController<EntityViewType extends EntityView >
             @PathVariable Map<String, String> pathVars,
             @AuthenticationPrincipal UserLogin userLogin)
             throws RedirectException, NoSuchRequestHandlingMethodException {
-        EntityViewType view = createView();
-        Request request =
-                createRequest(httpServletRequest, httpServletResponse,
-                        pathVars, view, userLogin);
+        Request request = requestFactory.request();
+        request.setHttpServletRequest(httpServletRequest);
+        request.setHttpServletResponse(httpServletResponse);
+        request.setPathVars(pathVars);
+        request.setUserLogin(userLogin);
 
         EntityTabType entityTabType =
                 getEntityTabTypeFromString(pathVars.get("pathTab"));
@@ -262,7 +265,10 @@ public abstract class EntityController<EntityViewType extends EntityView >
                     request.getHttpServletRequest());
         }
 
-        handleGet(request, entityTabType);
+        EntityViewType view = createView();
+        request.setView(view);
+
+        handleGet(entityTabType);
 
         return view;
     }

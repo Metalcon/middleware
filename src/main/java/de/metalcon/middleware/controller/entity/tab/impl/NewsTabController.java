@@ -31,8 +31,7 @@ public class NewsTabController extends EntityTabController {
             IOException {
         Muid muid =
                 entityController.getMuidAndCheck404(getEntityTabType(),
-                        request.getPathVars(), request.getHttpServletRequest(),
-                        request.getDispatcher());
+                        request.getPathVars(), request.getHttpServletRequest());
 
         newsServer.postNews(muid.toString(), muid.toString(), true,
                 "TODO: get form messages");

@@ -45,11 +45,16 @@ public class LoginController extends MetalconController {
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal UserLogin userLogin) {
+        Request request = requestFactory.request();
+        request.setHttpServletRequest(httpServletRequest);
+        request.setHttpServletResponse(httpServletResponse);
+        request.setUserLogin(userLogin);
+
         LoginView view = viewFactory.createLoginView();
-        Request request =
-                createRequest(httpServletRequest, httpServletResponse, null,
-                        view, userLogin);
-        handleGet(request);
+        request.setView(view);
+
+        handleGet();
+
         return view;
     }
 

@@ -5,8 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.hh.request_dispatcher.Dispatcher;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,9 +39,6 @@ public class Request {
     private UserSession userSession;
 
     private UserLogin userLogin;
-
-    @Autowired
-    private Dispatcher dispatcher;
 
     public HttpServletRequest getHttpServletRequest() {
         return httpServletRequest;
@@ -91,14 +86,6 @@ public class Request {
 
     public void setUserLogin(UserLogin userLogin) {
         this.userLogin = userLogin;
-    }
-
-    public Dispatcher getDispatcher() {
-        return dispatcher;
-    }
-
-    public void setDispatcher(Dispatcher dispatcher) {
-        this.dispatcher = dispatcher;
     }
 
 }
