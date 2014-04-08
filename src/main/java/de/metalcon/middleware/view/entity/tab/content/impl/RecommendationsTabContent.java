@@ -2,6 +2,7 @@ package de.metalcon.middleware.view.entity.tab.content.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
@@ -10,7 +11,7 @@ public class RecommendationsTabContent extends EntityTabContent {
 
     private List<String[]> recommendedBands = null;
 
-    private List<String> myRecords = null;
+    private Map<String, List<String[]>> myRecords = null;
 
     public RecommendationsTabContent() {
         super(EntityTabType.RECOMMENDATIONS);
@@ -31,19 +32,13 @@ public class RecommendationsTabContent extends EntityTabContent {
         recommendedBands.add(recommendedBand);
     }
 
-    public List<String> getMyRecords() {
+    public Map<String, List<String[]>> getMyRecords() {
         return myRecords;
     }
 
-    public void setMyRecords(List<String> myRecords) {
-        this.myRecords = myRecords;
-    }
+    public void addRecords(Map<String, List<String[]>> records) {
+        myRecords = records;
 
-    public void addRecord(String record) {
-        if (myRecords == null) {
-            myRecords = new ArrayList<String>();
-        }
-        myRecords.add(record);
     }
 
 }

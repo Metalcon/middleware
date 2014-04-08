@@ -13,9 +13,15 @@ Recommendations Tab
 </#if>
 <#if tabContent.myRecords??>
     <h2>records and tracks</h2>
-    <#list tabContent.records as record>
-        <h3><a href="">${record[1]}</a></h3>
+    
+    <#list tabContent.myRecords?keys as record>
+        <h3>${record}</h3>
         <ul>
+        <#list tabContent.myRecords[record] as track>
+            <li><a href="https://www.youtube.com/watch?v=${track[1]}">${track[0]}</a>
+            </li>
+        </#list>
+        <iframe width="560" height="315" src="//www.youtube.com/embed/${tabContent.myRecords[record][0][1]}" frameborder="0" allowfullscreen></iframe>
         </ul>
     </#list>
 </#if>

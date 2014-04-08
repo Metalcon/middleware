@@ -1,6 +1,10 @@
 package de.metalcon.middleware.controller.entity.impl.band;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import net.hh.request_dispatcher.Callback;
 import net.hh.request_dispatcher.Dispatcher;
@@ -68,11 +72,32 @@ public class BandRecommendationsTabGenerator extends
                             });
                             //                           System.out.println(band);
                         }
+
+                        Map<String, List<String[]>> records =
+                                new HashMap<String, List<String[]>>();
                         for (JsonNode node : root.path("myRecords")) {
                             String name = node.get("name").textValue();
                             System.out.println(name);
-                            tabContent.addRecord(name);
+                            List<String[]> tracks = new LinkedList<String[]>();
+                            for (JsonNode n : node.path("myTracks")) {
+                                if (n.get("youtubeId").textValue()
+                                        .equals("null")) {
+                                    continue;
+                                }
+                                System.out.println("\t"
+
+                                + n.get("name").textValue());
+                                System.out.println("\t"
+                                        + n.get("youtubeId").textValue());
+
+                                tracks.add(new String[] {
+                                    n.get("name").textValue(),
+                                    n.get("youtubeId").textValue()
+                                });
+                            }
+                            records.put(name, tracks);
                         }
+                        tabContent.addRecords(records);
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -83,6 +108,14 @@ public class BandRecommendationsTabGenerator extends
                 }
             }
         });
+
+        //        List<String> records = new ArrayList<String>(10);
+        //        for (int i = 0; i < 10; i++) {
+        //            String video =
+        //                    "https://www.youtube.com/watch?v="
+        //                            + result.get(i).getYoutubeID();
+        //            records.add(video);
+        //        tabContent.setMyRecords(records);
         return tabContent;
     }
 }

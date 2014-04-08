@@ -58,6 +58,7 @@ public class SddInitializer {
                                 new File(
                                         "/media/mssd/datasets/metalcon/Band_Freebase_matched.csv")));
         String line = "";
+        Muid FINNTROLL = null;
         while ((line = br.readLine()) != null) {
             Muid tmp = Muid.create(EntityType.toUidType(EntityType.BAND));
             String[] values = line.split("\t");
@@ -67,6 +68,9 @@ public class SddInitializer {
             String freebaseId = values[2];
             Map<String, String> properties = new HashMap<String, String>();
             properties.put("freebaseId", freebaseId);
+            if (freebaseId.equals("/m/02gpxc")) { //FINNTROLL
+                FINNTROLL = tmp;
+            }
             properties.put("name", name);
             properties.put("oldId", values[0]);
             request.setProperties(tmp, properties);
@@ -144,11 +148,11 @@ public class SddInitializer {
 
         br =
                 new BufferedReader(new FileReader(new File(
-                        "/media/mssd/datasets/metalcon/Track.csv")));
+                        "/media/mssd/datasets/metalcon/TrackSample.csv")));
 
         //3444  Amon Amarth Twilight Of The Thunder God Twilight of the Thunder God 1623    446
-        //oid   band    record  song    fanCount    ownerCount
-        //0     1       2       3       4           5
+        //oid   band    record  song    fanCount    ownerCount  youtubeId
+        //0     1       2       3       4           5           6
         line = "";
         System.out.println("import tracks");
         request = new SddWriteRequest();
@@ -162,13 +166,16 @@ public class SddInitializer {
         int cnt = 1;
         while ((line = br.readLine()) != null) {
             String[] values = line.split("\t");
-            if (values.length != 6) {
+            if (values.length != 7) {
                 continue;
             }
             Muid bandMuid = bandIndex.get(values[0]);
             if (bandMuid == null) {
                 continue;
             }
+            //            if (!bandMuid.equals(FINNTROLL)) {
+            //                continue;
+            //            }
             cnt++;
             if (cnt % 20000 == 0) {
                 try {
@@ -200,6 +207,17 @@ public class SddInitializer {
                 trackIndex.put(recordMuid.toString() + values[3], trackMuid);
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("name", values[3]);
+
+                //                if (bandMuid.equals(FINNTROLL)) {
+                //                    YoutubeApiClient youtubeApiClient = new YoutubeApiClient();
+                //                    List<YoutubeMetaData> result =
+                //                            youtubeApiClient.youtubeSongSearch(1, values[3],
+                //                                    "/m/02gpxc");
+                //                    if (result.size() > 0) {
+                //                        map.put("youtubeId", result.get(0).getYoutubeID());
+                //                    }
+                //                }
+                map.put("youtubeId", values[6]);
                 request.setProperties(trackMuid, map);
                 List<Muid> toIds = recordTracks.get(recordMuid);
                 if (toIds == null) {
