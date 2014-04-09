@@ -47,31 +47,7 @@ public class DispatcherFactory {
         return ZMQ.context(1);
     }
 
-    @Bean(
-            destroyMethod = "close")
-    public ZmqAdapter<SddRequest, Response> sddAdapter() {
-        ZmqAdapter<SddRequest, Response> sddAdapter =
-                new ZmqAdapter<SddRequest, Response>(zmqContext(), SDD_ENDPOINT);
-        return sddAdapter;
-    }
-
-    @Bean(
-            destroyMethod = "close")
-    public ZmqAdapter<MusicStreamingRequest, Response> musicStreamingAdapter() {
-        ZmqAdapter<MusicStreamingRequest, Response> musicStreamingAdapter =
-                new ZmqAdapter<MusicStreamingRequest, Response>(zmqContext(),
-                        MUSIC_STREAMING_SERVER_ENDPOINT);
-        return musicStreamingAdapter;
-    }
-
-    @Bean(
-            destroyMethod = "close")
-    public ZmqAdapter<UrlMappingRequest, Response> urlMappingAdapter() {
-        ZmqAdapter<UrlMappingRequest, Response> urlMappingAdapter =
-                new ZmqAdapter<UrlMappingRequest, Response>(zmqContext(),
-                        URL_MAPPING_SERVER_ENDPOINT);
-        return urlMappingAdapter;
-    }
+    public static int i = 0;
 
     /**
      * Thread scope doesn't support destoryMethod. This means on every instance
@@ -81,6 +57,7 @@ public class DispatcherFactory {
     @Bean
     @Scope("thread")
     public Dispatcher dispatcher() {
+        System.out.println("Creating dispatcher: " + ++i);
         Dispatcher dispatcher = new Dispatcher();
         registerAdapters(dispatcher);
         return dispatcher;
@@ -94,13 +71,18 @@ public class DispatcherFactory {
 
     private void registerAdapters(Dispatcher dispatcher) {
         // StaticDataDelivery
-        dispatcher.registerServiceAdapter(SDD_SERVICE, sddAdapter());
+        ZmqAdapter<SddRequest, Response> sddAdapter =
+                new ZmqAdapter<SddRequest, Response>(zmqContext(), SDD_ENDPOINT);
+        dispatcher.registerServiceAdapter(SDD_SERVICE, sddAdapter);
         dispatcher.setDefaultService(SddReadRequest.class, SDD_SERVICE);
         dispatcher.setDefaultService(SddWriteRequest.class, SDD_SERVICE);
 
         // Music Streaming
+        ZmqAdapter<MusicStreamingRequest, Response> musicStreamingAdapter =
+                new ZmqAdapter<MusicStreamingRequest, Response>(zmqContext(),
+                        MUSIC_STREAMING_SERVER_ENDPOINT);
         dispatcher.registerServiceAdapter(MUSIC_STREAMING_SERVER_SERVICE,
-                musicStreamingAdapter());
+                musicStreamingAdapter);
         dispatcher.setDefaultService(MusicStreamingDeleteRequest.class,
                 MUSIC_STREAMING_SERVER_SERVICE);
         dispatcher.setDefaultService(
@@ -114,8 +96,11 @@ public class DispatcherFactory {
                 MUSIC_STREAMING_SERVER_SERVICE);
 
         // UrlMapping
+        ZmqAdapter<UrlMappingRequest, Response> urlMappingAdapter =
+                new ZmqAdapter<UrlMappingRequest, Response>(zmqContext(),
+                        URL_MAPPING_SERVER_ENDPOINT);
         dispatcher.registerServiceAdapter(URL_MAPPING_SERVICE,
-                urlMappingAdapter());
+                urlMappingAdapter);
         dispatcher.setDefaultService(UrlMappingResolveRequest.class,
                 URL_MAPPING_SERVICE);
         dispatcher.setDefaultService(UrlMappingRegistrationRequest.class,
