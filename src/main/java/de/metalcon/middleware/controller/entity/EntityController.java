@@ -66,12 +66,33 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         private Muid muid;
 
+        private EntityTabType entityTabType;
+
+        private EntityTabController entityTabController;
+
         public Muid getMuid() {
             return muid;
         }
 
         public void setMuid(Muid muid) {
             this.muid = muid;
+        }
+
+        public EntityTabType getEntityTabType() {
+            return entityTabType;
+        }
+
+        public void setEntityTabType(EntityTabType entityTabType) {
+            this.entityTabType = entityTabType;
+        }
+
+        public EntityTabController getEntityTabController() {
+            return entityTabController;
+        }
+
+        public void setEntityTabController(
+                EntityTabController entityTabController) {
+            this.entityTabController = entityTabController;
         }
 
     }
@@ -109,124 +130,11 @@ public abstract class EntityController<EntityViewType extends EntityView >
         return entityType;
     }
 
-    protected final EntityViewType createView() {
+    private final EntityViewType createView() {
         @SuppressWarnings("unchecked")
         EntityViewType view =
                 (EntityViewType) entityViewFactory.createView(entityViewClass);
         return view;
-    }
-
-    /**
-     * create and fill view object
-     * 
-     * @param entityTabType
-     *            Type of requested tab.
-     * @return filled view object
-     * @throws RedirectException
-     *             TODO
-     * @throws NoSuchRequestHandlingMethodException
-     *             If entity type doesn't have requested tab type or MUID
-     *             couldn't be resolved.
-     */
-    protected void handleGet(Data data, EntityTabType entityTabType)
-            throws RedirectException, NoSuchRequestHandlingMethodException {
-        super.handleGet(data);
-
-        EntityTabController entityTabController =
-                getEntityTabController(entityTabType);
-
-        Muid muid =
-                getMuidAndCheck404(entityTabType, data.getPathVars(),
-                        data.getHttpServletRequest());
-
-        @SuppressWarnings("unchecked")
-        EntityViewType view = (EntityViewType) data.getView();
-        view.setMuid(muid);
-
-        String pjaxrNamespace =
-                getMetalconNamespace() + "." + getEntityType().toString() + "."
-                        + muid + "." + entityTabType.toString().toLowerCase();
-        MetalconPjaxr pjaxr =
-                new MetalconPjaxr(data.getHttpServletRequest(), pjaxrNamespace);
-
-        if (pjaxr.isPjaxrContent()) {
-            // create tab previews if content
-            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-                    new HashMap<EntityTabType, EntityTabPreview>();
-            for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
-                    .entrySet()) {
-                EntityTabType entityTabPreviewType = entry.getKey();
-                EntityTabGenerator<?, ?> entityTabPreviewGenerator =
-                        entry.getValue();
-                if (entityTabPreviewGenerator != null) {
-                    EntityTabPreview entityTabPreview =
-                            entityTabPreviewGenerator.generateTabPreview(muid);
-                    entityTabPreviews.put(entityTabPreviewType,
-                            entityTabPreview);
-                }
-            }
-            view.setEntityTabPreviews(entityTabPreviews);
-        }
-        if (pjaxr.isPjaxrInnerContent()) {
-            // create empty tab content and fill it with data from entity
-            EntityTabGenerator<?, ?> entityTabGenerator =
-                    getEntityTabGenerator(entityTabType);
-
-            EntityTabContent entityTabContent =
-                    entityTabGenerator.generateTabContent(muid);
-            view.setEntityTabContent(entityTabContent);
-        }
-        view.setPjaxrMatching(pjaxr.getMatchingCount());
-        view.setPjaxrNamespace(pjaxrNamespace);
-
-        entityTabController.handleGet(data, this);
-    }
-
-    /**
-     * Checks whether the current EntityType has the requested tab and 404s
-     * if not. Returns the entity object.
-     * 
-     * @param entityTabType
-     *            Type of request tab.
-     * @return The entities MUID.
-     * @throws RedirectException
-     *             TODO
-     * @throws NoSuchRequestHandlingMethodException
-     *             If entity type doesn't have requested tab type or MUID
-     *             couldn't be resolved.
-     */
-    public Muid getMuidAndCheck404(
-            EntityTabType entityTabType,
-            Map<String, String> pathVars,
-            HttpServletRequest httpServletRequest) throws RedirectException,
-            NoSuchRequestHandlingMethodException {
-        final Muid[] muidResponse = new Muid[1];
-
-        Dispatcher dispatcher = dispatcherFactory.dispatcher();
-        dispatcher.execute(
-                new UrlMappingResolveRequest(pathVars, EntityType
-                        .toUidType(getEntityType())), new Callback<Response>() {
-
-                    @Override
-                    public void onSuccess(Response response) {
-                        if (response instanceof MuidResolvedResponse) {
-                            muidResponse[0] =
-                                    ((MuidResolvedResponse) response).getMuid();
-                        } else {
-                            muidResponse[0] = null;
-                        }
-                    }
-
-                });
-        dispatcher.gatherResults(50);
-
-        Muid muid = muidResponse[0];
-
-        if (entityTabsGenerators.get(entityTabType) == null || muid == null) {
-            throw new NoSuchRequestHandlingMethodException(httpServletRequest);
-        }
-
-        return muid;
     }
 
     public final EntityViewType mappingEmptyTabGet(
@@ -270,8 +178,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         EntityTabType entityTabType =
                 getEntityTabTypeFromString(pathVars.get("pathTab"));
+        data.setEntityTabType(entityTabType);
 
-        if (entityTabType == null) {
+        if (data.getEntityTabType() == null) {
             throw new NoSuchRequestHandlingMethodException(
                     data.getHttpServletRequest());
         }
@@ -279,7 +188,54 @@ public abstract class EntityController<EntityViewType extends EntityView >
         EntityViewType view = createView();
         data.setView(view);
 
-        handleGet(data, entityTabType);
+        beforeRequest(data);
+
+        data.setEntityTabController(getEntityTabController(data
+                .getEntityTabType()));
+
+        Muid muid = getMuidOr404(data);
+        view.setMuid(muid);
+
+        String pjaxrNamespace =
+                METALCON_NAMESPACE + "." + getEntityType().toString() + "."
+                        + muid + "."
+                        + data.getEntityTabType().toString().toLowerCase();
+        MetalconPjaxr pjaxr =
+                new MetalconPjaxr(data.getHttpServletRequest(), pjaxrNamespace);
+        view.setPjaxrMatching(pjaxr.getMatchingCount());
+        view.setPjaxrNamespace(pjaxrNamespace);
+
+        if (pjaxr.isPjaxrContent()) {
+            // create tab previews if content
+            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+                    new HashMap<EntityTabType, EntityTabPreview>();
+            for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
+                    .entrySet()) {
+                EntityTabType entityTabPreviewType = entry.getKey();
+                EntityTabGenerator<?, ?> entityTabPreviewGenerator =
+                        entry.getValue();
+                if (entityTabPreviewGenerator != null) {
+                    EntityTabPreview entityTabPreview =
+                            entityTabPreviewGenerator.generateTabPreview(muid);
+                    entityTabPreviews.put(entityTabPreviewType,
+                            entityTabPreview);
+                }
+            }
+            view.setEntityTabPreviews(entityTabPreviews);
+        }
+        if (pjaxr.isPjaxrInnerContent()) {
+            // create empty tab content and fill it with data from entity
+            EntityTabGenerator<?, ?> entityTabGenerator =
+                    getEntityTabGenerator(data.getEntityTabType());
+
+            EntityTabContent entityTabContent =
+                    entityTabGenerator.generateTabContent(muid);
+            view.setEntityTabContent(entityTabContent);
+        }
+
+        data.getEntityTabController().handleGet(data, this);
+
+        afterRequest(data);
 
         return view;
     }
@@ -302,6 +258,52 @@ public abstract class EntityController<EntityViewType extends EntityView >
             default:
                 return null;
         }
+    }
+    
+    /**
+     * Checks whether the current EntityType has the requested tab and 404s
+     * if not. Returns the entity object.
+     * 
+     * @param entityTabType
+     *            Type of request tab.
+     * @return The entities MUID.
+     * @throws RedirectException
+     *             TODO
+     * @throws NoSuchRequestHandlingMethodException
+     *             If entity type doesn't have requested tab type or MUID
+     *             couldn't be resolved.
+     */
+    public Muid getMuidOr404(Data data) throws RedirectException,
+            NoSuchRequestHandlingMethodException {
+        final Muid[] muidResponse = new Muid[1];
+
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        dispatcher.execute(new UrlMappingResolveRequest(data.getPathVars(),
+                EntityType.toUidType(getEntityType())),
+                new Callback<Response>() {
+
+                    @Override
+                    public void onSuccess(Response response) {
+                        if (response instanceof MuidResolvedResponse) {
+                            muidResponse[0] =
+                                    ((MuidResolvedResponse) response).getMuid();
+                        } else {
+                            muidResponse[0] = null;
+                        }
+                    }
+
+                });
+        dispatcher.gatherResults(50);
+
+        Muid muid = muidResponse[0];
+
+        if (entityTabsGenerators.get(data.getEntityTabType()) == null
+                || muid == null) {
+            throw new NoSuchRequestHandlingMethodException(
+                    data.getHttpServletRequest());
+        }
+
+        return muid;
     }
 
     //// TAB CONTROLLERS ///////////////////////////////////////////////////////
@@ -363,31 +365,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
     //// TAB GENERATORS ////////////////////////////////////////////////////////
 
-    /**
-     * fill tab generator map with all generators implemented
-     */
-    private final void fillEntityTabGenerators() {
-        // @formatter:off
-        entityTabsGenerators.put(EntityTabType.ABOUT,           getAboutTabGenerator());
-        entityTabsGenerators.put(EntityTabType.BANDS,           getBandsTabGenerator());
-        entityTabsGenerators.put(EntityTabType.EVENTS,          getEventsTabGenerator());
-        entityTabsGenerators.put(EntityTabType.NEWS,            getNewsTabGenerator());
-        entityTabsGenerators.put(EntityTabType.PHOTOS,          getPhotosTabGenerator());
-        entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, getRecommendationsTabGenerator());
-        entityTabsGenerators.put(EntityTabType.RECORDS,         getRecordsTabGenerator());
-        entityTabsGenerators.put(EntityTabType.REVIEWS,         getReviewsTabGenerator());
-        entityTabsGenerators.put(EntityTabType.TRACKS,          getTracksTabGenerator());
-        entityTabsGenerators.put(EntityTabType.USERS,           getUsersTabGenerator());
-        entityTabsGenerators.put(EntityTabType.VENUES,          getVenuesTabGenerator());
-        // @formatter:on
-    }
-
-    protected final EntityTabGenerator<?, ?> getEntityTabGenerator(
-            EntityTabType entityTabType) {
-        return entityTabsGenerators.get(entityTabType);
-    }
-
-    // methods to be overwritten:
+    // START: Methods to overwrite.
 
     protected AboutTabGenerator getAboutTabGenerator() {
         return null;
@@ -431,6 +409,32 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
     protected VenuesTabGenerator getVenuesTabGenerator() {
         return null;
+    }
+
+    // END: Methods to overwrite.
+
+    /**
+     * fill tab generator map with all generators implemented
+     */
+    private final void fillEntityTabGenerators() {
+        // @formatter:off
+        entityTabsGenerators.put(EntityTabType.ABOUT,           getAboutTabGenerator());
+        entityTabsGenerators.put(EntityTabType.BANDS,           getBandsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.EVENTS,          getEventsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.NEWS,            getNewsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.PHOTOS,          getPhotosTabGenerator());
+        entityTabsGenerators.put(EntityTabType.RECOMMENDATIONS, getRecommendationsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.RECORDS,         getRecordsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.REVIEWS,         getReviewsTabGenerator());
+        entityTabsGenerators.put(EntityTabType.TRACKS,          getTracksTabGenerator());
+        entityTabsGenerators.put(EntityTabType.USERS,           getUsersTabGenerator());
+        entityTabsGenerators.put(EntityTabType.VENUES,          getVenuesTabGenerator());
+        // @formatter:on
+    }
+
+    protected final EntityTabGenerator<?, ?> getEntityTabGenerator(
+            EntityTabType entityTabType) {
+        return entityTabsGenerators.get(entityTabType);
     }
 
 }

@@ -28,9 +28,7 @@ public class NewsTabController extends EntityTabController {
             EntityController<?> entityController)
             throws NoSuchRequestHandlingMethodException, RedirectException,
             IOException {
-        Muid muid =
-                entityController.getMuidAndCheck404(getEntityTabType(),
-                        data.getPathVars(), data.getHttpServletRequest());
+        Muid muid = entityController.getMuidOr404(data);
 
         newsServer.postNews(muid.toString(), muid.toString(), true,
                 "TODO: get form messages");

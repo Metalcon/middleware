@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.hh.request_dispatcher.Dispatcher;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.metalcon.middleware.core.DispatcherFactory;
@@ -81,11 +83,7 @@ public abstract class BaseController {
 
     }
 
-    private String metalconNamespace = "metalcon";
-
-    public String getMetalconNamespace() {
-        return metalconNamespace;
-    }
+    protected static String METALCON_NAMESPACE = "metalcon";
 
     @Autowired
     protected DispatcherFactory dispatcherFactory;
@@ -96,11 +94,7 @@ public abstract class BaseController {
     @Autowired
     private UserSession.Factory userSessionFactory;
 
-    protected Class<? extends Data> getDataClass() {
-        return Data.class;
-    }
-
-    protected void handleRequest(Data data) {
+    protected void beforeRequest(Data data) {
         data.setUserSession(userSessionFactory.userSession());
 
         BaseView view = data.getView();
@@ -108,8 +102,9 @@ public abstract class BaseController {
         view.setUserLogin(data.getUserLogin());
     }
 
-    protected void handleGet(Data data) {
-        handleRequest(data);
+    protected void afterRequest(Data data) {
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        dispatcher.gatherResults(500);
     }
 
     /**

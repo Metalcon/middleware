@@ -41,17 +41,6 @@ public class LoginController extends BaseController {
     //        return "/";
     //    }
 
-    protected static class Data extends BaseController.Data {
-
-        public String type;
-
-    }
-
-    @Override
-    protected Class<? extends Data> getDataClass() {
-        return Data.class;
-    }
-
     public LoginView mappingLogin(
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse,
@@ -64,7 +53,9 @@ public class LoginController extends BaseController {
         LoginView view = viewFactory.createLoginView();
         data.setView(view);
 
-        handleGet(data);
+        beforeRequest(data);
+
+        afterRequest(data);
 
         return view;
     }
