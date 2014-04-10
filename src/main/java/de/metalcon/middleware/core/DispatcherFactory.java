@@ -8,18 +8,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.zeromq.ZMQ;
 
-import de.metalcon.api.responses.Response;
-import de.metalcon.musicstreamingserver.api.requests.MusicStreamingRequest;
 import de.metalcon.musicstreamingserver.api.requests.create.MusicStreamingCreateRequest;
 import de.metalcon.musicstreamingserver.api.requests.delete.MusicStreamingDeleteRequest;
 import de.metalcon.musicstreamingserver.api.requests.read.MusicStreamingReadMusicItemMetaDataRequest;
 import de.metalcon.musicstreamingserver.api.requests.read.MusicStreamingReadMusicItemRequest;
 import de.metalcon.musicstreamingserver.api.requests.update.MusicStreamingUpdateRequest;
 import de.metalcon.sdd.api.requests.SddReadRequest;
-import de.metalcon.sdd.api.requests.SddRequest;
 import de.metalcon.sdd.api.requests.SddWriteRequest;
 import de.metalcon.urlmappingserver.api.requests.UrlMappingRegistrationRequest;
-import de.metalcon.urlmappingserver.api.requests.UrlMappingRequest;
 import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
 
 @Configuration
@@ -71,16 +67,14 @@ public class DispatcherFactory {
 
     private void registerAdapters(Dispatcher dispatcher) {
         // StaticDataDelivery
-        ZmqAdapter<SddRequest, Response> sddAdapter =
-                new ZmqAdapter<SddRequest, Response>(zmqContext(), SDD_ENDPOINT);
+        ZmqAdapter sddAdapter = new ZmqAdapter(zmqContext(), SDD_ENDPOINT);
         dispatcher.registerServiceAdapter(SDD_SERVICE, sddAdapter);
         dispatcher.setDefaultService(SddReadRequest.class, SDD_SERVICE);
         dispatcher.setDefaultService(SddWriteRequest.class, SDD_SERVICE);
 
         // Music Streaming
-        ZmqAdapter<MusicStreamingRequest, Response> musicStreamingAdapter =
-                new ZmqAdapter<MusicStreamingRequest, Response>(zmqContext(),
-                        MUSIC_STREAMING_SERVER_ENDPOINT);
+        ZmqAdapter musicStreamingAdapter =
+                new ZmqAdapter(zmqContext(), MUSIC_STREAMING_SERVER_ENDPOINT);
         dispatcher.registerServiceAdapter(MUSIC_STREAMING_SERVER_SERVICE,
                 musicStreamingAdapter);
         dispatcher.setDefaultService(MusicStreamingDeleteRequest.class,
@@ -96,9 +90,8 @@ public class DispatcherFactory {
                 MUSIC_STREAMING_SERVER_SERVICE);
 
         // UrlMapping
-        ZmqAdapter<UrlMappingRequest, Response> urlMappingAdapter =
-                new ZmqAdapter<UrlMappingRequest, Response>(zmqContext(),
-                        URL_MAPPING_SERVER_ENDPOINT);
+        ZmqAdapter urlMappingAdapter =
+                new ZmqAdapter(zmqContext(), URL_MAPPING_SERVER_ENDPOINT);
         dispatcher.registerServiceAdapter(URL_MAPPING_SERVICE,
                 urlMappingAdapter);
         dispatcher.setDefaultService(UrlMappingResolveRequest.class,

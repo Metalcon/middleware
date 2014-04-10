@@ -2,6 +2,8 @@ package de.metalcon.middleware.controller.entity.tab.impl;
 
 import java.io.IOException;
 
+import net.hh.request_dispatcher.server.RequestException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
@@ -27,7 +29,7 @@ public class NewsTabController extends EntityTabController {
             EntityController.Data data,
             EntityController<?> entityController)
             throws NoSuchRequestHandlingMethodException, RedirectException,
-            IOException {
+            IOException, RequestException {
         Muid muid = entityController.getMuidOr404(data);
 
         newsServer.postNews(muid.toString(), muid.toString(), true,

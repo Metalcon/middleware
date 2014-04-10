@@ -54,10 +54,10 @@
     
     <!-- Metalcon -->
     <metalcon.api.version>0.1.1</metalcon.api.version>
-    <metalcon.muid.version>0.3.1</metalcon.muid.version>
-    <metalcon.request-dispatcher.version>1.1.0</metalcon.request-dispatcher.version>
+    <metalcon.muid.version>0.3.2</metalcon.muid.version>
+    <metalcon.request-dispatcher.version>1.3.0</metalcon.request-dispatcher.version>
     <!-- Metalcon Backend Components -->
-    <metalcon.static-data-delivery-server-api.version>0.1.1</metalcon.static-data-delivery-server-api.version>
+    <metalcon.static-data-delivery-server-api.version>0.1.3</metalcon.static-data-delivery-server-api.version>
     <metalcon.music-streaming-server-api.version>0.1.0-SNAPSHOT</metalcon.music-streaming-server-api.version>
     <metalcon.url-mapping-server-api.version>0.4.0-SNAPSHOT</metalcon.url-mapping-server-api.version>
     
@@ -125,13 +125,11 @@
       <artifactId>music-streaming-server-api</artifactId>
       <version>${metalcon.music-streaming-server-api.version}</version>
     </dependency>
-
     <dependency>
       <groupId>de.metalcon</groupId>
       <artifactId>url-mapping-server-api</artifactId>
       <version>${metalcon.url-mapping-server-api.version}</version>
     </dependency>
-
 
     <!-- Spring -->
     <dependency>

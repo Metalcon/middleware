@@ -8,8 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.hh.request_dispatcher.Callback;
 import net.hh.request_dispatcher.Dispatcher;
+import net.hh.request_dispatcher.server.RequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -169,7 +169,8 @@ public abstract class EntityController<EntityViewType extends EntityView >
             HttpServletResponse httpServletResponse,
             @PathVariable Map<String, String> pathVars,
             @AuthenticationPrincipal UserLogin userLogin)
-            throws RedirectException, NoSuchRequestHandlingMethodException {
+            throws RedirectException, NoSuchRequestHandlingMethodException,
+            RequestException {
         Data data = new Data();
         data.setHttpServletRequest(httpServletRequest);
         data.setHttpServletResponse(httpServletResponse);
@@ -254,12 +255,12 @@ public abstract class EntityController<EntityViewType extends EntityView >
             case "tracks":          return EntityTabType.TRACKS;
             case "users":           return EntityTabType.USERS;
             case "venues":          return EntityTabType.VENUES;
-            //@formmater:on
+            //@formatter:on
             default:
                 return null;
         }
     }
-    
+
     /**
      * Checks whether the current EntityType has the requested tab and 404s
      * if not. Returns the entity object.
@@ -272,30 +273,21 @@ public abstract class EntityController<EntityViewType extends EntityView >
      * @throws NoSuchRequestHandlingMethodException
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
+     * @throws RequestException
      */
     public Muid getMuidOr404(Data data) throws RedirectException,
-            NoSuchRequestHandlingMethodException {
-        final Muid[] muidResponse = new Muid[1];
-
+            NoSuchRequestHandlingMethodException, RequestException {
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
-        dispatcher.execute(new UrlMappingResolveRequest(data.getPathVars(),
-                EntityType.toUidType(getEntityType())),
-                new Callback<Response>() {
 
-                    @Override
-                    public void onSuccess(Response response) {
-                        if (response instanceof MuidResolvedResponse) {
-                            muidResponse[0] =
-                                    ((MuidResolvedResponse) response).getMuid();
-                        } else {
-                            muidResponse[0] = null;
-                        }
-                    }
+        UrlMappingResolveRequest request =
+                new UrlMappingResolveRequest(data.getPathVars(),
+                        EntityType.toUidType(getEntityType()));
+        Response response = (Response) dispatcher.executeSync(request, 100);
 
-                });
-        dispatcher.gatherResults(50);
-
-        Muid muid = muidResponse[0];
+        Muid muid = null;
+        if (response instanceof MuidResolvedResponse) {
+            muid = ((MuidResolvedResponse) response).getMuid();
+        }
 
         if (entityTabsGenerators.get(data.getEntityTabType()) == null
                 || muid == null) {
