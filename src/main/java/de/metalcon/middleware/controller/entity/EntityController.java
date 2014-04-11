@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.hh.request_dispatcher.Callback;
 import net.hh.request_dispatcher.Dispatcher;
 import net.hh.request_dispatcher.server.RequestException;
 
@@ -45,14 +46,21 @@ import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.MetalconPjaxr;
+import de.metalcon.middleware.core.SddOutputGenerator;
 import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
+import de.metalcon.middleware.sdd.SddOutput;
+import de.metalcon.middleware.sdd.band.BandEntry;
+import de.metalcon.middleware.sdd.track.TrackPage;
 import de.metalcon.middleware.view.entity.EntityView;
 import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
+import de.metalcon.sdd.api.requests.SddReadRequest;
+import de.metalcon.sdd.api.responses.SddResponse;
+import de.metalcon.sdd.api.responses.SddSucessfulReadResponse;
 import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
 import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
 
@@ -194,8 +202,47 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.setEntityTabController(getEntityTabController(data
                 .getEntityTabType()));
 
-        Muid muid = getMuidOr404(data);
+        final Muid muid = getMuidOr404(data);
         view.setMuid(muid);
+
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        SddReadRequest read = new SddReadRequest();
+        read.read(muid, "page");
+        dispatcher.execute(read, new Callback<SddResponse>() {
+
+            @Override
+            public void onSuccess(SddResponse response) {
+                if (response instanceof SddSucessfulReadResponse) {
+                    String outputString =
+                            ((SddSucessfulReadResponse) response).get(muid,
+                                    "page");
+                    System.out.println(outputString + "\n");
+
+                    SddOutput output =
+                            SddOutputGenerator.get(
+                                    (SddSucessfulReadResponse) response, muid,
+                                    "page");
+                    System.out.println(output + "\n");
+
+                    if (output instanceof TrackPage) {
+                        System.out.println(((TrackPage) output).getName());
+                        System.out.println(((TrackPage) output)
+                                .getTrackNumber());
+
+                        BandEntry bandEntry = ((TrackPage) output).getBand();
+                        System.out.println(bandEntry);
+                        if (bandEntry != null) {
+                            System.out.println(bandEntry.getName());
+                        }
+                    }
+
+                    System.out.println("\n\n");
+                } else {
+                    System.out.println("read failed");
+                }
+            }
+
+        });
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."
