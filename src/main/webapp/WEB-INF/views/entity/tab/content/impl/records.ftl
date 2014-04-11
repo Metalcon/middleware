@@ -20,7 +20,7 @@ Records Tab
 <#else>
   <ul>
     <#list tabContent.records as record>
-      <li>${record.name}</li>
+      <li>${record.releaseYear} ${record.name}</li>
     </#list>
   </ul>
 </#if>

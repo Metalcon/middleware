@@ -6,7 +6,7 @@
 <#else>
   <ul>
     <#list tabContent.tracks as track>
-      <li>${track.name}</li>
+      <li>${track.trackNumber} ${track.name}</li>
     </#list>
   </ul>
 </#if>

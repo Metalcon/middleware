@@ -1,6 +1,6 @@
 package de.metalcon.middleware.controller.entity.generator.impl;
 
-import java.util.Arrays;
+import java.util.List;
 
 import net.hh.request_dispatcher.Dispatcher;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
-import de.metalcon.middleware.sdd.band.BandPage;
-import de.metalcon.middleware.sdd.record.RecordPage;
+import de.metalcon.middleware.sdd.SddOutput;
+import de.metalcon.middleware.sdd.track.TrackEntry;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.impl.TracksTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.impl.TracksTabPreview;
@@ -32,20 +32,7 @@ public abstract class TracksTabGenerator extends
 
             @Override
             public void run() {
-                switch (data.getEntityType()) {
-                    case BAND:
-                        BandPage bandPage = (BandPage) data.getPage();
-                        tabContent.setTracks(Arrays.asList(bandPage.getTracks()));
-                        break;
-
-                    case RECORD:
-                        RecordPage recordPage = (RecordPage) data.getPage();
-                        tabContent.setTracks(Arrays.asList(recordPage
-                                .getTracks()));
-                        break;
-
-                    default:
-                }
+                tabContent.setTracks(getTracksContent(data.getPage()));
             }
 
         }, data.getPageCallback());
@@ -53,4 +40,25 @@ public abstract class TracksTabGenerator extends
         return tabContent;
     }
 
+    @Override
+    public TracksTabPreview
+        generateTabPreview(final EntityController.Data data) {
+        final TracksTabPreview tabPreview = super.generateTabPreview(data);
+
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        dispatcher.promise(new Runnable() {
+
+            @Override
+            public void run() {
+                tabPreview.setTracks(getTracksPreview(data.getPage()));
+            }
+
+        }, data.getPageCallback());
+
+        return tabPreview;
+    }
+
+    protected abstract List<TrackEntry> getTracksContent(SddOutput page);
+
+    protected abstract List<TrackEntry> getTracksPreview(SddOutput page);
 }
