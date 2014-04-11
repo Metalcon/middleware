@@ -238,25 +238,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.setMuid(muid);
         view.setMuid(muid);
 
-        data.setPageCallback(new Callback<SddResponse>() {
-
-            @Override
-            public void onSuccess(SddResponse response) {
-                if (response instanceof SddSucessfulReadResponse) {
-                    data.setPage(SddOutputGenerator.get(
-                            (SddSucessfulReadResponse) response,
-                            data.getMuid(), "page"));
-                } else {
-                    System.out.println("read failed");
-                }
-            }
-
-        });
-
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
-        SddReadRequest read = new SddReadRequest();
-        read.read(muid, "page");
-        dispatcher.execute(read, data.getPageCallback());
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."
@@ -267,25 +249,46 @@ public abstract class EntityController<EntityViewType extends EntityView >
         view.setPjaxrMatching(pjaxr.getMatchingCount());
         view.setPjaxrNamespace(pjaxrNamespace);
 
-        if (pjaxr.isPjaxrContent()) {
-            // create tab previews if content
-            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-                    new HashMap<EntityTabType, EntityTabPreview>();
-            for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
-                    .entrySet()) {
-                EntityTabType entityTabPreviewType = entry.getKey();
-                EntityTabGenerator<?, ?> entityTabPreviewGenerator =
-                        entry.getValue();
-                if (entityTabPreviewGenerator != null) {
-                    EntityTabPreview entityTabPreview =
-                            entityTabPreviewGenerator.generateTabPreview(data);
-                    entityTabPreviews.put(entityTabPreviewType,
-                            entityTabPreview);
-                }
-            }
-            view.setEntityTabPreviews(entityTabPreviews);
-        }
         if (pjaxr.isPjaxrInnerContent()) {
+            data.setPageCallback(new Callback<SddResponse>() {
+
+                @Override
+                public void onSuccess(SddResponse response) {
+                    if (response instanceof SddSucessfulReadResponse) {
+                        data.setPage(SddOutputGenerator.get(
+                                (SddSucessfulReadResponse) response,
+                                data.getMuid(), "page"));
+                    } else {
+                        System.out.println("read failed");
+                    }
+                }
+
+            });
+
+            SddReadRequest read = new SddReadRequest();
+            read.read(muid, "page");
+            dispatcher.execute(read, data.getPageCallback());
+
+            if (pjaxr.isPjaxrContent()) {
+                // create tab previews if content
+                Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+                        new HashMap<EntityTabType, EntityTabPreview>();
+                for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
+                        .entrySet()) {
+                    EntityTabType entityTabPreviewType = entry.getKey();
+                    EntityTabGenerator<?, ?> entityTabPreviewGenerator =
+                            entry.getValue();
+                    if (entityTabPreviewGenerator != null) {
+                        EntityTabPreview entityTabPreview =
+                                entityTabPreviewGenerator
+                                        .generateTabPreview(data);
+                        entityTabPreviews.put(entityTabPreviewType,
+                                entityTabPreview);
+                    }
+                }
+                view.setEntityTabPreviews(entityTabPreviews);
+            }
+
             // create empty tab content and fill it with data from entity
             EntityTabGenerator<?, ?> entityTabGenerator =
                     getEntityTabGenerator(data.getEntityTabType());
