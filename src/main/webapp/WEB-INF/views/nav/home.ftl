@@ -30,9 +30,7 @@
       <li>
         <strong>Event</strong>
         <ul>
-          <li><a href="<@mtl.url "/event/Wacken"/>"><code>/event/Wacken</code></a></li>
-          <li><a href="<@mtl.url "/event/Wacken-" + wackenMuid/>"><code>/event/Wacken-${wackenMuid}</code></a></li>
-          <li><a href="<@mtl.url "/event/2014-08-31-Wacken"/>"><code>/event/2014-08-31-Wacken</code></a></li>
+          <li><a href="<@mtl.url "/event/" + wackenMuid/>"><code>/event/${wackenMuid}</code></a></li>
         </ul>
       </li>
       <li>
@@ -60,8 +58,7 @@
       <li>
         <strong>Tour</strong>
         <ul>
-          <li><a href="<@mtl.url "/tour/Heidenfest"/>"><code>/tour/Heidenfest</code></a></li>
-          <li><a href="<@mtl.url "/tour/Heidenfest-" + heidenfestMuid/>"><code>/tour/Heidenfest-${heidenfestMuid}</code></a></li>
+          <li><a href="<@mtl.url "/tour/" + heidenfestMuid/>"><code>/tour/${heidenfestMuid}</code></a></li>
         </ul>
       </li>
       <li>

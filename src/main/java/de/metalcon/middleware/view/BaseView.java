@@ -12,27 +12,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
+import de.metalcon.middleware.core.UserLogin;
+import de.metalcon.middleware.core.UserSession;
+
 /**
  * basic Metalcon view (_site)<br>
- * (holdes PJAXR values)
+ * (holds PJAXR values)
  */
-public abstract class MetalconView implements View {
+public abstract class BaseView implements View {
 
     @Autowired
     private ViewResolver viewResolver;
 
-    private String userId;
+    private String name;
 
-    private String pc;
-
-    private View view;
+    private View view = null;
 
     private String pjaxrNamespace = "";
 
     private int pjaxrMatching = 0;
 
-    public MetalconView() {
-        view = null;
+    protected UserSession userSession = null;
+
+    protected UserLogin userLogin = null;
+
+    public BaseView(
+            String name) {
+        this.name = name;
+    }
+
+    public final String getName() {
+        return name;
     }
 
     @PostConstruct
@@ -55,17 +65,43 @@ public abstract class MetalconView implements View {
         view.render(m, request, response);
     }
 
-    public String getType() {
-        return "site";
-    }
-
     public String getPjaxrNamespace() {
         return pjaxrNamespace;
+    }
+
+    public void setPjaxrNamespace(String pjaxrNamespace) {
+        this.pjaxrNamespace = pjaxrNamespace;
     }
 
     public int getPjaxrMatching() {
         return pjaxrMatching;
     }
+
+    public void setPjaxrMatching(int pjaxrMatching) {
+        this.pjaxrMatching = pjaxrMatching;
+    }
+
+    public UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
+    }
+
+    public UserLogin getUserLogin() {
+        return userLogin;
+    }
+
+    public void setUserLogin(UserLogin userLogin) {
+        this.userLogin = userLogin;
+    }
+
+    //// LEGACY TESTING CODE ///////////////////////////////////////////////////
+
+    private String userId;
+
+    private String pc;
 
     public String getId() {
         return userId;
@@ -81,14 +117,6 @@ public abstract class MetalconView implements View {
 
     public void setPc(String pc) {
         this.pc = pc;
-    }
-
-    public void setPjaxrNamespace(String pjaxrNamespace) {
-        this.pjaxrNamespace = pjaxrNamespace;
-    }
-
-    public void setPjaxrMatching(int pjaxrMatching) {
-        this.pjaxrMatching = pjaxrMatching;
     }
 
 }

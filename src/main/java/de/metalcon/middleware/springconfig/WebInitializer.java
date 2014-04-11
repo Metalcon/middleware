@@ -10,7 +10,7 @@ public class WebInitializer extends
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {
+        return new Class<?>[] {
             SecurityConfig.class
         };
     }

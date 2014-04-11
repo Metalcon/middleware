@@ -12,6 +12,9 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password"/>
       </p>
+      <p>
+        <input type="checkbox" id="rememberme" name="rememberme" class="form-control"/> <label for="rememberme" style="color: white;">Remember Me</label>
+      </p>
       <button type="submit">Log in</button>
       <@mtl.csrfInput/>
     </form>

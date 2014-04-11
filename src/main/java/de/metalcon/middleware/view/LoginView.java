@@ -5,11 +5,10 @@ package de.metalcon.middleware.view;
  * In this case there should be some stages being rendered for password
  * retrieval
  */
-public class LoginView extends MetalconView {
+public class LoginView extends BaseView {
 
-    @Override
-    public String getType() {
-        return "login";
+    public LoginView() {
+        super("login");
     }
 
 }

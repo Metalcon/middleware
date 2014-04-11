@@ -19,14 +19,8 @@ public class EntityManager {
     /**
      * Map containing all currently cached entities.
      */
-    private final Map<Muid, Entity> entities;
-
-    /**
-     * Create the EntityManager.
-     */
-    public EntityManager() {
-        entities = new HashMap<Muid, Entity>();
-    }
+    private final Map<Muid, Entity<?>> entities =
+            new HashMap<Muid, Entity<?>>();
 
     /**
      * Get a certain entity.
@@ -35,7 +29,7 @@ public class EntityManager {
      *            Entity identifier.
      * @return Entity referenced by that identifier.
      */
-    public Entity getEntity(final Muid muid) {
+    public Entity<?> getEntity(Muid muid) {
         return entities.get(muid);
     }
 
@@ -50,7 +44,7 @@ public class EntityManager {
      * @throws IllegalArgumentException
      *             If the identifier does not have the expected type.
      */
-    public Entity getEntity(final Muid muid, final EntityType expectedType) {
+    public Entity<?> getEntity(Muid muid, EntityType expectedType) {
         EntityType muidType = EntityType.fromUidType(muid.getType());
         if (!muidType.equals(expectedType)) {
             throw new IllegalArgumentException("EntityType is not \""
@@ -69,7 +63,7 @@ public class EntityManager {
      * @param entity
      *            Entity to be accessible.
      */
-    public void putEntity(final Entity entity) {
+    public void putEntity(Entity<?> entity) {
         entities.put(entity.getMuid(), entity);
     }
 

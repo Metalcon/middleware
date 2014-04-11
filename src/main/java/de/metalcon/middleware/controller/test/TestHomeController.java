@@ -9,7 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import de.metalcon.middleware.core.UserSession;
-import de.metalcon.middleware.core.UserSessionFactory;
 
 @Controller
 public class TestHomeController {
@@ -17,7 +16,7 @@ public class TestHomeController {
     //private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    private UserSessionFactory userSessionFactory;
+    private UserSession.Factory userSessionFactory;
 
     public ModelAndView home() {
         List<String> bands = new LinkedList<String>();
@@ -27,7 +26,7 @@ public class TestHomeController {
         bands.add("Bolt Thrower");
         bands.add("another test");
 
-        UserSession user = userSessionFactory.getUserSession();
+        UserSession user = userSessionFactory.userSession();
         bands.add("user id: " + user.getId());
         user.incPageCount();
         bands.add("page count: " + user.getPageCount());

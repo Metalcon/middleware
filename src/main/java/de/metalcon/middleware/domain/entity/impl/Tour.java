@@ -3,8 +3,9 @@ package de.metalcon.middleware.domain.entity.impl;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.TourUrlData;
 
-public class Tour extends Entity {
+public class Tour extends Entity<TourUrlData> {
 
     @Override
     public EntityType getEntityType() {
@@ -26,6 +27,11 @@ public class Tour extends Entity {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    @Override
+    public TourUrlData getUrlData() {
+        return new TourUrlData(getMuid());
     }
 
 }

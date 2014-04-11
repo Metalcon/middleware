@@ -20,8 +20,8 @@
 <#assign viewTitle = "">
 <#-- END: variables set by includes -->
 
-<#if view.type == "entity">
+<#if view.name == "entity">
   <#include "entity/_entity.ftl">
-<#elseif view.type == "login">
+<#elseif view.name == "login">
   <#include "login.ftl">
 </#if>

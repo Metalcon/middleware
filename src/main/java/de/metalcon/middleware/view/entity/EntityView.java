@@ -5,7 +5,7 @@ import java.util.Map;
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.EntityType;
-import de.metalcon.middleware.view.MetalconView;
+import de.metalcon.middleware.view.BaseView;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
@@ -13,7 +13,7 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 /**
  * basic entity view holding tab content and previews
  */
-public abstract class EntityView extends MetalconView {
+public abstract class EntityView extends BaseView {
 
     private EntityType entityType;
 
@@ -34,7 +34,7 @@ public abstract class EntityView extends MetalconView {
 
     public EntityView(
             EntityType entityType) {
-        super();
+        super("entity");
         this.entityType = entityType;
         muid = null;
         entityTabContent = null;
@@ -46,11 +46,6 @@ public abstract class EntityView extends MetalconView {
      */
     public EntityType getEntityType() {
         return entityType;
-    }
-
-    @Override
-    public String getType() {
-        return "entity";
     }
 
     /**

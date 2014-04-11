@@ -1,30 +1,23 @@
 package de.metalcon.middleware.core;
 
-import de.metalcon.domain.Muid;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 /**
  * user session holding all relevant data from user and his social network
  */
 public class UserSession {
 
-    private Muid muid;
+    @Configuration
+    public static class Factory {
 
-    private boolean loggedIn;
+        @Bean
+        @Scope("session")
+        public UserSession userSession() {
+            return new UserSession();
+        }
 
-    public void setMuid(Muid muid) {
-        this.muid = muid;
-    }
-
-    public Muid getMuid() {
-        return muid;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
-
-    public boolean isLoggedIn() {
-        return loggedIn;
     }
 
     //// LEGACY TESTING CODE ///////////////////////////////////////////////////

@@ -3,8 +3,9 @@ package de.metalcon.middleware.domain.entity.impl;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.VenueUrlData;
 
-public class Venue extends Entity {
+public class Venue extends Entity<VenueUrlData> {
 
     @Override
     public EntityType getEntityType() {
@@ -26,6 +27,11 @@ public class Venue extends Entity {
 
     public void setCity(Muid city) {
         this.city = city;
+    }
+
+    @Override
+    public VenueUrlData getUrlData() {
+        return new VenueUrlData(getMuid(), getName(), null);
     }
 
 }

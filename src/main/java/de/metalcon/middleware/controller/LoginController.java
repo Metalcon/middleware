@@ -3,13 +3,15 @@ package de.metalcon.middleware.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
+import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.view.LoginView;
 
 @Controller
 //@SessionAttributes("loginFormBean")
-public class LoginController extends MetalconController {
+public class LoginController extends BaseController {
 
     //    @Autowired
     //    private UserSessionFactory userSessionFactory;
@@ -40,9 +42,21 @@ public class LoginController extends MetalconController {
     //    }
 
     public LoginView mappingLogin(
-            HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            @AuthenticationPrincipal UserLogin userLogin) {
+        Data data = new Data();
+        data.setHttpServletRequest(httpServletRequest);
+        data.setHttpServletResponse(httpServletResponse);
+        data.setUserLogin(userLogin);
+
         LoginView view = viewFactory.createLoginView();
+        data.setView(view);
+
+        beforeRequest(data);
+
+        afterRequest(data);
+
         return view;
     }
 

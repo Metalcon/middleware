@@ -3,8 +3,9 @@ package de.metalcon.middleware.domain.entity.impl;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.domain.entity.Entity;
 import de.metalcon.middleware.domain.entity.EntityType;
+import de.metalcon.urlmappingserver.api.requests.registration.TrackUrlData;
 
-public class Track extends Entity {
+public class Track extends Entity<TrackUrlData> {
 
     @Override
     public EntityType getEntityType() {
@@ -47,6 +48,12 @@ public class Track extends Entity {
 
     public void setTrackNumber(Integer trackNumber) {
         this.trackNumber = trackNumber;
+    }
+
+    @Override
+    public TrackUrlData getUrlData() {
+        return new TrackUrlData(getMuid(), getName(), null, null,
+                getTrackNumber());
     }
 
 }
