@@ -13,4 +13,10 @@ public class ViewFactory {
         return new LoginView();
     }
 
+    @Bean
+    @Scope("prototype")
+    public LikeView createLikeView() {
+        return new LikeView();
+    }
+
 }
