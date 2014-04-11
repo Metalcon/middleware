@@ -64,7 +64,8 @@ public class SddOutputGenerator {
                 System.out.println(param);
                 System.out.println(param.getComponentType());
             } else {
-                method.invoke(output, loadClass(root.get(attr), param));
+                param.newInstance();
+                //method.invoke(output, loadClass(root.get(attr), param));
             }
         }
 
