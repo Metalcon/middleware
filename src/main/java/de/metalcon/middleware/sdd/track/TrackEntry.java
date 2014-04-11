@@ -12,16 +12,8 @@ public class TrackEntry extends SddOutput {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getTrackNumber() {
         return trackNumber;
-    }
-
-    public void setTrackNumber(String trackNumber) {
-        this.trackNumber = trackNumber;
     }
 
 }

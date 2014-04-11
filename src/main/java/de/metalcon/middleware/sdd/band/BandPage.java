@@ -16,24 +16,12 @@ public class BandPage extends SddOutput {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public TrackEntry[] getTracks() {
         return tracks;
     }
 
-    public void setTracks(TrackEntry[] tracks) {
-        this.tracks = tracks;
-    }
-
     public RecordEntry[] getRecords() {
         return records;
-    }
-
-    public void setRecords(RecordEntry[] records) {
-        this.records = records;
     }
 
 }

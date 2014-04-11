@@ -11,8 +11,4 @@ public class BandTabRecords extends SddOutput {
         return records;
     }
 
-    public void setRecords(RecordEntry[] records) {
-        this.records = records;
-    }
-
 }

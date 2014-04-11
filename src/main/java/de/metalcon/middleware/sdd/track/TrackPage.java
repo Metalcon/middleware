@@ -18,32 +18,16 @@ public class TrackPage extends SddOutput {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getTrackNumber() {
         return trackNumber;
-    }
-
-    public void setTrackNumber(String trackNumber) {
-        this.trackNumber = trackNumber;
     }
 
     public RecordEntry getRecord() {
         return record;
     }
 
-    public void setRecord(RecordEntry record) {
-        this.record = record;
-    }
-
     public BandEntry getBand() {
         return band;
-    }
-
-    public void setBand(BandEntry band) {
-        this.band = band;
     }
 
 }

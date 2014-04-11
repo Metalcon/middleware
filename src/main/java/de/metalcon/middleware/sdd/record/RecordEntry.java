@@ -12,16 +12,8 @@ public class RecordEntry extends SddOutput {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getReleaseYear() {
         return releaseYear;
-    }
-
-    public void setReleaseYear(String releaseYear) {
-        this.releaseYear = releaseYear;
     }
 
 }

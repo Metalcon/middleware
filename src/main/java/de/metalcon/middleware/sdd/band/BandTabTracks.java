@@ -11,8 +11,4 @@ public class BandTabTracks extends SddOutput {
         return tracks;
     }
 
-    public void setTracks(TrackEntry[] tracks) {
-        this.tracks = tracks;
-    }
-
 }

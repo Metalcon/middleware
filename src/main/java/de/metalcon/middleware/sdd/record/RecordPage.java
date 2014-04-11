@@ -18,32 +18,16 @@ public class RecordPage extends SddOutput {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getReleaseYear() {
         return releaseYear;
-    }
-
-    public void setReleaseYear(String releaseYear) {
-        this.releaseYear = releaseYear;
     }
 
     public BandEntry getBand() {
         return band;
     }
 
-    public void setBand(BandEntry band) {
-        this.band = band;
-    }
-
     public TrackEntry[] getTracks() {
         return tracks;
-    }
-
-    public void setTracks(TrackEntry[] tracks) {
-        this.tracks = tracks;
     }
 
 }

@@ -11,8 +11,4 @@ public class RecordTabTracks extends SddOutput {
         return tracks;
     }
 
-    public void setTracks(TrackEntry[] tracks) {
-        this.tracks = tracks;
-    }
-
 }

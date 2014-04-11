@@ -1,12 +1,13 @@
 package de.metalcon.middleware.core;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.sdd.SddOutput;
@@ -34,38 +35,44 @@ public class SddOutputGenerator {
                             + buildClassName(nodeType, detail));
             return loadClass(root, clazz);
         } catch (IOException | ClassNotFoundException | InstantiationException
-                | IllegalAccessException | InvocationTargetException e) {
+                | IllegalAccessException | NoSuchFieldException
+                | InvocationTargetException e) {
             throw new RuntimeException("Couldn't create SddOutput.", e);
         }
     }
 
     private static SddOutput loadClass(JsonNode root, Class<?> clazz)
             throws ClassNotFoundException, InstantiationException,
-            IllegalAccessException, InvocationTargetException {
+            IllegalAccessException, InvocationTargetException,
+            NoSuchFieldException, SecurityException {
         SddOutput output = (SddOutput) clazz.newInstance();
+        Field id = SddOutput.class.getDeclaredField("muid");
+        id.setAccessible(true);
+        id.set(output, Muid.createFromID(root.get("id").asLong()));
 
-        for (Method method : clazz.getMethods()) {
-            String methodName = method.getName();
-            if (!methodName.startsWith("set")
-                    || method.getParameterTypes().length != 1) {
-                continue;
-            }
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
 
-            String attr =
-                    Character.toLowerCase(methodName.charAt(3))
-                            + methodName.substring(4);
+            String attr = field.getName();
+            Class<?> type = field.getType();
 
-            // Setters have exactly 1 param
-            Class<?> param = method.getParameterTypes()[0];
+            if (type.equals(String.class)) {
+                field.set(output, root.get(attr).textValue());
+            } else if (type.isArray()) {
+                Class<?> componentType = type.getComponentType();
+                ArrayNode arrayNode = (ArrayNode) root.get(attr);
+                SddOutput[] array =
+                        (SddOutput[]) Array.newInstance(componentType,
+                                arrayNode.size());
+                int i = 0;
+                for (JsonNode item : arrayNode) {
+                    array[i] = loadClass(item, componentType);
+                    ++i;
+                }
 
-            if (param.equals(String.class)) {
-                method.invoke(output, root.get(attr).textValue());
-            } else if (param.equals(List.class)) {
-                System.out.println(param);
-                System.out.println(param.getComponentType());
+                field.set(output, array);
             } else {
-                param.newInstance();
-                //method.invoke(output, loadClass(root.get(attr), param));
+                field.set(output, loadClass(root.get(attr), type));
             }
         }
 

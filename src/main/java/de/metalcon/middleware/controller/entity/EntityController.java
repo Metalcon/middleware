@@ -51,8 +51,6 @@ import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.sdd.SddOutput;
-import de.metalcon.middleware.sdd.band.BandEntry;
-import de.metalcon.middleware.sdd.track.TrackPage;
 import de.metalcon.middleware.view.entity.EntityView;
 import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
@@ -74,9 +72,18 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         private Muid muid;
 
+        private EntityType entityType;
+
         private EntityTabType entityTabType;
 
         private EntityTabController entityTabController;
+
+        /**
+         * Null until page Callback is executed.
+         */
+        private SddOutput page;
+
+        private Callback<SddResponse> pageCallback;
 
         public Muid getMuid() {
             return muid;
@@ -84,6 +91,14 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         public void setMuid(Muid muid) {
             this.muid = muid;
+        }
+
+        public EntityType getEntityType() {
+            return entityType;
+        }
+
+        public void setEntityType(EntityType entityType) {
+            this.entityType = entityType;
         }
 
         public EntityTabType getEntityTabType() {
@@ -101,6 +116,22 @@ public abstract class EntityController<EntityViewType extends EntityView >
         public void setEntityTabController(
                 EntityTabController entityTabController) {
             this.entityTabController = entityTabController;
+        }
+
+        public SddOutput getPage() {
+            return page;
+        }
+
+        public void setPage(SddOutput page) {
+            this.page = page;
+        }
+
+        public Callback<SddResponse> getPageCallback() {
+            return pageCallback;
+        }
+
+        public void setPageCallback(Callback<SddResponse> pageCallback) {
+            this.pageCallback = pageCallback;
         }
 
     }
@@ -179,11 +210,12 @@ public abstract class EntityController<EntityViewType extends EntityView >
             @AuthenticationPrincipal UserLogin userLogin)
             throws RedirectException, NoSuchRequestHandlingMethodException,
             RequestException {
-        Data data = new Data();
+        final Data data = new Data();
         data.setHttpServletRequest(httpServletRequest);
         data.setHttpServletResponse(httpServletResponse);
         data.setPathVars(pathVars);
         data.setUserLogin(userLogin);
+        data.setEntityType(getEntityType());
 
         EntityTabType entityTabType =
                 getEntityTabTypeFromString(pathVars.get("pathTab"));
@@ -202,47 +234,29 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.setEntityTabController(getEntityTabController(data
                 .getEntityTabType()));
 
-        final Muid muid = getMuidOr404(data);
+        Muid muid = getMuidOr404(data);
+        data.setMuid(muid);
         view.setMuid(muid);
 
-        Dispatcher dispatcher = dispatcherFactory.dispatcher();
-        SddReadRequest read = new SddReadRequest();
-        read.read(muid, "page");
-        dispatcher.execute(read, new Callback<SddResponse>() {
+        data.setPageCallback(new Callback<SddResponse>() {
 
             @Override
             public void onSuccess(SddResponse response) {
                 if (response instanceof SddSucessfulReadResponse) {
-                    String outputString =
-                            ((SddSucessfulReadResponse) response).get(muid,
-                                    "page");
-                    System.out.println(outputString + "\n");
-
-                    SddOutput output =
-                            SddOutputGenerator.get(
-                                    (SddSucessfulReadResponse) response, muid,
-                                    "page");
-                    System.out.println(output + "\n");
-
-                    if (output instanceof TrackPage) {
-                        System.out.println(((TrackPage) output).getName());
-                        System.out.println(((TrackPage) output)
-                                .getTrackNumber());
-
-                        BandEntry bandEntry = ((TrackPage) output).getBand();
-                        System.out.println(bandEntry);
-                        if (bandEntry != null) {
-                            System.out.println(bandEntry.getName());
-                        }
-                    }
-
-                    System.out.println("\n\n");
+                    data.setPage(SddOutputGenerator.get(
+                            (SddSucessfulReadResponse) response,
+                            data.getMuid(), "page"));
                 } else {
                     System.out.println("read failed");
                 }
             }
 
         });
+
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        SddReadRequest read = new SddReadRequest();
+        read.read(muid, "page");
+        dispatcher.execute(read, data.getPageCallback());
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."
@@ -264,7 +278,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
                         entry.getValue();
                 if (entityTabPreviewGenerator != null) {
                     EntityTabPreview entityTabPreview =
-                            entityTabPreviewGenerator.generateTabPreview(muid);
+                            entityTabPreviewGenerator.generateTabPreview(data);
                     entityTabPreviews.put(entityTabPreviewType,
                             entityTabPreview);
                 }
@@ -277,7 +291,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
                     getEntityTabGenerator(data.getEntityTabType());
 
             EntityTabContent entityTabContent =
-                    entityTabGenerator.generateTabContent(muid);
+                    entityTabGenerator.generateTabContent(data);
             view.setEntityTabContent(entityTabContent);
         }
 
