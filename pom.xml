@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>de.metalcon</groupId>
     <artifactId>tomcat-pom</artifactId>
@@ -35,10 +34,13 @@
       <id>sebschlicht</id>
       <name>Sebastian Schlicht</name>
       <email>sebschlicht@uni-koblenz.de</email>
+      <roles>
+        <role>developer</role>
+      </roles>
     </developer>
   </developers>
 
-<!-- Metalcon repository to resolve dependencies from -->
+  <!-- Metalcon repository to resolve dependencies from -->
   <repositories>
     <repository>
       <id>metalcon-depend</id>
