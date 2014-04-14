@@ -7,6 +7,7 @@ public abstract class SddOutput {
     private Muid muid;
 
     public Muid getMuid() {
-        return muid;    }
+        return muid;
+    }
 
 }

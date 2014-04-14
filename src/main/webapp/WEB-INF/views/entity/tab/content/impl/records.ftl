@@ -20,7 +20,7 @@ Records Tab
 <#else>
   <ul>
     <#list tabContent.records as record>
-      <li>${record.releaseYear} ${record.name}</li>
+      <li><a href="<@mtl.url record.url/>">${record.releaseYear} ${record.name}</a></li>
     </#list>
   </ul>
 </#if>

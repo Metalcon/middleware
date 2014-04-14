@@ -2,23 +2,22 @@ package de.metalcon.middleware.view.entity.tab.content.impl;
 
 import java.util.List;
 
-import de.metalcon.middleware.sdd.record.RecordEntry;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 
 public class RecordsTabContent extends EntityTabContent {
 
-    private List<RecordEntry> records;
+    private List<RecordsTabEntry> records;
 
     public RecordsTabContent() {
         super(EntityTabType.RECORDS);
     }
 
-    public List<RecordEntry> getRecords() {
+    public List<RecordsTabEntry> getRecords() {
         return records;
     }
 
-    public void setRecords(List<RecordEntry> records) {
+    public void setRecords(List<RecordsTabEntry> records) {
         this.records = records;
     }
 

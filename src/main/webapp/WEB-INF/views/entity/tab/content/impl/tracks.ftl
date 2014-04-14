@@ -1,12 +1,13 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__metalcon.ftl" as mtl>
 
+<h3>Tracks</h3>
 <#if !tabContent.tracks??>
   <p>No tracks</p>
 <#else>
   <ul>
     <#list tabContent.tracks as track>
-      <li>${track.trackNumber} ${track.name}</li>
+      <li><a href="<@mtl.url track.url/>">${track.trackNumber} ${track.name}</a></li>
     </#list>
   </ul>
 </#if>
