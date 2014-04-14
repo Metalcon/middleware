@@ -44,7 +44,6 @@ import de.metalcon.middleware.controller.entity.tab.impl.ReviewsTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.TracksTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
-import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.core.SddOutputGenerator;
 import de.metalcon.middleware.core.UserLogin;
@@ -138,9 +137,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
     @Autowired
     protected EntityViewFactory entityViewFactory;
-
-    @Autowired
-    private EntityManager entityManager;
 
     private EntityType entityType;
 
