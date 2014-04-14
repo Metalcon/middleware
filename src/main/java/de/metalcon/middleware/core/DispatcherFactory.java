@@ -1,22 +1,15 @@
 package de.metalcon.middleware.core;
 
 import net.hh.request_dispatcher.Dispatcher;
-import net.hh.request_dispatcher.service_adapter.ZmqAdapter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.zeromq.ZMQ;
 
-import de.metalcon.musicstreamingserver.api.requests.create.MusicStreamingCreateRequest;
-import de.metalcon.musicstreamingserver.api.requests.delete.MusicStreamingDeleteRequest;
-import de.metalcon.musicstreamingserver.api.requests.read.MusicStreamingReadMusicItemMetaDataRequest;
-import de.metalcon.musicstreamingserver.api.requests.read.MusicStreamingReadMusicItemRequest;
-import de.metalcon.musicstreamingserver.api.requests.update.MusicStreamingUpdateRequest;
-import de.metalcon.sdd.api.requests.SddReadRequest;
-import de.metalcon.sdd.api.requests.SddWriteRequest;
-import de.metalcon.urlmappingserver.api.requests.UrlMappingRegistrationRequest;
-import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
+import de.metalcon.musicstreamingserver.api.requests.MusicStreamingRequest;
+import de.metalcon.sdd.api.requests.SddRequest;
+import de.metalcon.urlmappingserver.api.requests.UrlMappingRequest;
 
 @Configuration
 public class DispatcherFactory {
@@ -67,36 +60,41 @@ public class DispatcherFactory {
 
     private void registerAdapters(Dispatcher dispatcher) {
         // StaticDataDelivery
-        ZmqAdapter sddAdapter = new ZmqAdapter(zmqContext(), SDD_ENDPOINT);
-        dispatcher.registerServiceAdapter(SDD_SERVICE, sddAdapter);
-        dispatcher.setDefaultService(SddReadRequest.class, SDD_SERVICE);
-        dispatcher.setDefaultService(SddWriteRequest.class, SDD_SERVICE);
+        //        ZmqAdapter sddAdapter = new ZmqAdapter(zmqContext(), SDD_ENDPOINT);
+        dispatcher.registerService(SddRequest.class, SDD_ENDPOINT);
+        //        dispatcher.registerServiceAdapter(SDD_SERVICE, sddAdapter);
+        //        dispatcher.setDefaultService(SddReadRequest.class, SDD_SERVICE);
+        //        dispatcher.setDefaultService(SddWriteRequest.class, SDD_SERVICE);
 
         // Music Streaming
-        ZmqAdapter musicStreamingAdapter =
-                new ZmqAdapter(zmqContext(), MUSIC_STREAMING_SERVER_ENDPOINT);
-        dispatcher.registerServiceAdapter(MUSIC_STREAMING_SERVER_SERVICE,
-                musicStreamingAdapter);
-        dispatcher.setDefaultService(MusicStreamingDeleteRequest.class,
-                MUSIC_STREAMING_SERVER_SERVICE);
-        dispatcher.setDefaultService(
-                MusicStreamingReadMusicItemMetaDataRequest.class,
-                MUSIC_STREAMING_SERVER_SERVICE);
-        dispatcher.setDefaultService(MusicStreamingReadMusicItemRequest.class,
-                MUSIC_STREAMING_SERVER_SERVICE);
-        dispatcher.setDefaultService(MusicStreamingCreateRequest.class,
-                MUSIC_STREAMING_SERVER_SERVICE);
-        dispatcher.setDefaultService(MusicStreamingUpdateRequest.class,
-                MUSIC_STREAMING_SERVER_SERVICE);
+        //        ZmqAdapter musicStreamingAdapter =
+        //                new ZmqAdapter(zmqContext(), MUSIC_STREAMING_SERVER_ENDPOINT);
+        dispatcher.registerService(MusicStreamingRequest.class,
+                MUSIC_STREAMING_SERVER_ENDPOINT);
+        //        dispatcher.registerServiceAdapter(MUSIC_STREAMING_SERVER_SERVICE,
+        //                musicStreamingAdapter);
+        //        dispatcher.setDefaultService(MusicStreamingDeleteRequest.class,
+        //                MUSIC_STREAMING_SERVER_SERVICE);
+        //        dispatcher.setDefaultService(
+        //                MusicStreamingReadMusicItemMetaDataRequest.class,
+        //                MUSIC_STREAMING_SERVER_SERVICE);
+        //        dispatcher.setDefaultService(MusicStreamingReadMusicItemRequest.class,
+        //                MUSIC_STREAMING_SERVER_SERVICE);
+        //        dispatcher.setDefaultService(MusicStreamingCreateRequest.class,
+        //                MUSIC_STREAMING_SERVER_SERVICE);
+        //        dispatcher.setDefaultService(MusicStreamingUpdateRequest.class,
+        //                MUSIC_STREAMING_SERVER_SERVICE);
 
         // UrlMapping
-        ZmqAdapter urlMappingAdapter =
-                new ZmqAdapter(zmqContext(), URL_MAPPING_SERVER_ENDPOINT);
-        dispatcher.registerServiceAdapter(URL_MAPPING_SERVICE,
-                urlMappingAdapter);
-        dispatcher.setDefaultService(UrlMappingResolveRequest.class,
-                URL_MAPPING_SERVICE);
-        dispatcher.setDefaultService(UrlMappingRegistrationRequest.class,
-                URL_MAPPING_SERVICE);
+        //        ZmqAdapter urlMappingAdapter =
+        //                new ZmqAdapter(zmqContext(), URL_MAPPING_SERVER_ENDPOINT);
+        dispatcher.registerService(UrlMappingRequest.class,
+                URL_MAPPING_SERVER_ENDPOINT);
+        //        dispatcher.registerServiceAdapter(URL_MAPPING_SERVICE,
+        //                urlMappingAdapter);
+        //        dispatcher.setDefaultService(UrlMappingResolveRequest.class,
+        //                URL_MAPPING_SERVICE);
+        //        dispatcher.setDefaultService(UrlMappingRegistrationRequest.class,
+        //                URL_MAPPING_SERVICE);
     }
 }

@@ -4,13 +4,13 @@
   <parent>
     <groupId>de.metalcon</groupId>
     <artifactId>tomcat-pom</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.8</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>middleware</artifactId>
   <name>middleware</name>
-  <version>1.1.1</version>
+  <version>1.2.0</version>
   <packaging>war</packaging>
 
   <developers>

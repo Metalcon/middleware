@@ -3,6 +3,7 @@ package de.metalcon.middleware.controller.entity;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import de.metalcon.api.responses.Response;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.BaseController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
@@ -59,8 +59,8 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 import de.metalcon.sdd.api.requests.SddReadRequest;
 import de.metalcon.sdd.api.responses.SddResponse;
 import de.metalcon.sdd.api.responses.SddSucessfulReadResponse;
-import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
-import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
+import de.metalcon.urlmappingserver.api.requests.ResolveUrlRequest;
+import de.metalcon.urlmappingserver.api.responses.UrlResolvedResponse;
 
 /**
  * basic controller for entity requests
@@ -337,20 +337,22 @@ public abstract class EntityController<EntityViewType extends EntityView >
      * @throws NoSuchRequestHandlingMethodException
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
-     * @throws RequestException
      */
     public Muid getMuidOr404(Data data) throws RedirectException,
-            NoSuchRequestHandlingMethodException, RequestException {
+            NoSuchRequestHandlingMethodException {
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
-        UrlMappingResolveRequest request =
-                new UrlMappingResolveRequest(data.getPathVars(),
-                        EntityType.toUidType(getEntityType()));
-        Response response = (Response) dispatcher.executeSync(request, 100);
-
         Muid muid = null;
-        if (response instanceof MuidResolvedResponse) {
-            muid = ((MuidResolvedResponse) response).getMuid();
+        try {
+            ResolveUrlRequest request =
+                    new ResolveUrlRequest(data.getPathVars(),
+                            EntityType.toUidType(getEntityType()));
+            UrlResolvedResponse response =
+                    (UrlResolvedResponse) dispatcher.executeSync(request, 100);
+            muid = response.getMuid();
+        } catch (net.hh.request_dispatcher.RequestException | TimeoutException
+                | ClassCastException e) {
+            // muid == null will throw 404
         }
 
         if (entityTabsGenerators.get(data.getEntityTabType()) == null
