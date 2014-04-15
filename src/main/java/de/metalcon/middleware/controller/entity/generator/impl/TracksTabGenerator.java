@@ -7,8 +7,6 @@ import net.hh.request_dispatcher.Dispatcher;
 
 import org.springframework.stereotype.Component;
 
-import de.metalcon.api.responses.Response;
-import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.sdd.SddOutput;
@@ -17,7 +15,8 @@ import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.impl.TracksTabContent;
 import de.metalcon.middleware.view.entity.tab.content.impl.TracksTabEntry;
 import de.metalcon.middleware.view.entity.tab.preview.impl.TracksTabPreview;
-import de.metalcon.sdd.api.requests.SddReadRequest;
+import de.metalcon.urlmappingserver.api.requests.ResolveMuidRequest;
+import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
 
 @Component
 public abstract class TracksTabGenerator extends
@@ -39,16 +38,16 @@ public abstract class TracksTabGenerator extends
             public void run() {
                 List<TracksTabEntry> tracks = getTracksContent(data.getPage());
                 for (final TracksTabEntry track : tracks) {
-                    SddReadRequest request = new SddReadRequest();
-                    request.read(Muid.EMPTY_BAND_MUID, "page");
-                    dispatcher.execute(request, new Callback<Response>() {
+                    dispatcher.execute(new ResolveMuidRequest(track.getMuid()),
+                            new Callback<MuidResolvedResponse>() {
 
-                        @Override
-                        public void onSuccess(Response response) {
-                            track.setUrl(response.getClass().toString());
-                        }
+                                @Override
+                                public void onSuccess(
+                                        MuidResolvedResponse response) {
+                                    track.setUrl(response.getUrl());
+                                }
 
-                    });
+                            });
                 }
                 tabContent.setTracks(tracks);
             }

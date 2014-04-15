@@ -7,7 +7,7 @@
 <#else>
   <ul>
     <#list tabContent.tracks as track>
-      <li><a href="<@mtl.url track.url/>">${track.trackNumber} ${track.name}</a></li>
+      <li><a href="<@mtl.url "/music/" + track.url/>">${track.trackNumber} ${track.name}</a></li>
     </#list>
   </ul>
 </#if>
