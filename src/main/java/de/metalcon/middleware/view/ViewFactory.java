@@ -12,11 +12,4 @@ public class ViewFactory {
     public LoginView createLoginView() {
         return new LoginView();
     }
-
-    @Bean
-    @Scope("prototype")
-    public LikeView createLikeView() {
-        return new LikeView();
-    }
-
 }

@@ -15,8 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.UserLogin;
-import de.metalcon.middleware.view.LikeView;
-import de.metalcon.middleware.view.LoginView;
 
 @Controller
 public class LikeController extends BaseController {
@@ -33,34 +31,88 @@ public class LikeController extends BaseController {
     public LikeController() {
     }
 
-    public ModelAndView showLikeButton2(
-            @PathVariable("Uid") final String serializedUid) {
-        // Uid
-        ModelMap model = new ModelMap();
-        model.addAttribute("uid", serializedUid);
-
-        LikeView view = viewFactory.createLikeView();
-
-        return new ModelAndView("like", model);
-    }
-
-    public LoginView showLikeButton(
+    public ModelAndView showLikeButton(
             final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse,
-            @AuthenticationPrincipal final UserLogin userLogin) {
+            @AuthenticationPrincipal final UserLogin userLogin,
+            @PathVariable("Uid") final String serializedUid) {
         Data data = new Data();
         data.setHttpServletRequest(httpServletRequest);
         data.setHttpServletResponse(httpServletResponse);
         data.setUserLogin(userLogin);
 
-        LoginView view = viewFactory.createLoginView();
-        data.setView(view);
+        // Uid
+        ModelMap model = new ModelMap();
+        model.addAttribute("likemessage", serializedUid);
+        model.addAttribute("uid", serializedUid);
+        model.addAttribute("test", "test");
 
-        beforeRequest(data);
+        //        beforeRequest(data);
+        //        afterRequest(data);
 
-        afterRequest(data);
-
-        return view;
+        return new ModelAndView("like", model);
     }
+
+    public ModelAndView up(
+            final HttpServletRequest httpServletRequest,
+            final HttpServletResponse httpServletResponse,
+            @AuthenticationPrincipal final UserLogin userLogin,
+            @PathVariable("Uid") final String serializedUid) {
+
+        // Uid
+        ModelMap model = new ModelMap();
+        model.addAttribute("uid", serializedUid);
+        model.addAttribute("likemessage", serializedUid);
+
+        return new ModelAndView("like", model);
+    }
+
+    public ModelAndView down(
+            final HttpServletRequest httpServletRequest,
+            final HttpServletResponse httpServletResponse,
+            @AuthenticationPrincipal final UserLogin userLogin,
+            @PathVariable("Uid") final String serializedUid) {
+
+        // Uid
+        ModelMap model = new ModelMap();
+        model.addAttribute("uid", serializedUid);
+        model.addAttribute("likemessage", serializedUid);
+
+        return new ModelAndView("like", model);
+    }
+
+    public ModelAndView neutral(
+            final HttpServletRequest httpServletRequest,
+            final HttpServletResponse httpServletResponse,
+            @AuthenticationPrincipal final UserLogin userLogin,
+            @PathVariable("Uid") final String serializedUid) {
+
+        // Uid
+        ModelMap model = new ModelMap();
+        model.addAttribute("uid", serializedUid);
+        model.addAttribute("likemessage", serializedUid);
+
+        return new ModelAndView("like", model);
+
+    }
+
+    //    public LoginView showLikeButton2(
+    //            final HttpServletRequest httpServletRequest,
+    //            final HttpServletResponse httpServletResponse,
+    //            @AuthenticationPrincipal final UserLogin userLogin) {
+    //        Data data = new Data();
+    //        data.setHttpServletRequest(httpServletRequest);
+    //        data.setHttpServletResponse(httpServletResponse);
+    //        data.setUserLogin(userLogin);
+    //
+    //        LoginView view = viewFactory.createLoginView();
+    //        data.setView(view);
+    //
+    //        beforeRequest(data);
+    //
+    //        afterRequest(data);
+    //
+    //        return view;
+    //    }
 
 }
