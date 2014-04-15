@@ -3,11 +3,13 @@ package de.metalcon.middleware.controller.entity;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.hh.request_dispatcher.Callback;
 import net.hh.request_dispatcher.Dispatcher;
 import net.hh.request_dispatcher.server.RequestException;
 
@@ -16,7 +18,6 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import de.metalcon.api.responses.Response;
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.BaseController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
@@ -43,18 +44,22 @@ import de.metalcon.middleware.controller.entity.tab.impl.ReviewsTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.TracksTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.UsersTabController;
 import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
-import de.metalcon.middleware.core.EntityManager;
 import de.metalcon.middleware.core.MetalconPjaxr;
+import de.metalcon.middleware.core.SddOutputGenerator;
 import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
+import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.view.entity.EntityView;
 import de.metalcon.middleware.view.entity.EntityViewFactory;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
-import de.metalcon.urlmappingserver.api.requests.UrlMappingResolveRequest;
-import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
+import de.metalcon.sdd.api.requests.SddReadRequest;
+import de.metalcon.sdd.api.responses.SddResponse;
+import de.metalcon.sdd.api.responses.SddSucessfulReadResponse;
+import de.metalcon.urlmappingserver.api.requests.ResolveUrlRequest;
+import de.metalcon.urlmappingserver.api.responses.UrlResolvedResponse;
 
 /**
  * basic controller for entity requests
@@ -66,9 +71,18 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         private Muid muid;
 
+        private EntityType entityType;
+
         private EntityTabType entityTabType;
 
         private EntityTabController entityTabController;
+
+        /**
+         * Null until page Callback is executed.
+         */
+        private SddOutput page;
+
+        private Callback<SddResponse> pageCallback;
 
         public Muid getMuid() {
             return muid;
@@ -76,6 +90,14 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         public void setMuid(Muid muid) {
             this.muid = muid;
+        }
+
+        public EntityType getEntityType() {
+            return entityType;
+        }
+
+        public void setEntityType(EntityType entityType) {
+            this.entityType = entityType;
         }
 
         public EntityTabType getEntityTabType() {
@@ -95,13 +117,26 @@ public abstract class EntityController<EntityViewType extends EntityView >
             this.entityTabController = entityTabController;
         }
 
+        public SddOutput getPage() {
+            return page;
+        }
+
+        public void setPage(SddOutput page) {
+            this.page = page;
+        }
+
+        public Callback<SddResponse> getPageCallback() {
+            return pageCallback;
+        }
+
+        public void setPageCallback(Callback<SddResponse> pageCallback) {
+            this.pageCallback = pageCallback;
+        }
+
     }
 
     @Autowired
     protected EntityViewFactory entityViewFactory;
-
-    @Autowired
-    private EntityManager entityManager;
 
     private EntityType entityType;
 
@@ -171,11 +206,12 @@ public abstract class EntityController<EntityViewType extends EntityView >
             @AuthenticationPrincipal UserLogin userLogin)
             throws RedirectException, NoSuchRequestHandlingMethodException,
             RequestException {
-        Data data = new Data();
+        final Data data = new Data();
         data.setHttpServletRequest(httpServletRequest);
         data.setHttpServletResponse(httpServletResponse);
         data.setPathVars(pathVars);
         data.setUserLogin(userLogin);
+        data.setEntityType(getEntityType());
 
         EntityTabType entityTabType =
                 getEntityTabTypeFromString(pathVars.get("pathTab"));
@@ -195,7 +231,10 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 .getEntityTabType()));
 
         Muid muid = getMuidOr404(data);
+        data.setMuid(muid);
         view.setMuid(muid);
+
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."
@@ -206,31 +245,52 @@ public abstract class EntityController<EntityViewType extends EntityView >
         view.setPjaxrMatching(pjaxr.getMatchingCount());
         view.setPjaxrNamespace(pjaxrNamespace);
 
-        if (pjaxr.isPjaxrContent()) {
-            // create tab previews if content
-            Map<EntityTabType, EntityTabPreview> entityTabPreviews =
-                    new HashMap<EntityTabType, EntityTabPreview>();
-            for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
-                    .entrySet()) {
-                EntityTabType entityTabPreviewType = entry.getKey();
-                EntityTabGenerator<?, ?> entityTabPreviewGenerator =
-                        entry.getValue();
-                if (entityTabPreviewGenerator != null) {
-                    EntityTabPreview entityTabPreview =
-                            entityTabPreviewGenerator.generateTabPreview(muid);
-                    entityTabPreviews.put(entityTabPreviewType,
-                            entityTabPreview);
-                }
-            }
-            view.setEntityTabPreviews(entityTabPreviews);
-        }
         if (pjaxr.isPjaxrInnerContent()) {
+            data.setPageCallback(new Callback<SddResponse>() {
+
+                @Override
+                public void onSuccess(SddResponse response) {
+                    if (response instanceof SddSucessfulReadResponse) {
+                        data.setPage(SddOutputGenerator.get(
+                                (SddSucessfulReadResponse) response,
+                                data.getMuid(), "page"));
+                    } else {
+                        System.out.println("read failed");
+                    }
+                }
+
+            });
+
+            SddReadRequest read = new SddReadRequest();
+            read.read(muid, "page");
+            dispatcher.execute(read, data.getPageCallback());
+
+            if (pjaxr.isPjaxrContent()) {
+                // create tab previews if content
+                Map<EntityTabType, EntityTabPreview> entityTabPreviews =
+                        new HashMap<EntityTabType, EntityTabPreview>();
+                for (Map.Entry<EntityTabType, EntityTabGenerator<?, ?>> entry : entityTabsGenerators
+                        .entrySet()) {
+                    EntityTabType entityTabPreviewType = entry.getKey();
+                    EntityTabGenerator<?, ?> entityTabPreviewGenerator =
+                            entry.getValue();
+                    if (entityTabPreviewGenerator != null) {
+                        EntityTabPreview entityTabPreview =
+                                entityTabPreviewGenerator
+                                        .generateTabPreview(data);
+                        entityTabPreviews.put(entityTabPreviewType,
+                                entityTabPreview);
+                    }
+                }
+                view.setEntityTabPreviews(entityTabPreviews);
+            }
+
             // create empty tab content and fill it with data from entity
             EntityTabGenerator<?, ?> entityTabGenerator =
                     getEntityTabGenerator(data.getEntityTabType());
 
             EntityTabContent entityTabContent =
-                    entityTabGenerator.generateTabContent(muid);
+                    entityTabGenerator.generateTabContent(data);
             view.setEntityTabContent(entityTabContent);
         }
 
@@ -273,20 +333,22 @@ public abstract class EntityController<EntityViewType extends EntityView >
      * @throws NoSuchRequestHandlingMethodException
      *             If entity type doesn't have requested tab type or MUID
      *             couldn't be resolved.
-     * @throws RequestException
      */
     public Muid getMuidOr404(Data data) throws RedirectException,
-            NoSuchRequestHandlingMethodException, RequestException {
+            NoSuchRequestHandlingMethodException {
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
-        UrlMappingResolveRequest request =
-                new UrlMappingResolveRequest(data.getPathVars(),
-                        EntityType.toUidType(getEntityType()));
-        Response response = (Response) dispatcher.executeSync(request, 100);
-
         Muid muid = null;
-        if (response instanceof MuidResolvedResponse) {
-            muid = ((MuidResolvedResponse) response).getMuid();
+        try {
+            ResolveUrlRequest request =
+                    new ResolveUrlRequest(data.getPathVars(),
+                            EntityType.toUidType(getEntityType()));
+            UrlResolvedResponse response =
+                    (UrlResolvedResponse) dispatcher.executeSync(request, 100);
+            muid = response.getMuid();
+        } catch (net.hh.request_dispatcher.RequestException | TimeoutException
+                | ClassCastException e) {
+            // muid == null will throw 404
         }
 
         if (entityTabsGenerators.get(data.getEntityTabType()) == null
