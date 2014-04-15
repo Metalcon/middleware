@@ -1,2 +1,2 @@
 <#include "/_like.ftl">
-<@printLikeButton uid=uid/>
+<@printLikeButton uid=uid message=likemessage/>

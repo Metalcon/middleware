@@ -1,10 +1,10 @@
-<#macro printLikeButton uid>
+<#macro printLikeButton uid message>
     <#assign divID = "like_${uid}"> 
     <div id=${divID}>
     	${uid}
         <a id="${divID}_up" href="/like/${uid}/up">up</a>
-        <a id="${divID}_neutral" href="/like/${uid}/down">neutral</a>
-        <a id="${divID}_down" href="/like/${uid}/neutral">down</a>
+        <a id="${divID}_neutral" href="/like/${uid}/neutral">neutral</a>
+        <a id="${divID}_down" href="/like/${uid}/down">down</a>
         
         <#if likemessage??>
     		${likemessage}

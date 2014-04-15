@@ -2,4 +2,4 @@
 <#import "/__metalcon.ftl" as mtl>
 <#include "/_like.ftl">
 About Tab
-<@printLikeButton uid="asdf"/>
+<@printLikeButton uid="asdf" message=""/>

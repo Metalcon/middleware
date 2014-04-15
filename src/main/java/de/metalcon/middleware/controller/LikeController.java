@@ -41,14 +41,15 @@ public class LikeController extends BaseController {
         data.setHttpServletResponse(httpServletResponse);
         data.setUserLogin(userLogin);
 
+        beforeRequest(data);
+
         // Uid
         ModelMap model = new ModelMap();
         model.addAttribute("likemessage", serializedUid);
         model.addAttribute("uid", serializedUid);
         model.addAttribute("test", "test");
 
-        //        beforeRequest(data);
-        //        afterRequest(data);
+        afterRequest(data);
 
         return new ModelAndView("like", model);
     }
@@ -62,21 +63,7 @@ public class LikeController extends BaseController {
         // Uid
         ModelMap model = new ModelMap();
         model.addAttribute("uid", serializedUid);
-        model.addAttribute("likemessage", serializedUid);
-
-        return new ModelAndView("like", model);
-    }
-
-    public ModelAndView down(
-            final HttpServletRequest httpServletRequest,
-            final HttpServletResponse httpServletResponse,
-            @AuthenticationPrincipal final UserLogin userLogin,
-            @PathVariable("Uid") final String serializedUid) {
-
-        // Uid
-        ModelMap model = new ModelMap();
-        model.addAttribute("uid", serializedUid);
-        model.addAttribute("likemessage", serializedUid);
+        model.addAttribute("likemessage", "Performed like up");
 
         return new ModelAndView("like", model);
     }
@@ -90,10 +77,23 @@ public class LikeController extends BaseController {
         // Uid
         ModelMap model = new ModelMap();
         model.addAttribute("uid", serializedUid);
-        model.addAttribute("likemessage", serializedUid);
+        model.addAttribute("likemessage", "Performed like neutral");
 
         return new ModelAndView("like", model);
+    }
 
+    public ModelAndView down(
+            final HttpServletRequest httpServletRequest,
+            final HttpServletResponse httpServletResponse,
+            @AuthenticationPrincipal final UserLogin userLogin,
+            @PathVariable("Uid") final String serializedUid) {
+
+        // Uid
+        ModelMap model = new ModelMap();
+        model.addAttribute("uid", serializedUid);
+        model.addAttribute("likemessage", "Performed like down");
+
+        return new ModelAndView("like", model);
     }
 
     //    public LoginView showLikeButton2(
