@@ -5,6 +5,7 @@ Gettings started:
 
 clone following repositories
 ```
+git clone git@github.com:Metalcon/middleware.git
 git clone git@github.com:Metalcon/bootstrap.git
 git clone git@github.com:Metalcon/staticDataDeliveryServer.git
 git clone git@github.com:Metalcon/urlMappingServer.git
