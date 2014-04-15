@@ -3,6 +3,8 @@ package de.metalcon.middleware.core;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.PreDestroy;
+
 import net.hh.request_dispatcher.Dispatcher;
 
 import org.springframework.context.annotation.Bean;
@@ -17,40 +19,25 @@ import de.metalcon.urlmappingserver.api.requests.UrlMappingRequest;
 public class DispatcherFactory {
 
     //TODO: why are this fields public
-    public static final String SDD_SERVICE = "staticDataDeliveryServer";
-
     public static final String SDD_ENDPOINT = "tcp://127.0.0.1:1337";
-
-    public static final String MUSIC_STREAMING_SERVER_SERVICE =
-            "musicStreamingServer";
 
     public static final String MUSIC_STREAMING_SERVER_ENDPOINT =
             "tcp://127.0.0.1:6666";
 
-    public static final String URL_MAPPING_SERVICE = "urlMappingServer";
-
     public static final String URL_MAPPING_SERVER_ENDPOINT =
             "tcp://127.0.0.1:12666";
 
-    private static boolean dispatcherShutdownHook = false;
+    private List<Dispatcher> dispatchers = new LinkedList<Dispatcher>();
 
-    private static List<Dispatcher> dispatchers = new LinkedList<Dispatcher>();
+    @PreDestroy
+    private void shutdownDispatchers() {
+        System.out.println("Shutting down Dispatchers.");
+        for (Dispatcher dispatcher : dispatchers) {
+            dispatcher.shutdown();
+        }
+    }
 
     private synchronized void addDispatcher(Dispatcher dispatcher) {
-        if (!dispatcherShutdownHook) {
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-
-                @Override
-                public void run() {
-                    System.out.println("Shutting down Dispatchers.");
-                    for (Dispatcher dispatcher : dispatchers) {
-                        dispatcher.shutdown();
-                    }
-                }
-
-            });
-            dispatcherShutdownHook = true;
-        }
         dispatchers.add(dispatcher);
     }
 
