@@ -1,5 +1,6 @@
 package de.metalcon.middleware.core;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,18 +28,17 @@ public class DispatcherFactory {
     public static final String URL_MAPPING_SERVER_ENDPOINT =
             "tcp://127.0.0.1:12666";
 
-    private List<Dispatcher> dispatchers = new LinkedList<Dispatcher>();
+    private List<Dispatcher> dispatchers = Collections
+            .synchronizedList(new LinkedList<Dispatcher>());
 
     @PreDestroy
     private void shutdownDispatchers() {
         System.out.println("Shutting down Dispatchers.");
-        for (Dispatcher dispatcher : dispatchers) {
-            dispatcher.shutdown();
+        synchronized (dispatchers) {
+            for (Dispatcher dispatcher : dispatchers) {
+                dispatcher.shutdown();
+            }
         }
-    }
-
-    private synchronized void addDispatcher(Dispatcher dispatcher) {
-        dispatchers.add(dispatcher);
     }
 
     /**
@@ -51,7 +51,7 @@ public class DispatcherFactory {
     public Dispatcher dispatcher() {
         System.out.println("Creating dispatcher: " + (dispatchers.size() + 1));
         Dispatcher dispatcher = new Dispatcher();
-        addDispatcher(dispatcher);
+        dispatchers.add(dispatcher);
         registerAdapters(dispatcher);
         return dispatcher;
     }
