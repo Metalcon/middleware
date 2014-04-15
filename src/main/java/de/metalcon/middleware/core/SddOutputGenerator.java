@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.NullNode;
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.sdd.SddOutput;
@@ -56,23 +57,27 @@ public class SddOutputGenerator {
             String attr = field.getName();
             Class<?> type = field.getType();
 
-            if (type.equals(String.class)) {
-                field.set(output, root.get(attr).textValue());
-            } else if (type.isArray()) {
-                Class<?> componentType = type.getComponentType();
-                ArrayNode arrayNode = (ArrayNode) root.get(attr);
-                SddOutput[] array =
-                        (SddOutput[]) Array.newInstance(componentType,
-                                arrayNode.size());
-                int i = 0;
-                for (JsonNode item : arrayNode) {
-                    array[i] = loadClass(item, componentType);
-                    ++i;
-                }
-
-                field.set(output, array);
+            if (root.get(attr).getClass().equals(NullNode.class)) {
+                field.set(output, null);
             } else {
-                field.set(output, loadClass(root.get(attr), type));
+                if (type.equals(String.class)) {
+                    field.set(output, root.get(attr).textValue());
+                } else if (type.isArray()) {
+                    Class<?> componentType = type.getComponentType();
+                    ArrayNode arrayNode = (ArrayNode) root.get(attr);
+                    SddOutput[] array =
+                            (SddOutput[]) Array.newInstance(componentType,
+                                    arrayNode.size());
+                    int i = 0;
+                    for (JsonNode item : arrayNode) {
+                        array[i] = loadClass(item, componentType);
+                        ++i;
+                    }
+
+                    field.set(output, array);
+                } else {
+                    field.set(output, loadClass(root.get(attr), type));
+                }
             }
         }
 
