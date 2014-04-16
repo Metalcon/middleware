@@ -15,7 +15,7 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
  */
 public abstract class EntityView extends BaseView {
 
-    private EntityType entityType;
+    private final EntityType entityType;
 
     /**
      * identifier of the entity displayed
@@ -51,8 +51,15 @@ public abstract class EntityView extends BaseView {
     /**
      * @return entity identifier
      */
-    public final long getMuid() {
-        return muid.getValue();
+    public final String getMuidSerialized() {
+        return muid.toString();
+    }
+
+    /**
+     * @return entity identifier
+     */
+    public final Muid getMuid() {
+        return muid;
     }
 
     public final void setMuid(Muid muid) {

@@ -35,7 +35,7 @@ public class LikeController extends BaseController {
             final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal final UserLogin userLogin,
-            @PathVariable("Uid") final String serializedUid) {
+            @PathVariable("uid") final String serializedUid) {
         Data data = new Data();
         data.setHttpServletRequest(httpServletRequest);
         data.setHttpServletResponse(httpServletResponse);
@@ -46,8 +46,7 @@ public class LikeController extends BaseController {
         // Uid
         ModelMap model = new ModelMap();
         model.addAttribute("likemessage", serializedUid);
-        model.addAttribute("uid", serializedUid);
-        model.addAttribute("test", "test");
+        model.addAttribute("uidSerialized", serializedUid);
 
         afterRequest(data);
 
@@ -58,11 +57,11 @@ public class LikeController extends BaseController {
             final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal final UserLogin userLogin,
-            @PathVariable("Uid") final String serializedUid) {
+            @PathVariable("uid") final String serializedUid) {
 
         // Uid
         ModelMap model = new ModelMap();
-        model.addAttribute("uid", serializedUid);
+        model.addAttribute("uidSerialized", serializedUid);
         model.addAttribute("likemessage", "Performed like up");
 
         return new ModelAndView("like", model);
@@ -72,11 +71,11 @@ public class LikeController extends BaseController {
             final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal final UserLogin userLogin,
-            @PathVariable("Uid") final String serializedUid) {
+            @PathVariable("uid") final String serializedUid) {
 
         // Uid
         ModelMap model = new ModelMap();
-        model.addAttribute("uid", serializedUid);
+        model.addAttribute("uidSerialized", serializedUid);
         model.addAttribute("likemessage", "Performed like neutral");
 
         return new ModelAndView("like", model);
@@ -86,11 +85,11 @@ public class LikeController extends BaseController {
             final HttpServletRequest httpServletRequest,
             final HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal final UserLogin userLogin,
-            @PathVariable("Uid") final String serializedUid) {
+            @PathVariable("uid") final String serializedUid) {
 
         // Uid
         ModelMap model = new ModelMap();
-        model.addAttribute("uid", serializedUid);
+        model.addAttribute("uidSerialized", serializedUid);
         model.addAttribute("likemessage", "Performed like down");
 
         return new ModelAndView("like", model);
