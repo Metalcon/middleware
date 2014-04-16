@@ -2,7 +2,7 @@ package de.metalcon.middleware.controller.entity.tab.impl;
 
 import java.io.IOException;
 
-import net.hh.request_dispatcher.server.RequestException;
+import net.hh.request_dispatcher.RequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

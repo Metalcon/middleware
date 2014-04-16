@@ -16,10 +16,13 @@
 	        event.preventDefault();
 	        // Send GET request to the href-URL
 	        $.ajax({
-	           url: $(this).attr('href')
-	           ,success: function(response) {
-	        	   $('#${divID}').html(response);
-	           }
+                url: $(this).attr('href')
+                ,success: function(response) {
+    	        	   $('#${divID}').html(response);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus+"\nError: " + errorThrown); 
+                }  
 	        });
 	        return false;
 	    }

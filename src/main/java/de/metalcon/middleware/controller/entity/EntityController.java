@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.hh.request_dispatcher.Callback;
 import net.hh.request_dispatcher.Dispatcher;
-import net.hh.request_dispatcher.server.RequestException;
+import net.hh.request_dispatcher.RequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -138,11 +138,11 @@ public abstract class EntityController<EntityViewType extends EntityView >
     @Autowired
     protected EntityViewFactory entityViewFactory;
 
-    private EntityType entityType;
+    private final EntityType entityType;
 
-    private Class<? extends EntityView> entityViewClass;
+    private final Class<? extends EntityView> entityViewClass;
 
-    private Map<EntityTabType, EntityTabGenerator<?, ?>> entityTabsGenerators;
+    private final Map<EntityTabType, EntityTabGenerator<?, ?>> entityTabsGenerators;
 
     public EntityController(
             EntityType entityType,
