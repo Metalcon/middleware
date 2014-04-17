@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import de.metalcon.like.api.requests.LikeServerRequest;
 import de.metalcon.middleware.options.DispatcherConfig;
 import de.metalcon.musicstreamingserver.api.requests.MusicStreamingRequest;
 import de.metalcon.sdd.api.requests.SddRequest;
@@ -55,10 +56,13 @@ public class DispatcherFactory {
     }
 
     private void registerAdapters(Dispatcher dispatcher) {
-        dispatcher.registerService(SddRequest.class, DispatcherConfig.SDD_ENDPOINT);
+        dispatcher.registerService(SddRequest.class,
+                DispatcherConfig.SDD_ENDPOINT);
         dispatcher.registerService(MusicStreamingRequest.class,
                 DispatcherConfig.MUSIC_STREAMING_SERVER_ENDPOINT);
         dispatcher.registerService(UrlMappingRequest.class,
                 DispatcherConfig.URL_MAPPING_SERVER_ENDPOINT);
+        dispatcher.registerService(LikeServerRequest.class,
+                DispatcherConfig.LIKE_SERVER_ENDPOINT);
     }
 }

@@ -1,6 +1,7 @@
 <#ftl encoding="UTF-8" strict_syntax=true>
 <#import "/__metalcon.ftl" as mtl>
 <#import "/__pjaxr.ftl" as pjaxr>
+<#include "/__like.ftl">
 
 <#include "impl/__" + view.entityType?lower_case + ".ftl">
 
@@ -39,6 +40,7 @@
       <div class="row">
         <div class="col-xs-8">
           <h1>${entity_title}</h1>
+          <@printLikeButton uid=view.muidSerialized message="" upNum=view.numLikeUp downNum=view.numLikeDown/>
           <#nested>
         </div>
         <div id="tabs" class="col-xs-4">

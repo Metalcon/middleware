@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.BaseController;
+import de.metalcon.middleware.controller.LikeController;
+import de.metalcon.middleware.controller.LikeData;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
@@ -235,6 +237,10 @@ public abstract class EntityController<EntityViewType extends EntityView >
         view.setMuid(muid);
 
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
+
+        LikeData likeData = LikeController.getLikeCounts(dispatcher, muid);
+        view.setNumLikeUp(likeData.getUpVoteNum());
+        view.setNumLikeUp(likeData.getDownVoteNum());
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."

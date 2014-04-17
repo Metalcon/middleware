@@ -26,6 +26,26 @@ public abstract class BaseView implements View {
 
     private String name;
 
+    private int numLikeUp;
+
+    private int numLikeDown;
+
+    public int getNumLikeUp() {
+        return numLikeUp;
+    }
+
+    public void setNumLikeUp(int numLikeUp) {
+        this.numLikeUp = numLikeUp;
+    }
+
+    public int getNumLikeDown() {
+        return numLikeDown;
+    }
+
+    public void setNumLikeDown(int numLikeDown) {
+        this.numLikeDown = numLikeDown;
+    }
+
     private View view = null;
 
     private String pjaxrNamespace = "";

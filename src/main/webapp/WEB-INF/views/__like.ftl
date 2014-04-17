@@ -1,10 +1,9 @@
-<#macro printLikeButton uid message>
+<#macro printLikeButton uid message upNum downNum>
     <#assign divID = "like_${uid}"> 
     <div id=${divID}>
-    	${uid}
-        <a id="${divID}_up" href="/like/${uid}/up">up</a>
+    	<a id="${divID}_up" href="/like/${uid}/up">up</a>(${upNum})
         <a id="${divID}_neutral" href="/like/${uid}/neutral">neutral</a>
-        <a id="${divID}_down" href="/like/${uid}/down">down</a>
+        <a id="${divID}_down" href="/like/${uid}/down">down</a>(${downNum})
         
         <#if likemessage??>
     		${likemessage}
@@ -18,7 +17,7 @@
 	        $.ajax({
                 url: $(this).attr('href')
                 ,success: function(response) {
-    	        	   $('#${divID}').html(response);
+    	        	   alert("executed");
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) { 
                     alert("Status: " + textStatus+"\nError: " + errorThrown); 
