@@ -102,6 +102,12 @@
       <artifactId>backend-api</artifactId>
       <version>${metalcon.backendApi.version}</version>
     </dependency>
+    
+    <dependency>
+      <groupId>de.metalcon</groupId>
+      <artifactId>db-helper</artifactId>
+      <version>${metalcon.dbHelper.version}</version>
+    </dependency>
     <dependency>
       <groupId>de.metalcon</groupId>
       <artifactId>muid</artifactId>

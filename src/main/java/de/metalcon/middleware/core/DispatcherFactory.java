@@ -12,21 +12,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import de.metalcon.middleware.options.DispatcherConfig;
 import de.metalcon.musicstreamingserver.api.requests.MusicStreamingRequest;
 import de.metalcon.sdd.api.requests.SddRequest;
 import de.metalcon.urlmappingserver.api.requests.UrlMappingRequest;
 
 @Configuration
 public class DispatcherFactory {
-
-    //TODO: why are this fields public
-    public static final String SDD_ENDPOINT = "tcp://127.0.0.1:1337";
-
-    public static final String MUSIC_STREAMING_SERVER_ENDPOINT =
-            "tcp://127.0.0.1:6666";
-
-    public static final String URL_MAPPING_SERVER_ENDPOINT =
-            "tcp://127.0.0.1:12666";
 
     private List<Dispatcher> dispatchers = Collections
             .synchronizedList(new LinkedList<Dispatcher>());
@@ -63,10 +55,10 @@ public class DispatcherFactory {
     }
 
     private void registerAdapters(Dispatcher dispatcher) {
-        dispatcher.registerService(SddRequest.class, SDD_ENDPOINT);
+        dispatcher.registerService(SddRequest.class, DispatcherConfig.SDD_ENDPOINT);
         dispatcher.registerService(MusicStreamingRequest.class,
-                MUSIC_STREAMING_SERVER_ENDPOINT);
+                DispatcherConfig.MUSIC_STREAMING_SERVER_ENDPOINT);
         dispatcher.registerService(UrlMappingRequest.class,
-                URL_MAPPING_SERVER_ENDPOINT);
+                DispatcherConfig.URL_MAPPING_SERVER_ENDPOINT);
     }
 }
