@@ -39,7 +39,7 @@
       </ol>
       <div class="row">
         <div class="col-xs-8">
-          <h1>${entity_title}</h1>
+          <h1><a href="<@mtl.url view.urlPath/>">${view.entityName}</a></h1>
           <@printLikeButton uid=view.muidSerialized currentVote="up" upNum=view.numLikeUp downNum=view.numLikeDown/>
           <#nested>
         </div>
