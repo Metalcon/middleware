@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerator;
+import de.metalcon.middleware.domain.entity.RecordsTabEntry;
 import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.band.BandPage;
 import de.metalcon.middleware.sdd.record.RecordEntry;
-import de.metalcon.middleware.view.entity.tab.content.impl.RecordsTabEntry;
 
 @Component
 public class BandRecordsTabGenerator extends RecordsTabGenerator {
@@ -19,8 +19,8 @@ public class BandRecordsTabGenerator extends RecordsTabGenerator {
         BandPage bandPage = (BandPage) page;
         List<RecordsTabEntry> records = new LinkedList<RecordsTabEntry>();
         for (RecordEntry record : bandPage.getRecords()) {
-            RecordsTabEntry recordsTabEntry = new RecordsTabEntry();
-            recordsTabEntry.setMuid(record.getMuid());
+            RecordsTabEntry recordsTabEntry =
+                    new RecordsTabEntry(record.getMuid());
             recordsTabEntry.setName(record.getName());
             if (record.getReleaseYear() != null) {
                 recordsTabEntry.setReleaseYear(Integer.parseInt(record

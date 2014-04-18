@@ -1,4 +1,4 @@
-package de.metalcon.middleware.controller;
+package de.metalcon.middleware.domain.data;
 
 public class LikeData {
 
