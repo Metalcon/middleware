@@ -34,11 +34,13 @@ public class BandTracksTabGenerator extends TracksTabGenerator {
         BandPage bandPage = (BandPage) page;
         List<TrackEntry> tracks = new LinkedList<TrackEntry>();
 
-        int i = 0;
-        for (TrackEntry track : bandPage.getTracks()) {
-            tracks.add(track);
-            if (++i == 5) {
-                break;
+        if (bandPage.getTracks() != null) {
+            int i = 0;
+            for (TrackEntry track : bandPage.getTracks()) {
+                tracks.add(track);
+                if (++i == 5) {
+                    break;
+                }
             }
         }
 

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import de.metalcon.domain.Muid;
+import de.metalcon.domain.UidType;
+import de.metalcon.domain.helper.UidConverter;
 
 public class UserLoginService implements UserDetailsService {
 
@@ -27,13 +29,19 @@ public class UserLoginService implements UserDetailsService {
 
         switch (username) {
             case "user":
-                muid = Muid.createFromID(1337L);
+                muid =
+                        Muid.createFromID(UidConverter.calculateMuid(
+                                UidType.USER.getRawIdentifier(), (byte) 0,
+                                1337, (short) 0));
                 password =
                         "$2a$10$nIjbnkK63WSdVe3QCQXxsODBZnIIYYJqWuaNQAd8bXHWSIzPX57cO";
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 break;
             case "admin":
-                muid = Muid.createFromID(42L);
+                muid =
+                        Muid.createFromID(UidConverter.calculateMuid(
+                                UidType.USER.getRawIdentifier(), (byte) 0, 42,
+                                (short) 0));
                 password =
                         "$2a$10$zAaRJ8ZZJIRnPChdbGg1ceT9jgxo93UQUkbLzHQfODMYG4cBbLgEe";
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

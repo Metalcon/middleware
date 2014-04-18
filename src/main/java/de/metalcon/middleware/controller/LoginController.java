@@ -10,36 +10,7 @@ import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.view.LoginView;
 
 @Controller
-//@SessionAttributes("loginFormBean")
 public class LoginController extends BaseController {
-
-    //    @Autowired
-    //    private UserSessionFactory userSessionFactory;
-    //
-    //    // Invoked initially to create the "form" attribute
-    //    // Once created the "form" attribute comes from the HTTP session (see @SessionAttributes)
-    //    @ModelAttribute("loginFormBean")
-    //    public LoginFormBean createFormBean() {
-    //        return new LoginFormBean();
-    //    }
-    //
-    //    public final String handleLoginPost(
-    //            HttpServletRequest request,
-    //            HttpServletResponse response,
-    //            @Valid LoginFormBean loginFormBean) throws RedirectException,
-    //            NoSuchRequestHandlingMethodException {
-    //
-    //        /**
-    //         * assume for now the login is always successful
-    //         */
-    //        //FIXME: need to integrate proper login
-    //
-    //        UserSession user = userSessionFactory.getUserSession();
-    //        if (user.isLoggedIn() == false) {
-    //            user.setLoggedIn(true);
-    //        }
-    //        return "/";
-    //    }
 
     public LoginView mappingLogin(
             HttpServletRequest httpServletRequest,
