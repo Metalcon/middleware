@@ -40,11 +40,7 @@
       <div class="row">
         <div class="col-xs-8">
           <h1>${entity_title}</h1>
-<<<<<<< HEAD
           <@printLikeButton uid=view.muidSerialized currentVote="up" upNum=view.numLikeUp downNum=view.numLikeDown/>
-=======
-          <@printLikeButton uid=view.muidSerialized message="" upNum=view.numLikeUp downNum=view.numLikeDown/>
->>>>>>> f15162d943a625dfcf535f70359fd6b0b0d572e2
           <#nested>
         </div>
         <div id="tabs" class="col-xs-4">
