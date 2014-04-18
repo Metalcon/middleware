@@ -178,8 +178,11 @@ public class LikeController extends BaseController {
             }
         });
 
+        /*
+         * TODO: This should be called outside this method
+         */
         dispatcher.gatherResults();
+
         return likeData;
     }
-
 }
