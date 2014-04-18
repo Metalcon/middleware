@@ -31,6 +31,7 @@
     <script src="<@mtl.url "/resources/libs/bootstrap/"+html.BOOTSTRAP_VERSION+"/js/transition.js"/>"></script>
     
     <script src="<@mtl.url "/resources/js/main.js"/>"></script>
+    <script src="<@mtl.url "/resources/js/like.js"/>"></script>
   
     <!--TODO only in develop and has to be last -->
     <script src="<@mtl.url "/resources/libs/less/"+html.LESS_VERSION+"/less.min.js"/>" type="text/javascript"></script>

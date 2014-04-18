@@ -1,2 +1,2 @@
 <#include "/__like.ftl">
-<@printLikeButton uid=uidSerialized message=likemessage upNum=UP downNum=DOWN />
+<@printLikeButton uid=uidSerialized currentVote="up" upNum=UP downNum=DOWN />

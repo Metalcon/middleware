@@ -239,8 +239,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
         LikeData likeData = LikeController.getLikeCounts(dispatcher, muid);
-        view.setNumLikeUp(likeData.getUpVoteNum());
-        view.setNumLikeUp(likeData.getDownVoteNum());
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."
@@ -303,6 +301,9 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.getEntityTabController().handleGet(data, this);
 
         afterRequest(data);
+
+        view.setNumLikeUp(likeData.getUpVoteNum());
+        view.setNumLikeDown(likeData.getDownVoteNum());
 
         return view;
     }

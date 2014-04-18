@@ -82,10 +82,12 @@ public class LikeController extends BaseController {
         data.setHttpServletResponse(httpServletResponse);
         data.setUserLogin(userLogin);
 
-        Muid userID = data.getUserLogin().getMuid();
-        Muid entity = Muid.createFromID(serializedUid);
+        if (data.getUserLogin() != null) {
+            Muid userID = data.getUserLogin().getMuid();
+            Muid entity = Muid.createFromID(serializedUid);
 
-        requestAddLike(userID, entity, Vote.UP);
+            requestAddLike(userID, entity, Vote.UP);
+        }
 
         ModelMap model = new ModelMap();
         return new ModelAndView("likeResponse", model);
@@ -102,11 +104,12 @@ public class LikeController extends BaseController {
         data.setHttpServletResponse(httpServletResponse);
         data.setUserLogin(userLogin);
 
-        Muid userID = data.getUserLogin().getMuid();
-        Muid entity = Muid.createFromID(serializedUid);
+        if (data.getUserLogin() != null) {
+            Muid userID = data.getUserLogin().getMuid();
+            Muid entity = Muid.createFromID(serializedUid);
 
-        requestAddLike(userID, entity, Vote.NEUTRAL);
-
+            requestAddLike(userID, entity, Vote.NEUTRAL);
+        }
         ModelMap model = new ModelMap();
         return new ModelAndView("likeResponse", model);
     }
@@ -122,11 +125,12 @@ public class LikeController extends BaseController {
         data.setHttpServletResponse(httpServletResponse);
         data.setUserLogin(userLogin);
 
-        Muid userID = data.getUserLogin().getMuid();
-        Muid entity = Muid.createFromID(serializedUid);
+        if (data.getUserLogin() != null) {
+            Muid userID = data.getUserLogin().getMuid();
+            Muid entity = Muid.createFromID(serializedUid);
 
-        requestAddLike(userID, entity, Vote.DOWN);
-
+            requestAddLike(userID, entity, Vote.DOWN);
+        }
         ModelMap model = new ModelMap();
         return new ModelAndView("likeResponse", model);
     }
@@ -140,7 +144,7 @@ public class LikeController extends BaseController {
          * RequestQueuedResponse
          */
         dispatcherFactory.dispatcher().execute(
-                new LikeServerAddRelationRequest(userID, userID, vote), null);
+                new LikeServerAddRelationRequest(userID, targetID, vote), null);
     }
 
     public static LikeData getLikeCounts(
@@ -173,6 +177,8 @@ public class LikeController extends BaseController {
                 likeData.setDownVoteNum(num);
             }
         });
+
+        dispatcher.gatherResults();
         return likeData;
     }
 
