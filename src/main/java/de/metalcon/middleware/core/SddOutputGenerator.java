@@ -60,17 +60,24 @@ public class SddOutputGenerator {
                 field.set(output, root.get(attr).textValue());
             } else if (type.isArray()) {
                 Class<?> componentType = type.getComponentType();
-                ArrayNode arrayNode = (ArrayNode) root.get(attr);
-                SddOutput[] array =
-                        (SddOutput[]) Array.newInstance(componentType,
-                                arrayNode.size());
-                int i = 0;
-                for (JsonNode item : arrayNode) {
-                    array[i] = loadClass(item, componentType);
-                    ++i;
+
+                JsonNode node = root.get(attr);
+                if (node.isNull()) {
+                    field.set(output, null);
+                } else {
+                    ArrayNode arrayNode = (ArrayNode) root.get(attr);
+                    SddOutput[] array =
+                            (SddOutput[]) Array.newInstance(componentType,
+                                    arrayNode.size());
+                    int i = 0;
+                    for (JsonNode item : arrayNode) {
+                        array[i] = loadClass(item, componentType);
+                        ++i;
+                    }
+
+                    field.set(output, array);
                 }
 
-                field.set(output, array);
             } else {
                 field.set(output, loadClass(root.get(attr), type));
             }

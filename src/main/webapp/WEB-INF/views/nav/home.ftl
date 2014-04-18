@@ -15,7 +15,7 @@
       <li>
         <strong>Band</strong>
         <ul>
-          <li><a href="<@mtl.url "/music/Ensiferum"/>"><code>/music/Ensiferum</code></a></li>
+          <li><a href="<@mtl.url "/music/Alsion"/>"><code>/music/Alsion</code></a></li>
         </ul>
       </li>
       <li>

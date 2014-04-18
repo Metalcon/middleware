@@ -34,11 +34,13 @@ public class BandRecordsTabGenerator extends RecordsTabGenerator {
         BandPage bandPage = (BandPage) page;
         List<RecordEntry> records = new LinkedList<RecordEntry>();
 
-        int i = 0;
-        for (RecordEntry record : bandPage.getRecords()) {
-            records.add(record);
-            if (++i == 5) {
-                break;
+        if (bandPage.getRecords() != null) {
+            int i = 0;
+            for (RecordEntry record : bandPage.getRecords()) {
+                records.add(record);
+                if (++i == 5) {
+                    break;
+                }
             }
         }
 
