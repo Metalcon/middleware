@@ -60,7 +60,9 @@ import de.metalcon.middleware.view.entity.tab.preview.EntityTabPreview;
 import de.metalcon.sdd.api.requests.SddReadRequest;
 import de.metalcon.sdd.api.responses.SddResponse;
 import de.metalcon.sdd.api.responses.SddSucessfulReadResponse;
+import de.metalcon.urlmappingserver.api.requests.ResolveMuidRequest;
 import de.metalcon.urlmappingserver.api.requests.ResolveUrlRequest;
+import de.metalcon.urlmappingserver.api.responses.MuidResolvedResponse;
 import de.metalcon.urlmappingserver.api.responses.UrlResolvedResponse;
 
 /**
@@ -224,7 +226,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
                     data.getHttpServletRequest());
         }
 
-        EntityViewType view = createView();
+        final EntityViewType view = createView();
         data.setView(view);
 
         beforeRequest(data);
@@ -232,6 +234,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.setEntityTabController(getEntityTabController(data
                 .getEntityTabType()));
 
+        // ATTENTION BLOCKING CALL (100 ms)
         Muid muid = getMuidOr404(data);
         data.setMuid(muid);
         view.setMuid(muid);
@@ -239,6 +242,18 @@ public abstract class EntityController<EntityViewType extends EntityView >
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
         LikeData likeData = LikeController.getLikeCounts(dispatcher, muid);
+
+        dispatcher.execute(new ResolveMuidRequest(muid),
+                new Callback<MuidResolvedResponse>() {
+
+                    @Override
+                    public void onSuccess(MuidResolvedResponse reply) {
+
+                        view.setUrlPath("/" + getPathPrefix(getEntityType())
+                                + "/" + reply.getUrl());
+                    }
+
+                });
 
         String pjaxrNamespace =
                 METALCON_NAMESPACE + "." + getEntityType().toString() + "."
@@ -301,11 +316,34 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.getEntityTabController().handleGet(data, this);
 
         afterRequest(data);
+        view.setEntityName(data.getPage().getName());
 
         view.setNumLikeUp(likeData.getUpVoteNum());
         view.setNumLikeDown(likeData.getDownVoteNum());
 
         return view;
+    }
+
+    /**
+     * reverse mapping of routes.conf. every entity type is resolved to a prefix in order to be able to build a url
+     * @param entityType
+     * @return
+     */
+    protected String getPathPrefix(EntityType entityType) {
+        //@formatter:off
+        if (entityType.equals(EntityType.BAND))         return "music";
+        if (entityType.equals(EntityType.RECORD))       return "music";
+        if (entityType.equals(EntityType.TRACK))        return "music";
+        if (entityType.equals(EntityType.CITY))         return "city";
+        if (entityType.equals(EntityType.VENUE))         return "venue";
+        if (entityType.equals(EntityType.EVENT))         return "event";
+        if (entityType.equals(EntityType.TOUR))         return "tour";
+        if (entityType.equals(EntityType.GENRE))         return "genre";
+        if (entityType.equals(EntityType.INSTRUMENT))         return "instrument";
+        if (entityType.equals(EntityType.USER))         return "user";
+        //@formatter:on
+        
+        return null;
     }
 
     private EntityTabType getEntityTabTypeFromString(String tabString) {

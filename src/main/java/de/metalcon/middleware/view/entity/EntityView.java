@@ -22,6 +22,10 @@ public abstract class EntityView extends BaseView {
      */
     private Muid muid;
 
+    private String urlPath;
+
+    private String entityName;
+
     /**
      * tab content (inner content)
      */
@@ -97,6 +101,22 @@ public abstract class EntityView extends BaseView {
     public final void setEntityTabPreviews(
             Map<EntityTabType, EntityTabPreview> entityTabPreviews) {
         this.entityTabPreviews = entityTabPreviews;
+    }
+
+    public String getUrlPath() {
+        return urlPath;
+    }
+
+    public void setUrlPath(String urlPath) {
+        this.urlPath = urlPath;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
 }

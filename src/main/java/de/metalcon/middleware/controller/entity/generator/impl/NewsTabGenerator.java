@@ -26,7 +26,7 @@ public abstract class NewsTabGenerator extends
     public NewsTabContent generateTabContent(final EntityController.Data data) {
         Muid muid = data.getMuid();
         NewsTabContent tabContent = super.generateTabContent(data);
-        tabContent.setNews(newsServer.getNews(muid, muid, true));
+        //tabContent.setNews(newsServer.getNews(muid, muid, true));
         return tabContent;
     }
 }

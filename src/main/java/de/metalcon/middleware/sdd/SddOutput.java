@@ -6,8 +6,14 @@ public abstract class SddOutput {
 
     private Muid muid;
 
+    private String name;
+
     public Muid getMuid() {
         return muid;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
