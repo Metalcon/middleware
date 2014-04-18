@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.BaseController;
 import de.metalcon.middleware.controller.LikeController;
-import de.metalcon.middleware.controller.LikeData;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
@@ -49,6 +48,7 @@ import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.core.SddOutputGenerator;
 import de.metalcon.middleware.core.UserLogin;
+import de.metalcon.middleware.domain.data.LikeData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.sdd.SddOutput;

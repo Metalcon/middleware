@@ -25,6 +25,7 @@ import de.metalcon.like.api.requests.LikeServerGetLikesRequest;
 import de.metalcon.like.api.responses.LikeServerMuidListResponse;
 import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.UserLogin;
+import de.metalcon.middleware.domain.data.LikeData;
 
 @Controller
 public class LikeController extends BaseController {

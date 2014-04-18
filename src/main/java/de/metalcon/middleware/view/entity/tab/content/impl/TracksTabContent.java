@@ -2,6 +2,7 @@ package de.metalcon.middleware.view.entity.tab.content.impl;
 
 import java.util.List;
 
+import de.metalcon.middleware.domain.entity.TracksTabEntry;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.EntityTabContent;
 
