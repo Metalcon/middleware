@@ -317,7 +317,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
 
         afterRequest(data);
         view.setEntityName(data.getPage().getName());
-
         view.setNumLikeUp(likeData.getUpVoteNum());
         view.setNumLikeDown(likeData.getDownVoteNum());
 
@@ -325,24 +324,47 @@ public abstract class EntityController<EntityViewType extends EntityView >
     }
 
     /**
-     * reverse mapping of routes.conf. every entity type is resolved to a prefix in order to be able to build a url
+     * reverse mapping of routes.conf. every entity type is resolved to a prefix
+     * in order to be able to build a url
+     * 
      * @param entityType
      * @return
      */
     protected String getPathPrefix(EntityType entityType) {
         //@formatter:off
-        if (entityType.equals(EntityType.BAND))         return "music";
-        if (entityType.equals(EntityType.RECORD))       return "music";
-        if (entityType.equals(EntityType.TRACK))        return "music";
-        if (entityType.equals(EntityType.CITY))         return "city";
-        if (entityType.equals(EntityType.VENUE))         return "venue";
-        if (entityType.equals(EntityType.EVENT))         return "event";
-        if (entityType.equals(EntityType.TOUR))         return "tour";
-        if (entityType.equals(EntityType.GENRE))         return "genre";
-        if (entityType.equals(EntityType.INSTRUMENT))         return "instrument";
-        if (entityType.equals(EntityType.USER))         return "user";
-        //@formatter:on
-        
+        if (entityType.equals(EntityType.BAND)) {
+            return "music";
+        }
+        if (entityType.equals(EntityType.RECORD)) {
+            return "music";
+        }
+        if (entityType.equals(EntityType.TRACK)) {
+            return "music";
+        }
+        if (entityType.equals(EntityType.CITY)) {
+            return "city";
+        }
+        if (entityType.equals(EntityType.VENUE)) {
+            return "venue";
+        }
+        if (entityType.equals(EntityType.EVENT)) {
+            return "event";
+        }
+        if (entityType.equals(EntityType.TOUR)) {
+            return "tour";
+        }
+        if (entityType.equals(EntityType.GENRE)) {
+            return "genre";
+        }
+        if (entityType.equals(EntityType.INSTRUMENT)) {
+            return "instrument";
+        }
+        if (entityType.equals(EntityType.USER))
+         {
+            return "user";
+            //@formatter:on
+        }
+
         return null;
     }
 

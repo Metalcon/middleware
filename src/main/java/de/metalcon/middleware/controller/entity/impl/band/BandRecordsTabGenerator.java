@@ -22,8 +22,12 @@ public class BandRecordsTabGenerator extends RecordsTabGenerator {
             RecordsTabEntry recordsTabEntry = new RecordsTabEntry();
             recordsTabEntry.setMuid(record.getMuid());
             recordsTabEntry.setName(record.getName());
-            recordsTabEntry.setReleaseYear(Integer.parseInt(record
-                    .getReleaseYear()));
+            if (record.getReleaseYear() != null) {
+                recordsTabEntry.setReleaseYear(Integer.parseInt(record
+                        .getReleaseYear()));
+            } else {
+                recordsTabEntry.setReleaseYear(666);
+            }
             records.add(recordsTabEntry);
         }
         return records;
