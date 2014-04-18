@@ -18,29 +18,33 @@ public class RecordTracksTabGenerator extends TracksTabGenerator {
     protected List<TracksTabEntry> getTracksContent(SddOutput page) {
         RecordPage recordPage = (RecordPage) page;
         List<TracksTabEntry> tracks = new LinkedList<TracksTabEntry>();
-        for (TrackEntry track : recordPage.getTracks()) {
-            TracksTabEntry tracksTabEntry = new TracksTabEntry(track.getMuid());
-            tracksTabEntry.setName(track.getName());
-            tracksTabEntry.setTrackNumber(Integer.parseInt(track
-                    .getTrackNumber()));
-            tracks.add(tracksTabEntry);
+        if (recordPage.getTracks() != null) {
+            for (TrackEntry track : recordPage.getTracks()) {
+                TracksTabEntry tracksTabEntry =
+                        new TracksTabEntry(track.getMuid());
+                tracksTabEntry.setName(track.getName());
+                tracksTabEntry.setTrackNumber(Integer.parseInt(track
+                        .getTrackNumber()));
+                tracks.add(tracksTabEntry);
+            }
         }
         return tracks;
     }
 
     @Override
     protected List<TrackEntry> getTracksPreview(SddOutput page) {
-        RecordPage RecordPage = (RecordPage) page;
+        RecordPage recordPage = (RecordPage) page;
         List<TrackEntry> tracks = new LinkedList<TrackEntry>();
 
         int i = 0;
-        for (TrackEntry track : RecordPage.getTracks()) {
-            tracks.add(track);
-            if (++i == 5) {
-                break;
+        if (recordPage.getTracks() != null) {
+            for (TrackEntry track : recordPage.getTracks()) {
+                tracks.add(track);
+                if (++i == 5) {
+                    break;
+                }
             }
         }
-
         return tracks;
     }
 
