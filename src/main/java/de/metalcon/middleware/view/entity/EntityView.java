@@ -3,7 +3,7 @@ package de.metalcon.middleware.view.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.metalcon.domain.Muid;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.BaseView;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
@@ -17,14 +17,7 @@ public abstract class EntityView extends BaseView {
 
     private final EntityType entityType;
 
-    /**
-     * identifier of the entity displayed
-     */
-    private Muid muid;
-
-    private String urlPath;
-
-    private String entityName;
+    private EntityData entityData;
 
     /**
      * tab content (inner content)
@@ -40,7 +33,6 @@ public abstract class EntityView extends BaseView {
             EntityType entityType) {
         super("entity");
         this.entityType = entityType;
-        muid = null;
         entityTabContent = null;
         entityTabPreviews = null;
     }
@@ -50,24 +42,6 @@ public abstract class EntityView extends BaseView {
      */
     public EntityType getEntityType() {
         return entityType;
-    }
-
-    /**
-     * @return entity identifier
-     */
-    public final String getMuidSerialized() {
-        return muid.toString();
-    }
-
-    /**
-     * @return entity identifier
-     */
-    public final Muid getMuid() {
-        return muid;
-    }
-
-    public final void setMuid(Muid muid) {
-        this.muid = muid;
     }
 
     /**
@@ -103,20 +77,12 @@ public abstract class EntityView extends BaseView {
         this.entityTabPreviews = entityTabPreviews;
     }
 
-    public String getUrlPath() {
-        return urlPath;
+    public EntityData getEntityData() {
+        return entityData;
     }
 
-    public void setUrlPath(String urlPath) {
-        this.urlPath = urlPath;
-    }
-
-    public String getEntityName() {
-        return entityName;
-    }
-
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
+    public void setEntityData(final EntityData entityData) {
+        this.entityData = entityData;
     }
 
 }

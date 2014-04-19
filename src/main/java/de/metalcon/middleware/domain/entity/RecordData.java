@@ -2,11 +2,11 @@ package de.metalcon.middleware.domain.entity;
 
 import de.metalcon.domain.Muid;
 
-public class RecordsTabEntry extends Identity {
+public class RecordData extends EntityData {
 
     private int releaseYear;
 
-    public RecordsTabEntry(
+    public RecordData(
             Muid muid) {
         super(muid);
     }

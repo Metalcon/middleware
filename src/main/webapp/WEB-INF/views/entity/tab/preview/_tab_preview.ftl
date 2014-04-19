@@ -6,6 +6,6 @@
    # Will include the corrrect tabPreview subtemplate.
    # For example, if tabPreviewName is "ABOUT_TAB" this will include "impl/about_tab.ftl"
    #-->
-  <a href="<@mtl.url view.urlPath +"/"+ tabPreview.entityTabType?lower_case/>"><#include "impl/" + tabPreview.entityTabType?lower_case + ".ftl"></a>
+  <a href="<@mtl.url view.entityData.url +"/"+ tabPreview.entityTabType?lower_case/>"><#include "impl/" + tabPreview.entityTabType?lower_case + ".ftl"></a>
   <hr/>
 </li>

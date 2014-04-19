@@ -12,11 +12,18 @@ import de.metalcon.middleware.controller.entity.generator.impl.PhotosTabGenerato
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.VenuesTabGenerator;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.CityView;
 
 @Controller
 public class CityController extends EntityController<CityView> {
+
+    @Override
+    protected EntityData createEntityDataObject(Data data) {
+        //        CityPage bp = (CityPage) data.getPage();
+        return new EntityData(data.getMuid());
+    }
 
     @Autowired
     private CityAboutTabGenerator aboutTabGenerator;

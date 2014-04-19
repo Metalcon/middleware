@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
-import de.metalcon.middleware.domain.entity.TracksTabEntry;
+import de.metalcon.middleware.domain.entity.TrackData;
 import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.record.RecordPage;
 import de.metalcon.middleware.sdd.track.TrackEntry;
@@ -15,13 +15,13 @@ import de.metalcon.middleware.sdd.track.TrackEntry;
 public class RecordTracksTabGenerator extends TracksTabGenerator {
 
     @Override
-    protected List<TracksTabEntry> getTracksContent(SddOutput page) {
+    protected List<TrackData> getTracksContent(SddOutput page) {
         RecordPage recordPage = (RecordPage) page;
-        List<TracksTabEntry> tracks = new LinkedList<TracksTabEntry>();
+        List<TrackData> tracks = new LinkedList<TrackData>();
         if (recordPage.getTracks() != null) {
             for (TrackEntry track : recordPage.getTracks()) {
-                TracksTabEntry tracksTabEntry =
-                        new TracksTabEntry(track.getMuid());
+                TrackData tracksTabEntry =
+                        new TrackData(track.getMuid());
                 tracksTabEntry.setName(track.getName());
                 tracksTabEntry.setTrackNumber(Integer.parseInt(track
                         .getTrackNumber()));

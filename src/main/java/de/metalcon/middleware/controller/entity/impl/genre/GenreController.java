@@ -13,11 +13,18 @@ import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerat
 import de.metalcon.middleware.controller.entity.generator.impl.ReviewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.GenreView;
 
 @Controller
 public class GenreController extends EntityController<GenreView> {
+
+    @Override
+    protected EntityData createEntityDataObject(Data data) {
+        EntityData rd = new EntityData(data.getMuid());
+        return rd;
+    }
 
     @Autowired
     private GenreAboutTabGenerator aboutTabGenerator;

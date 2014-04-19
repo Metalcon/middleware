@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
-import de.metalcon.middleware.domain.entity.TracksTabEntry;
+import de.metalcon.middleware.domain.entity.TrackData;
 import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.track.TrackEntry;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
@@ -36,8 +36,8 @@ public abstract class TracksTabGenerator extends
 
             @Override
             public void run() {
-                List<TracksTabEntry> tracks = getTracksContent(data.getPage());
-                for (final TracksTabEntry track : tracks) {
+                List<TrackData> tracks = getTracksContent(data.getPage());
+                for (final TrackData track : tracks) {
                     dispatcher.execute(new ResolveMuidRequest(track.getMuid()),
                             new Callback<MuidResolvedResponse>() {
 
@@ -75,7 +75,7 @@ public abstract class TracksTabGenerator extends
         return tabPreview;
     }
 
-    protected abstract List<TracksTabEntry> getTracksContent(SddOutput page);
+    protected abstract List<TrackData> getTracksContent(SddOutput page);
 
     protected abstract List<TrackEntry> getTracksPreview(SddOutput page);
 }

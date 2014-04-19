@@ -12,6 +12,7 @@ import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTa
 import de.metalcon.middleware.controller.entity.generator.impl.RecordsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.BandView;
 
@@ -20,6 +21,11 @@ import de.metalcon.middleware.view.entity.impl.BandView;
  */
 @Controller
 public class BandController extends EntityController<BandView> {
+
+    @Override
+    protected EntityData createEntityDataObject(Data data) {
+        return new EntityData(data.getMuid());
+    }
 
     @Autowired
     private BandAboutTabGenerator aboutTabGenerator;

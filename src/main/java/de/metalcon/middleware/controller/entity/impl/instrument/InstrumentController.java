@@ -8,11 +8,18 @@ import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator
 import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.InstrumentView;
 
 @Controller
 public class InstrumentController extends EntityController<InstrumentView> {
+
+    @Override
+    protected EntityData createEntityDataObject(Data data) {
+        EntityData rd = new EntityData(data.getMuid());
+        return rd;
+    }
 
     @Autowired
     private InstrumentAboutTabGenerator aboutTabGenerator;

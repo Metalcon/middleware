@@ -9,7 +9,7 @@ import de.metalcon.middleware.domain.data.LikeData;
  * 
  * @see EntityType
  */
-public abstract class Identity {
+public class EntityData {
 
     /**
      * object identifier
@@ -37,7 +37,7 @@ public abstract class Identity {
      * @param muid
      *            object identifier
      */
-    public Identity(
+    public EntityData(
             Muid muid) {
         setMuid(muid);
     }
@@ -47,6 +47,13 @@ public abstract class Identity {
      */
     public Muid getMuid() {
         return muid;
+    }
+
+    /**
+     * @return object identifier
+     */
+    public final String getMuidSerialized() {
+        return muid.toString();
     }
 
     /**

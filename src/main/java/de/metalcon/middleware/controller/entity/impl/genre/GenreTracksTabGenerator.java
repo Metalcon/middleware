@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
-import de.metalcon.middleware.domain.entity.TracksTabEntry;
+import de.metalcon.middleware.domain.entity.TrackData;
 import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.track.TrackEntry;
 
@@ -13,7 +13,7 @@ import de.metalcon.middleware.sdd.track.TrackEntry;
 public class GenreTracksTabGenerator extends TracksTabGenerator {
 
     @Override
-    protected List<TracksTabEntry> getTracksContent(SddOutput page) {
+    protected List<TrackData> getTracksContent(SddOutput page) {
         // TODO Auto-generated method stub
         return null;
     }

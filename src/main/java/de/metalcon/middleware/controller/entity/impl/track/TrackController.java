@@ -8,11 +8,20 @@ import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator
 import de.metalcon.middleware.controller.entity.generator.impl.NewsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.RecommendationsTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.UsersTabGenerator;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.view.entity.impl.TrackView;
 
 @Controller
 public class TrackController extends EntityController<TrackView> {
+
+    @Override
+    protected EntityData createEntityDataObject(Data data) {
+        //        EventPage bp = (EventPage) data.getPage();
+
+        EntityData rd = new EntityData(data.getMuid());
+        return rd;
+    }
 
     @Autowired
     private TrackAboutTabGenerator aboutTabGenerator;

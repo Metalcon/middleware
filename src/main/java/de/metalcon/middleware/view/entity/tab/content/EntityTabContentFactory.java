@@ -26,7 +26,7 @@ public class EntityTabContentFactory {
             case ABOUT:           return createAboutTabContent();
             case BANDS:           return createBandsTabContent();
             case EVENTS:          return createEventsTabContent();
-            case NEWS:        return createNewsTabContent();
+            case NEWS:            return createNewsTabContent();
             case PHOTOS:          return createPhotosTabContent();
             case RECOMMENDATIONS: return createRecomendationsTabContent();
             case RECORDS:         return createRecordsTabContent();

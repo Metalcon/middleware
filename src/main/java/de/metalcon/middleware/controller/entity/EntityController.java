@@ -49,6 +49,7 @@ import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.core.SddOutputGenerator;
 import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.domain.data.LikeData;
+import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
 import de.metalcon.middleware.sdd.SddOutput;
@@ -136,7 +137,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
         public void setPageCallback(Callback<SddResponse> pageCallback) {
             this.pageCallback = pageCallback;
         }
-
     }
 
     @Autowired
@@ -175,6 +175,8 @@ public abstract class EntityController<EntityViewType extends EntityView >
                 (EntityViewType) entityViewFactory.createView(entityViewClass);
         return view;
     }
+
+    protected abstract EntityData createEntityDataObject(Data data);
 
     public final EntityViewType mappingEmptyTabGet(
             HttpServletRequest httpServletRequest,
@@ -237,7 +239,14 @@ public abstract class EntityController<EntityViewType extends EntityView >
         // ATTENTION BLOCKING CALL (100 ms)
         Muid muid = getMuidOr404(data);
         data.setMuid(muid);
-        view.setMuid(muid);
+
+        /*
+         * The Data transfer object storing all data corresponding to the
+         * current entity shown
+         */
+        final EntityData entityData = new EntityData(muid);
+
+        view.setEntityData(createEntityDataObject(data));
 
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
 
@@ -249,7 +258,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
                     @Override
                     public void onSuccess(MuidResolvedResponse reply) {
 
-                        view.setUrlPath("/" + getPathPrefix(getEntityType())
+                        entityData.setUrl("/" + getPathPrefix(getEntityType())
                                 + "/" + reply.getUrl());
                     }
 
@@ -316,9 +325,11 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.getEntityTabController().handleGet(data, this);
 
         afterRequest(data);
-        view.setEntityName(data.getPage().getName());
         view.setNumLikeUp(likeData.getUpVoteNum());
         view.setNumLikeDown(likeData.getDownVoteNum());
+        entityData.setName(data.getPage().getName());
+
+        view.setEntityData(entityData);
 
         return view;
     }
