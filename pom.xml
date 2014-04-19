@@ -139,6 +139,11 @@
    <artifactId>like-server-api</artifactId>
    <version>${metalcon.likeServer.api.version}</version>
   </dependency>
+  <dependency>
+   <groupId>de.metalcon</groupId>
+   <artifactId>recommendation-server</artifactId>
+   <version>0.0.1</version>
+  </dependency>
 
   <!-- Spring -->
   <dependency>

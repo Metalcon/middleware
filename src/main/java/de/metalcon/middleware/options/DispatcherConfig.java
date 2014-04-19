@@ -22,4 +22,6 @@ public class DispatcherConfig extends de.metalcon.dbhelper.Options {
     public static String URL_MAPPING_SERVER_ENDPOINT;
 
     public static String LIKE_SERVER_ENDPOINT;
+
+    public static String RECOMMENDATION_SERVER_ENDPOINT;
 }
