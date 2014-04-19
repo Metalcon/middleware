@@ -103,7 +103,7 @@ public abstract class BaseController {
     protected ViewFactory viewFactory;
 
     @Autowired
-    private UserSession.Factory userSessionFactory;
+    protected UserSession.Factory userSessionFactory;
 
     protected void beforeRequest(Data data) {
         BaseView view = data.getView();

@@ -1,12 +1,9 @@
-<#macro printLikeButton uid currentVote upNum downNum>
-	Current vote:${currentVote}
+<#macro printLikeButton uid likeData>
+	Current vote:${likeData.currentVote}
     <#assign divID = "like_${uid}"> 
     <div id=${divID}>
-        <a id="${divID}_up" href="UP">up</a>(<span id="${divID}_upNum">${upNum}</span>)
-        <a id="${divID}_down" href="DOWN">down</a>(<span id="${divID}_downNum">${downNum}</span>)
-        <#if likemessage??>
-    		${likemessage}
-    	</#if>
+        <a id="${divID}_up" href="UP">up</a>(<span id="${divID}_upNum">${likeData.upVoteNum}</span>)
+        <a id="${divID}_down" href="DOWN">down</a>(<span id="${divID}_downNum">${likeData.downVoteNum}</span>)
     </div>
     
     <script type="text/javascript">
@@ -95,7 +92,7 @@
 	    }
     
 	    $(document).ready(function() {
-            installLikeButtons("${divID}", "${uid}", "${currentVote}", ${upNum}, ${downNum});
+            installLikeButtons("${divID}", "${uid}", "${likeData.currentVote}", ${likeData.upVoteNum}, ${likeData.downVoteNum});
 	    });
     </script>
 </#macro>

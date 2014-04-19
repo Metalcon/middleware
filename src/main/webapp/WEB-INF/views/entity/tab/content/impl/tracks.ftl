@@ -8,7 +8,7 @@
   <ul>
     <#list tabContent.tracks as track>
       <li><a href="<@mtl.url "/music/" + track.url/>">${track.trackNumber} ${track.name}</a>
-        <@printLikeButton uid=track.muidSerialized currentVote=track.likeData.currentVote upNum=track.likeData.upVoteNum downNum=track.likeData.downVoteNum/>
+        <@printLikeButton uid=track.muidSerialized likeData=track.likeData/>
       </li>
     </#list>
   </ul>

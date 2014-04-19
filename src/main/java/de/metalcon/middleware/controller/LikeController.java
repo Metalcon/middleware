@@ -15,10 +15,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.metalcon.domain.Muid;
 import de.metalcon.domain.Uid;
+import de.metalcon.exceptions.ServiceOverloadedException;
 import de.metalcon.like.api.Vote;
 import de.metalcon.like.api.requests.LikeServerAddRelationRequest;
 import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.UserLogin;
+import de.metalcon.middleware.core.UserSession;
 
 @Controller
 public class LikeController extends BaseController {
@@ -49,20 +51,8 @@ public class LikeController extends BaseController {
             final HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal final UserLogin userLogin,
             @PathVariable("uid") final String serializedUid) {
-        final Data data = new Data();
-        data.setHttpServletRequest(httpServletRequest);
-        data.setHttpServletResponse(httpServletResponse);
-        data.setUserLogin(userLogin);
 
-        beforeRequest(data);
-
-        // Uid
         ModelMap model = new ModelMap();
-        model.addAttribute("likemessage", serializedUid);
-        model.addAttribute("uidSerialized", serializedUid);
-
-        afterRequest(data);
-
         return new ModelAndView("like", model);
     }
 
@@ -71,17 +61,18 @@ public class LikeController extends BaseController {
             final HttpServletResponse httpServletResponse,
             @AuthenticationPrincipal final UserLogin userLogin,
             @PathVariable("uid") final String serializedUid) {
-        final Data data = new Data();
-        data.setHttpServletRequest(httpServletRequest);
-        data.setHttpServletResponse(httpServletResponse);
-        data.setUserLogin(userLogin);
+        UserSession userSession = userSessionFactory.userSession();
 
-        if (data.getUserLogin() != null) {
-            Muid userID = data.getUserLogin().getMuid();
-            Muid entity = Muid.createFromID(serializedUid);
-
-            requestAddLike(userID, entity, Vote.UP);
+        try {
+            userSession.setMuid(userLogin);
+        } catch (ServiceOverloadedException e) {
+            // TODO: Show user that the Server is overloaded
         }
+
+        Muid userID = userSession.getMuid();
+        Muid entity = Muid.createFromID(serializedUid);
+
+        requestAddLike(userID, entity, Vote.UP);
 
         ModelMap model = new ModelMap();
         return new ModelAndView("likeResponse", model);
@@ -93,17 +84,19 @@ public class LikeController extends BaseController {
             @AuthenticationPrincipal final UserLogin userLogin,
             @PathVariable("uid") final String serializedUid) {
 
-        final Data data = new Data();
-        data.setHttpServletRequest(httpServletRequest);
-        data.setHttpServletResponse(httpServletResponse);
-        data.setUserLogin(userLogin);
+        UserSession userSession = userSessionFactory.userSession();
 
-        if (data.getUserLogin() != null) {
-            Muid userID = data.getUserLogin().getMuid();
-            Muid entity = Muid.createFromID(serializedUid);
-
-            requestAddLike(userID, entity, Vote.NEUTRAL);
+        try {
+            userSession.setMuid(userLogin);
+        } catch (ServiceOverloadedException e) {
+            // TODO: Show user that the Server is overloaded
         }
+
+        Muid userID = userSession.getMuid();
+        Muid entity = Muid.createFromID(serializedUid);
+
+        requestAddLike(userID, entity, Vote.NEUTRAL);
+
         ModelMap model = new ModelMap();
         return new ModelAndView("likeResponse", model);
     }
@@ -114,17 +107,19 @@ public class LikeController extends BaseController {
             @AuthenticationPrincipal final UserLogin userLogin,
             @PathVariable("uid") final String serializedUid) {
 
-        final Data data = new Data();
-        data.setHttpServletRequest(httpServletRequest);
-        data.setHttpServletResponse(httpServletResponse);
-        data.setUserLogin(userLogin);
+        UserSession userSession = userSessionFactory.userSession();
 
-        if (data.getUserLogin() != null) {
-            Muid userID = data.getUserLogin().getMuid();
-            Muid entity = Muid.createFromID(serializedUid);
-
-            requestAddLike(userID, entity, Vote.DOWN);
+        try {
+            userSession.setMuid(userLogin);
+        } catch (ServiceOverloadedException e) {
+            // TODO: Show user that the Server is overloaded
         }
+
+        Muid userID = userSession.getMuid();
+        Muid entity = Muid.createFromID(serializedUid);
+
+        requestAddLike(userID, entity, Vote.DOWN);
+
         ModelMap model = new ModelMap();
         return new ModelAndView("likeResponse", model);
     }
