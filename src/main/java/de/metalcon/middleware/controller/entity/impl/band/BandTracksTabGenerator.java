@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import de.metalcon.middleware.controller.entity.EntityController.Data;
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
 import de.metalcon.middleware.domain.entity.TrackData;
-import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.band.BandPage;
 import de.metalcon.middleware.sdd.track.TrackEntry;
 
@@ -15,11 +15,13 @@ import de.metalcon.middleware.sdd.track.TrackEntry;
 public class BandTracksTabGenerator extends TracksTabGenerator {
 
     @Override
-    protected List<TrackData> getTracksContent(SddOutput page) {
-        BandPage bandPage = (BandPage) page;
+    protected List<TrackData> getTracksContent(final Data data) {
+        BandPage bandPage = (BandPage) data.getPage();
         List<TrackData> tracks = new LinkedList<TrackData>();
         for (TrackEntry track : bandPage.getTracks()) {
-            TrackData tracksTabEntry = new TrackData(track.getMuid());
+            TrackData tracksTabEntry =
+                    new TrackData(data.getDispatcher(), data.getUserSession()
+                            .getMuid(), track.getMuid());
             tracksTabEntry.setName(track.getName());
             tracksTabEntry.setTrackNumber(Integer.parseInt(track
                     .getTrackNumber()));
@@ -29,8 +31,8 @@ public class BandTracksTabGenerator extends TracksTabGenerator {
     }
 
     @Override
-    protected List<TrackEntry> getTracksPreview(SddOutput page) {
-        BandPage bandPage = (BandPage) page;
+    protected List<TrackEntry> getTracksPreview(final Data data) {
+        BandPage bandPage = (BandPage) data.getPage();
         List<TrackEntry> tracks = new LinkedList<TrackEntry>();
 
         if (bandPage.getTracks() != null) {

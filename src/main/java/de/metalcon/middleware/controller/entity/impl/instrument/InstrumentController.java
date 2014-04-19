@@ -17,7 +17,9 @@ public class InstrumentController extends EntityController<InstrumentView> {
 
     @Override
     protected EntityData createEntityDataObject(Data data) {
-        EntityData rd = new EntityData(data.getMuid());
+        EntityData rd =
+                new EntityData(data.getDispatcher(), data.getUserSession()
+                        .getMuid(), data.getMuid());
         return rd;
     }
 

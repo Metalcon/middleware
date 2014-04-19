@@ -9,6 +9,7 @@ import net.hh.request_dispatcher.Dispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.metalcon.exceptions.ServiceOverloadedException;
 import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.UserLogin;
 import de.metalcon.middleware.core.UserSession;
@@ -30,6 +31,8 @@ public abstract class BaseController {
         private UserSession userSession;
 
         private UserLogin userLogin;
+
+        private Dispatcher dispatcher;
 
         public HttpServletRequest getHttpServletRequest() {
             return httpServletRequest;
@@ -81,6 +84,14 @@ public abstract class BaseController {
             this.userLogin = userLogin;
         }
 
+        public Dispatcher getDispatcher() {
+            return dispatcher;
+        }
+
+        public void setDispatcher(Dispatcher dispatcher) {
+            this.dispatcher = dispatcher;
+        }
+
     }
 
     protected static String METALCON_NAMESPACE = "metalcon";
@@ -95,11 +106,18 @@ public abstract class BaseController {
     private UserSession.Factory userSessionFactory;
 
     protected void beforeRequest(Data data) {
-        data.setUserSession(userSessionFactory.userSession());
-
         BaseView view = data.getView();
-        view.setUserSession(data.getUserSession());
+        UserSession userSession = userSessionFactory.userSession();
+        view.setUserSession(userSession);
         view.setUserLogin(data.getUserLogin());
+
+        try {
+            userSession.setMuid(data.getUserLogin());
+            data.setUserSession(userSession);
+        } catch (ServiceOverloadedException e) {
+            e.printStackTrace();
+            // TODO: Show user that the Server is overloaded
+        }
     }
 
     protected void afterRequest(Data data) {

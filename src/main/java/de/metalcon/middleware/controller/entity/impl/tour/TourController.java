@@ -17,7 +17,9 @@ public class TourController extends EntityController<TourView> {
     protected EntityData createEntityDataObject(Data data) {
         //        EventPage bp = (EventPage) data.getPage();
 
-        EntityData rd = new EntityData(data.getMuid());
+        EntityData rd =
+                new EntityData(data.getDispatcher(), data.getUserSession()
+                        .getMuid(), data.getMuid());
         return rd;
     }
 

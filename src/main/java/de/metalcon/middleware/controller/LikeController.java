@@ -3,9 +3,6 @@ package de.metalcon.middleware.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.hh.request_dispatcher.Callback;
-import net.hh.request_dispatcher.Dispatcher;
-
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -18,14 +15,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.metalcon.domain.Muid;
 import de.metalcon.domain.Uid;
-import de.metalcon.like.api.Direction;
 import de.metalcon.like.api.Vote;
 import de.metalcon.like.api.requests.LikeServerAddRelationRequest;
-import de.metalcon.like.api.requests.LikeServerGetLikesRequest;
-import de.metalcon.like.api.responses.LikeServerMuidListResponse;
 import de.metalcon.middleware.core.DispatcherFactory;
 import de.metalcon.middleware.core.UserLogin;
-import de.metalcon.middleware.domain.data.LikeData;
 
 @Controller
 public class LikeController extends BaseController {
@@ -146,44 +139,5 @@ public class LikeController extends BaseController {
          */
         dispatcherFactory.dispatcher().execute(
                 new LikeServerAddRelationRequest(userID, targetID, vote), null);
-    }
-
-    public static LikeData getLikeCounts(
-            final Dispatcher dispatcher,
-            final Uid uid) {
-        final LikeData likeData = new LikeData();
-        LikeServerGetLikesRequest req =
-                new LikeServerGetLikesRequest(uid, Direction.BOTH, Vote.UP);
-        dispatcher.execute(req, new Callback<LikeServerMuidListResponse>() {
-
-            @Override
-            public void onSuccess(LikeServerMuidListResponse reply) {
-                int num =
-                        reply.getRawUids() == null
-                                ? 0
-                                : reply.getRawUids().length;
-                likeData.setUpVoteNum(num);
-            }
-        });
-
-        req = new LikeServerGetLikesRequest(uid, Direction.BOTH, Vote.DOWN);
-        dispatcher.execute(req, new Callback<LikeServerMuidListResponse>() {
-
-            @Override
-            public void onSuccess(LikeServerMuidListResponse reply) {
-                int num =
-                        reply.getRawUids() == null
-                                ? 0
-                                : reply.getRawUids().length;
-                likeData.setDownVoteNum(num);
-            }
-        });
-
-        /*
-         * TODO: This should be called outside this method
-         */
-        dispatcher.gatherResults();
-
-        return likeData;
     }
 }

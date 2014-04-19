@@ -22,7 +22,8 @@ public class CityController extends EntityController<CityView> {
     @Override
     protected EntityData createEntityDataObject(Data data) {
         //        CityPage bp = (CityPage) data.getPage();
-        return new EntityData(data.getMuid());
+        return new EntityData(data.getDispatcher(), data.getUserSession()
+                .getMuid(), data.getMuid());
     }
 
     @Autowired

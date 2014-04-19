@@ -24,7 +24,8 @@ public class BandController extends EntityController<BandView> {
 
     @Override
     protected EntityData createEntityDataObject(Data data) {
-        return new EntityData(data.getMuid());
+        return new EntityData(data.getDispatcher(), data.getUserSession()
+                .getMuid(), data.getMuid());
     }
 
     @Autowired

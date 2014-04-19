@@ -9,9 +9,7 @@ import org.resthub.web.springmvc.router.RouterConfigurationSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -79,14 +77,6 @@ public class WebConfig extends RouterConfigurationSupport {
     public JsonViewResolver jsonViewResolver() {
         JsonViewResolver viewResolver = new JsonViewResolver();
         return viewResolver;
-    }
-
-    @Bean
-    public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(5);
-        taskExecutor.setMaxPoolSize(10);
-        return taskExecutor;
     }
 
     @Override

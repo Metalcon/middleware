@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.domain.entity.RecordData;
-import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.record.RecordEntry;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.impl.RecordsTabContent;
@@ -36,8 +35,7 @@ public abstract class RecordsTabGenerator extends
 
             @Override
             public void run() {
-                List<RecordData> records =
-                        getRecordsContent(data.getPage());
+                List<RecordData> records = getRecordsContent(data);
                 for (final RecordData record : records) {
                     dispatcher.execute(
                             new ResolveMuidRequest(record.getMuid()),
@@ -69,7 +67,7 @@ public abstract class RecordsTabGenerator extends
 
             @Override
             public void run() {
-                tabPreview.setRecords(getRecordsPreview(data.getPage()));
+                tabPreview.setRecords(getRecordsPreview(data));
             }
 
         }, data.getPageCallback());
@@ -77,8 +75,10 @@ public abstract class RecordsTabGenerator extends
         return tabPreview;
     }
 
-    protected abstract List<RecordData> getRecordsContent(SddOutput page);
+    protected abstract List<RecordData> getRecordsContent(
+            final EntityController.Data data);
 
-    protected abstract List<RecordEntry> getRecordsPreview(SddOutput page);
+    protected abstract List<RecordEntry> getRecordsPreview(
+            final EntityController.Data data);
 
 }

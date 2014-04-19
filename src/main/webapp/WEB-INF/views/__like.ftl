@@ -1,8 +1,9 @@
 <#macro printLikeButton uid currentVote upNum downNum>
+	Current vote:${currentVote}
     <#assign divID = "like_${uid}"> 
     <div id=${divID}>
-        <a id="${divID}_up" href="up">up</a>(<span id="${divID}_upNum">${upNum}</span>)
-        <a id="${divID}_down" href="down">down</a>(<span id="${divID}_downNum">${downNum}</span>)
+        <a id="${divID}_up" href="UP">up</a>(<span id="${divID}_upNum">${upNum}</span>)
+        <a id="${divID}_down" href="DOWN">down</a>(<span id="${divID}_downNum">${downNum}</span>)
         <#if likemessage??>
     		${likemessage}
     	</#if>
@@ -11,16 +12,16 @@
     <script type="text/javascript">
         
         function updateLinks(baseID, userVote){
-            if(userVote=="up"){
-                $("#"+baseID+"_up").prop("href", "neutral")
+            if(userVote=="UP"){
+                $("#"+baseID+"_up").prop("href", "NEUTRAL")
             } else {
-                $("#"+baseID+"_up").prop("href", "up")
+                $("#"+baseID+"_up").prop("href", "UP")
             }
             
-            if(userVote=="down"){
-                $("#"+baseID+"_down").prop("href", "neutral")
+            if(userVote=="DOWN"){
+                $("#"+baseID+"_down").prop("href", "NEUTRAL")
             } else {
-                $("#"+baseID+"_down").prop("href", "down")
+                $("#"+baseID+"_down").prop("href", "DOWN")
             }
         }
         
@@ -38,18 +39,18 @@
 	        $.ajax({
                 url: "/like/"+UID+"/"+vote
                 ,success: function(response) {
-                    if(vote=="up"){
+                    if(vote=="UP"){
                         upNum++
-                        if(mainDiv.data("userVote") =="down"){
+                        if(mainDiv.data("userVote") =="DOWN"){
                             downNum--
                         }
-                    } else if(vote=="down"){
+                    } else if(vote=="DOWN"){
                         downNum++
-                        if(mainDiv.data("userVote") =="up"){
+                        if(mainDiv.data("userVote") =="UP"){
                             upNum--
                         }
                     } else  {
-                         if(mainDiv.data("userVote") =="up"){
+                         if(mainDiv.data("userVote") =="UP"){
                             upNum--
                         } else {
                             downNum--

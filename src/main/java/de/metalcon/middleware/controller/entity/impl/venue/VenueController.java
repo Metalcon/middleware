@@ -21,7 +21,9 @@ public class VenueController extends EntityController<VenueView> {
     protected EntityData createEntityDataObject(Data data) {
         //        EventPage bp = (EventPage) data.getPage();
 
-        EntityData rd = new EntityData(data.getMuid());
+        EntityData rd =
+                new EntityData(data.getDispatcher(), data.getUserSession()
+                        .getMuid(), data.getMuid());
         return rd;
     }
 

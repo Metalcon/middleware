@@ -48,7 +48,7 @@
             </form>
           <#else>
             <span style="color: white;">
-              Hallo, ${view.userLogin.username}!
+              Hallo, ${view.userLogin.username} (${view.userSession.muid}!
             </span>
             <form action="<@mtl.url "/logout"/>" method="post" class="collapse navbar-collapse navbar-form navbar-right" role="form">
               <button type="submit" class="btn btn-success">Logout</button>

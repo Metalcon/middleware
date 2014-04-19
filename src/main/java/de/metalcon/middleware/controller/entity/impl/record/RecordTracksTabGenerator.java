@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import de.metalcon.middleware.controller.entity.EntityController;
 import de.metalcon.middleware.controller.entity.generator.impl.TracksTabGenerator;
 import de.metalcon.middleware.domain.entity.TrackData;
-import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.record.RecordPage;
 import de.metalcon.middleware.sdd.track.TrackEntry;
 
@@ -15,13 +15,15 @@ import de.metalcon.middleware.sdd.track.TrackEntry;
 public class RecordTracksTabGenerator extends TracksTabGenerator {
 
     @Override
-    protected List<TrackData> getTracksContent(SddOutput page) {
-        RecordPage recordPage = (RecordPage) page;
+    protected List<TrackData>
+        getTracksContent(final EntityController.Data data) {
+        RecordPage recordPage = (RecordPage) data.getPage();
         List<TrackData> tracks = new LinkedList<TrackData>();
         if (recordPage.getTracks() != null) {
             for (TrackEntry track : recordPage.getTracks()) {
                 TrackData tracksTabEntry =
-                        new TrackData(track.getMuid());
+                        new TrackData(data.getDispatcher(), data
+                                .getUserSession().getMuid(), track.getMuid());
                 tracksTabEntry.setName(track.getName());
                 tracksTabEntry.setTrackNumber(Integer.parseInt(track
                         .getTrackNumber()));
@@ -32,8 +34,9 @@ public class RecordTracksTabGenerator extends TracksTabGenerator {
     }
 
     @Override
-    protected List<TrackEntry> getTracksPreview(SddOutput page) {
-        RecordPage recordPage = (RecordPage) page;
+    protected List<TrackEntry>
+        getTracksPreview(final EntityController.Data data) {
+        RecordPage recordPage = (RecordPage) data.getPage();
         List<TrackEntry> tracks = new LinkedList<TrackEntry>();
 
         int i = 0;

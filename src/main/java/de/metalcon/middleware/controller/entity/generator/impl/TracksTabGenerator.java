@@ -7,10 +7,9 @@ import net.hh.request_dispatcher.Dispatcher;
 
 import org.springframework.stereotype.Component;
 
-import de.metalcon.middleware.controller.entity.EntityController;
+import de.metalcon.middleware.controller.entity.EntityController.Data;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.domain.entity.TrackData;
-import de.metalcon.middleware.sdd.SddOutput;
 import de.metalcon.middleware.sdd.track.TrackEntry;
 import de.metalcon.middleware.view.entity.tab.EntityTabType;
 import de.metalcon.middleware.view.entity.tab.content.impl.TracksTabContent;
@@ -27,8 +26,7 @@ public abstract class TracksTabGenerator extends
     }
 
     @Override
-    public TracksTabContent
-        generateTabContent(final EntityController.Data data) {
+    public TracksTabContent generateTabContent(final Data data) {
         final TracksTabContent tabContent = super.generateTabContent(data);
 
         final Dispatcher dispatcher = dispatcherFactory.dispatcher();
@@ -36,7 +34,7 @@ public abstract class TracksTabGenerator extends
 
             @Override
             public void run() {
-                List<TrackData> tracks = getTracksContent(data.getPage());
+                List<TrackData> tracks = getTracksContent(data);
                 for (final TrackData track : tracks) {
                     dispatcher.execute(new ResolveMuidRequest(track.getMuid()),
                             new Callback<MuidResolvedResponse>() {
@@ -58,8 +56,7 @@ public abstract class TracksTabGenerator extends
     }
 
     @Override
-    public TracksTabPreview
-        generateTabPreview(final EntityController.Data data) {
+    public TracksTabPreview generateTabPreview(final Data data) {
         final TracksTabPreview tabPreview = super.generateTabPreview(data);
 
         Dispatcher dispatcher = dispatcherFactory.dispatcher();
@@ -67,7 +64,7 @@ public abstract class TracksTabGenerator extends
 
             @Override
             public void run() {
-                tabPreview.setTracks(getTracksPreview(data.getPage()));
+                tabPreview.setTracks(getTracksPreview(data));
             }
 
         }, data.getPageCallback());
@@ -75,7 +72,7 @@ public abstract class TracksTabGenerator extends
         return tabPreview;
     }
 
-    protected abstract List<TrackData> getTracksContent(SddOutput page);
+    protected abstract List<TrackData> getTracksContent(final Data data);
 
-    protected abstract List<TrackEntry> getTracksPreview(SddOutput page);
+    protected abstract List<TrackEntry> getTracksPreview(final Data data);
 }

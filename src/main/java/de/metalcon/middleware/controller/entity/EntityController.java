@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import de.metalcon.domain.Muid;
 import de.metalcon.middleware.controller.BaseController;
-import de.metalcon.middleware.controller.LikeController;
 import de.metalcon.middleware.controller.entity.generator.EntityTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.AboutTabGenerator;
 import de.metalcon.middleware.controller.entity.generator.impl.BandsTabGenerator;
@@ -48,7 +47,6 @@ import de.metalcon.middleware.controller.entity.tab.impl.VenuesTabController;
 import de.metalcon.middleware.core.MetalconPjaxr;
 import de.metalcon.middleware.core.SddOutputGenerator;
 import de.metalcon.middleware.core.UserLogin;
-import de.metalcon.middleware.domain.data.LikeData;
 import de.metalcon.middleware.domain.entity.EntityData;
 import de.metalcon.middleware.domain.entity.EntityType;
 import de.metalcon.middleware.exception.RedirectException;
@@ -240,17 +238,19 @@ public abstract class EntityController<EntityViewType extends EntityView >
         Muid muid = getMuidOr404(data);
         data.setMuid(muid);
 
+        Dispatcher dispatcher = dispatcherFactory.dispatcher();
+        data.setDispatcher(dispatcher);
+
         /*
          * The Data transfer object storing all data corresponding to the
-         * current entity shown
+         * current entity shown. Here we only need a bare EntityData as only
+         * name, url and like statistics are needed outside the inner content
          */
-        final EntityData entityData = new EntityData(muid);
-
-        view.setEntityData(createEntityDataObject(data));
-
-        Dispatcher dispatcher = dispatcherFactory.dispatcher();
-
-        LikeData likeData = LikeController.getLikeCounts(dispatcher, muid);
+        final EntityData entityData =
+                new EntityData(dispatcher, data.getUserSession().getMuid(),
+                        muid);
+        view.setEntityData(entityData);
+        //        view.setEntityData(createEntityDataObject(data));
 
         dispatcher.execute(new ResolveMuidRequest(muid),
                 new Callback<MuidResolvedResponse>() {
@@ -286,7 +286,6 @@ public abstract class EntityController<EntityViewType extends EntityView >
                         System.out.println("read failed");
                     }
                 }
-
             });
 
             SddReadRequest read = new SddReadRequest();
@@ -325,11 +324,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
         data.getEntityTabController().handleGet(data, this);
 
         afterRequest(data);
-        view.setNumLikeUp(likeData.getUpVoteNum());
-        view.setNumLikeDown(likeData.getDownVoteNum());
         entityData.setName(data.getPage().getName());
-
-        view.setEntityData(entityData);
 
         return view;
     }
@@ -426,7 +421,7 @@ public abstract class EntityController<EntityViewType extends EntityView >
             muid = response.getMuid();
         } catch (net.hh.request_dispatcher.RequestException | TimeoutException
                 | ClassCastException e) {
-            // muid == null will throw 404
+            // TODO: muid == null will throw 404
         }
 
         if (entityTabsGenerators.get(data.getEntityTabType()) == null
